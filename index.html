@@ -132,7 +132,6 @@ a{color:var(--line);text-underline-offset:.2em;text-decoration-thickness:1px}
 .roadmap li{background:var(--tint);border:1px solid #BFCBF2;border-radius:10px;padding:clamp(20px,3vw,28px)}
 .roadmap h3{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:0 0 6px}
 .roadmap p{margin:0;color:#3D4760;font-size:.97rem}
-.status{display:inline-block;font:500 .72rem/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--line);margin-bottom:10px}
 
 /* about */
 .about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,72px)}
@@ -211,7 +210,7 @@ a{color:var(--line);text-underline-offset:.2em;text-decoration-thickness:1px}
 
     <figure class="shot">
       <div class="frame">
-        <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Researchline · microbiome analysis project · issue board</span></div>
+        <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Issue board · microbiome analysis project</span></div>
         <a href="assets/worker-board.jpg"><img src="assets/worker-board.jpg" width="2880" height="1400" alt="Issue board of a microbiome analysis project. Each card is one analysis task, such as rerunning FASTQ preprocessing or rebuilding fecal sample metadata, with a progress bar across Spec, Plan, Implementation, PR and Merge stages, plus queue and parallel-lane columns."></a>
       </div>
       <figcaption><span class="tag">Real screen</span>A live microbiome analysis project at a UNIST computational biology lab. Each card is one analysis step, and its bar shows how far it has moved from spec to merged result. The interface is currently in Korean.</figcaption>
@@ -320,7 +319,7 @@ a{color:var(--line);text-underline-offset:.2em;text-decoration-thickness:1px}
 
       <figure class="shot wide-shot">
         <div class="frame">
-          <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Researchline · decision records</span></div>
+          <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Decision records · microbiome analysis project</span></div>
           <a href="assets/decision-records.jpg"><img src="assets/decision-records.jpg" width="2880" height="1348" loading="lazy" alt="Decision record list for the microbiome project. Each numbered row states one decision, for example redefining the analysis cohort, unifying clustering at the genus level, or not changing selection criteria to chase a p-value, with its date, the spec document it came from, and the linked issue ID."></a>
         </div>
         <figcaption><span class="tag">Real screen</span>Decision records from the same project. Each states one settled choice with its date, the spec it came from and the issue that carried it out.</figcaption>
@@ -363,26 +362,22 @@ a{color:var(--line);text-underline-offset:.2em;text-decoration-thickness:1px}
     <div class="shell">
       <div class="section-head">
         <h2 id="roadmap-title">What we are building next.</h2>
-        <p>Today Researchline runs as a set-up workflow in our pilot labs. Next, we are packaging it so any lab can install it themselves.</p>
+        <p>The workflow above runs today in our pilot labs. Researchline is the research-focused product we are building on it, so any lab can install it themselves.</p>
       </div>
       <ul class="roadmap">
         <li>
-          <span class="status">In development</span>
           <h3>One standalone app</h3>
           <p>A single install with its own local database and parallel runs, with no separate packages to set up.</p>
         </li>
         <li>
-          <span class="status">In development</span>
           <h3>One-step setup for Claude and Codex</h3>
           <p>A plugin that configures the workflow for you, so you can connect your own Claude or Codex account and start right away.</p>
         </li>
         <li>
-          <span class="status">In development</span>
           <h3>Issues drafted from your decisions</h3>
           <p>Describe a new question, and Researchline drafts issues that respect the project's existing decision records.</p>
         </li>
         <li>
-          <span class="status">Planned</span>
           <h3>Papers, hypotheses and tests</h3>
           <p>Search the literature, draft hypotheses from it, and turn each hypothesis into an issue that tests it.</p>
         </li>
