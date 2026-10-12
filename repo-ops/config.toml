@@ -1,0 +1,5 @@
+base = "main"
+
+[deploy]
+script = "repo-ops/script/deploy"
+timeout_ms = 600000

@@ -1,0 +1,65 @@
+#!/bin/sh
+set -eu
+
+fail() {
+    printf 'repo-ops deploy: %s\n' "$*" >&2
+    exit 1
+}
+
+: "${REPO_OPS_TARGET_SHA:?REPO_OPS_TARGET_SHA is required}"
+: "${REPO_OPS_TARGET_BASE:?REPO_OPS_TARGET_BASE is required}"
+: "${REPO_OPS_REPO_ROOT:?REPO_OPS_REPO_ROOT is required}"
+
+case "$REPO_OPS_TARGET_SHA" in
+    *[!0-9a-f]*|'') fail "REPO_OPS_TARGET_SHA must be a lowercase hex SHA" ;;
+esac
+[ "${#REPO_OPS_TARGET_SHA}" -eq 40 ] || fail "REPO_OPS_TARGET_SHA must be 40 hex characters"
+
+repo_root="$(cd "$REPO_OPS_REPO_ROOT" && pwd -P)" || fail "REPO_OPS_REPO_ROOT is unavailable"
+git_common_dir="$(git -C "$repo_root" rev-parse --path-format=absolute --git-common-dir)" \
+    || fail "cannot resolve git common directory"
+owner_repo_root="$(cd "$git_common_dir/.." && pwd -P)" \
+    || fail "cannot resolve owner repository root"
+lock_path="$owner_repo_root/.worktrees/.repo-ops-deploy.lock"
+if [ "${REPO_OPS_DEPLOY_LOCK_HELD:-}" != "1" ]; then
+    mkdir -p "$owner_repo_root/.worktrees"
+    exec python3 - "$0" "$lock_path" <<'PY'
+import fcntl
+import os
+import sys
+
+script = os.path.abspath(sys.argv[1])
+lock_path = sys.argv[2]
+fd = os.open(lock_path, os.O_CREAT | os.O_RDWR, 0o600)
+fcntl.flock(fd, fcntl.LOCK_EX)
+os.set_inheritable(fd, True)
+env = os.environ.copy()
+env["REPO_OPS_DEPLOY_LOCK_HELD"] = "1"
+env["REPO_OPS_DEPLOY_LOCK_FD"] = str(fd)
+os.execve(script, [script], env)
+PY
+fi
+
+exec </dev/null
+
+read_head() {
+    git -C "$repo_root" rev-parse --verify 'HEAD^{commit}'
+}
+
+start_head="$(read_head)" || fail "cannot read start HEAD"
+[ "$start_head" = "$REPO_OPS_TARGET_SHA" ] || fail "start HEAD differs from REPO_OPS_TARGET_SHA"
+tracked_status="$(git -C "$repo_root" status --porcelain=v1 --untracked-files=no)" \
+    || fail "cannot read initial tracked status"
+[ -z "$tracked_status" ] || fail "tracked worktree is dirty before deploy"
+
+cd "$repo_root"
+./deploy.sh || fail "site deployment failed"
+
+end_head="$(read_head)" || fail "cannot read end HEAD"
+[ "$end_head" = "$REPO_OPS_TARGET_SHA" ] || fail "end HEAD differs from REPO_OPS_TARGET_SHA"
+tracked_status="$(git -C "$repo_root" status --porcelain=v1 --untracked-files=no)" \
+    || fail "cannot read final tracked status"
+[ -z "$tracked_status" ] || fail "tracked worktree is dirty after deploy"
+
+printf 'repo-ops deploy ok: base=%s target=%s\n' "$REPO_OPS_TARGET_BASE" "$REPO_OPS_TARGET_SHA"
+exit 0
