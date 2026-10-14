@@ -1093,7 +1093,7 @@ if (typeof module !== 'undefined') module.exports = RLSim;
     if (save) { try { localStorage.setItem('rl-lang', l); } catch (e) {} }
   }
   var initial = params.get('lang');
-  if (initial !== 'ko' && initial !== 'en') { initial = 'ko'; try { var s = localStorage.getItem('rl-lang'); if (s === 'ko' || s === 'en') initial = s; } catch (e) {} }
+  if (initial !== 'ko' && initial !== 'en') { initial = /^ko\b/i.test((navigator.languages && navigator.languages[0]) || navigator.language || '') ? 'ko' : 'en'; try { var s = localStorage.getItem('rl-lang'); if (s === 'ko' || s === 'en') initial = s; } catch (e) {} }
   setLang(initial, false);
   document.getElementById('lang-btn').addEventListener('click', function(){ setLang(lang() === 'ko' ? 'en' : 'ko', true); });
 
