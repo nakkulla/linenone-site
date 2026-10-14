@@ -5,3 +5,6 @@
 .beads-credential-key
 .beads/proxieddb/
 .worktrees/
+
+# site-src build inputs (downloaded by build.py --fetch)
+site-src/researchline/fonts/
