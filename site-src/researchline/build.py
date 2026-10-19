@@ -2,12 +2,12 @@
 # requires-python = ">=3.10"
 # dependencies = ["fonttools==4.66.1", "brotli==1.2.0"]
 # ///
-"""Build the site's index.html from index.src.html.
+"""Build the site's researchline.html from index.src.html.
 
 Inlines engine.js and glyph-subset woff2 fonts (only the characters the page uses),
 so the page stays a single self-contained file. After editing copy, rebuild:
 
-    uv run site-src/researchline/build.py            # write index.html
+    uv run site-src/researchline/build.py            # write researchline.html
     uv run site-src/researchline/build.py --fetch    # first download the fonts (OFL, google/fonts)
 
 The font files go to site-src/researchline/fonts/ (git-ignored) and are checked by sha256.
@@ -19,7 +19,7 @@ from fontTools.ttLib import TTFont
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 FONT_DIR = os.path.join(HERE, 'fonts')
-OUT = os.path.join(ROOT, 'index.html')
+OUT = os.path.join(ROOT, 'researchline.html')
 OFL = 'https://raw.githubusercontent.com/google/fonts/main/ofl/'
 
 # (family, file, weight, url path under OFL, sha256)

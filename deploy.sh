@@ -17,11 +17,12 @@ if (( $# > 1 )); then
     exit 2
 fi
 
+pages=(index.html cv.html researchline.html)
 repo=$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
 head=$(git -C "$repo" rev-parse --verify HEAD)
-changes=$(git -C "$repo" status --porcelain --untracked-files=all --ignored -- index.html assets)
+changes=$(git -C "$repo" status --porcelain --untracked-files=all --ignored -- "${pages[@]}" assets)
 if [[ -n "$changes" ]]; then
-    printf 'Refusing deployment: commit or remove changes in index.html and assets/ first.\n%s\n' "$changes" >&2
+    printf 'Refusing deployment: commit or remove changes in %s and assets/ first.\n%s\n' "${pages[*]}" "$changes" >&2
     exit 1
 fi
 
@@ -31,10 +32,16 @@ trap 'rm -rf -- "$snapshot"' EXIT
 trap 'exit 129' HUP
 trap 'exit 130' INT
 trap 'exit 143' TERM
-git -C "$repo" archive "$head" -- index.html assets | tar -xf - -C "$snapshot"
-if [[ ! -f "$snapshot/index.html" || ! -d "$snapshot/assets" ]] ||
+git -C "$repo" archive "$head" -- "${pages[@]}" assets | tar -xf - -C "$snapshot"
+for page in "${pages[@]}"; do
+    if [[ ! -f "$snapshot/$page" ]]; then
+        printf 'Refusing deployment: HEAD must contain %s.\n' "$page" >&2
+        exit 1
+    fi
+done
+if [[ ! -d "$snapshot/assets" ]] ||
     [[ -n "$(find "$snapshot" -type l -print)" ]]; then
-    printf 'Refusing deployment: HEAD must contain index.html and assets/ without symlinks.\n' >&2
+    printf 'Refusing deployment: HEAD must contain assets/ and no symlinks.\n' >&2
     exit 1
 fi
 
@@ -46,7 +53,8 @@ dry_run=$1
 shift
 target=/volume1/web/linenone-site
 if [ ! -d "$target" ] || [ -L "$target" ] ||
-    [ -L "$target/assets" ] || [ -L "$target/index.html" ]; then
+    [ -L "$target/assets" ] || [ -L "$target/index.html" ] ||
+    [ -L "$target/cv.html" ] || [ -L "$target/researchline.html" ]; then
     echo "Refusing deployment: unexpected destination path." >&2
     exit 1
 fi
@@ -98,5 +106,5 @@ if "$dry_run"; then
 fi
 printf 'Deploying commit %s to synology:/volume1/web/linenone-site/ (dry-run=%s)\n' "$head" "$dry_run"
 # Explicit sources limit --delete to assets/; unrelated top-level files stay intact.
-rsync "${args[@]}" -- "$snapshot/index.html" "$snapshot/assets" synology:/volume1/web/linenone-site/
+rsync "${args[@]}" -- "${pages[@]/#/$snapshot/}" "$snapshot/assets" synology:/volume1/web/linenone-site/
 printf 'Deployment finished (dry-run=%s).\n' "$dry_run"

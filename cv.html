@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Ilsun Yun · CV</title>
+<meta name="description" content="Academic CV of Ilsun Yun, postdoctoral researcher in computational genomics at UNIST.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Ilsun Yun · CV">
+<meta property="og:description" content="Academic CV of Ilsun Yun, postdoctoral researcher in computational genomics at UNIST.">
+<style>
+:root{
+  --star:#e9eef7; --star-dim:#a9b5cd; --rule:rgba(170,190,230,.16);
+  --sodium:#f2b13c; --sodium-ink:#1d1402; --sodium-hi:#ffc35a; --sodium-lo:#b97d14; --sodium-pale:#ffe2a6;
+  --bg:#0d1730; --surface:#132040; --ink:#e9eef7; --muted:#9aa8c4; --line:rgba(170,190,230,.16);
+  --accent:#f2b13c; --nav-bg:rgba(13,23,48,.82); --pill:999px;
+  --sans:"Plex KR","Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo",sans-serif;
+  --disp:"Bricolage","Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: light){
+  :root{--bg:#eef1f6; --surface:#fbfcfe; --ink:#132039; --muted:#4f5b73; --line:rgba(19,32,57,.13); --accent:#a65f00}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-underline-offset:3px;overflow-wrap:anywhere}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:16px;top:-60px;background:var(--sodium);color:var(--sodium-ink);padding:8px 14px;border-radius:var(--pill);z-index:20;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(860px,100% - 32px);margin-inline:auto}
+.nav{position:sticky;top:0;z-index:10;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);color:var(--star)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:62px}
+.brand{font:700 18px/1 var(--disp);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brand-mark{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 34%,var(--sodium-pale) 0,var(--sodium) 46%,var(--sodium-lo) 100%)}
+.nav-links{margin-left:auto;display:flex;gap:18px}
+.nav-links a{font-size:15px;color:var(--star-dim);text-decoration:none;white-space:nowrap}
+.nav-links a:hover{color:var(--star)}
+.pdf{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;margin:28px 0 0;border-radius:var(--pill);background:var(--sodium);color:var(--sodium-ink);font:600 15px/1 var(--sans);text-decoration:none}
+.pdf:hover{background:var(--sodium-hi)}
+.cv{padding:8px 0 72px}
+.cv h1{margin:28px 0 6px;font:700 clamp(36px,6vw,52px)/1.05 var(--disp);letter-spacing:-.03em}
+.cv h1+p{color:var(--muted)}
+.cv h2{margin:40px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:700 20px/1.3 var(--disp);color:var(--accent);letter-spacing:-.01em}
+.cv h3{margin:24px 0 8px;font-size:17px;line-height:1.4}
+.cv p,.cv li{text-wrap:pretty}
+.cv p{margin:8px 0}
+.cv ul,.cv ol{margin:8px 0;padding-left:1.3em}
+.cv li{margin:6px 0}
+@media print{
+  @page{size:A4;margin:15mm 16mm}
+  :root{--bg:#fff;--ink:#1a1a1a;--muted:#444;--line:#12355b;--accent:#12355b}
+  body{font:9.6pt/1.35 "Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;color:#1a1a1a}
+  .nav,.skip,.pdf{display:none}
+  .wrap{width:auto}
+  .cv{padding:0}
+  .cv h1{margin:0 0 .15em;font:700 2.1em/1.1 "Helvetica Neue",Helvetica,Arial,sans-serif;color:#12355b;letter-spacing:0}
+  .cv h1+p{color:#1a1a1a}
+  .cv h2{margin:.9em 0 .4em;padding-bottom:.1em;border-bottom:.6pt solid #12355b;font:700 1.2em/1.3 "Helvetica Neue",Helvetica,Arial,sans-serif;break-after:avoid;letter-spacing:0}
+  .cv h3{margin:.7em 0 .25em;font-size:1.02em;break-after:avoid}
+  .cv p{margin:.3em 0;break-inside:avoid}
+  .cv ul,.cv ol{margin:.25em 0}
+  .cv li{margin:.12em 0;break-inside:avoid}
+  a{color:#12355b;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Ilsun Yun</a>
+  <nav class="nav-links" aria-label="Site"><a href="./">Home</a><a href="researchline.html">Researchline</a></nav>
+</div></header>
+<main id="main" class="wrap">
+<a class="pdf" href="assets/cv_ilsun_yun.pdf" download>Download PDF</a>
+<article class="cv">
+<h1 id="ilsun-yun">Ilsun Yun</h1>
+<p>Postdoctoral Researcher, Biomedical Engineering, UNIST<br />
+Computational Genomics · Multi-omics Machine Learning · Cancer
+Genomics</p>
+<p>nakkulla@gmail.com · Ulsan, Republic of Korea<br />
+<a href="https://orcid.org/0009-0006-5098-867X">ORCID:
+0009-0006-5098-867X</a> · <a
+href="https://github.com/nakkulla">github.com/nakkulla</a></p>
+<h2 id="research-profile">Research Profile</h2>
+<p>Computational genomics researcher developing machine-learning and
+multi-omics analysis frameworks for clinical cancer cohorts. The
+doctoral research (Ph.D., UNIST, 2026) addressed three recurring
+barriers to clinical translation: cross-platform model transfer,
+population-aware variant interpretation, and somatic inference under
+scarcity of matched normal samples. The work spans four cancer-genomics
+manuscripts as first or co-first author across colorectal cancer,
+pediatric choroid plexus tumors, prostate cancer, and pancreatobiliary
+microbiome — one peer-reviewed publication, two manuscripts under
+revision, and one in preparation. External validation across public
+cohorts and Korean tertiary-hospital collaborations is emphasized.
+<strong>Postdoctoral research aims to extend this externally validatable
+framework beyond cancer to broader genomics and multi-omics
+domains.</strong></p>
+<h2 id="research-interests">Research Interests</h2>
+<p>Computational genomics; multi-omics machine learning; clinical cancer
+cohorts; population-aware variant interpretation; survival-linked
+microbiome analysis.</p>
+<h2 id="positions">Positions</h2>
+<p><strong>Postdoctoral Researcher, Department of Biomedical
+Engineering</strong> · UNIST, Republic of Korea · September 2026 –
+present<br />
+PI: Prof. Semin Lee</p>
+<h2 id="education">Education</h2>
+<p><strong>Ph.D., Biomedical Engineering</strong> · Ulsan National
+Institute of Science and Technology (UNIST), Republic of Korea · August
+2026<br />
+Advisor: Prof. Semin Lee (Department of Biomedical Engineering / College
+of Information and Bio Convergence)<br />
+Dissertation: <em>Machine learning for multi-omics cancer
+stratification: Applications to pancreaticobiliary microbiome analysis,
+colorectal cancer subtyping, and pediatric tumor genomics</em></p>
+<p><strong>B.S., Life Sciences and Computer Science &amp;
+Engineering</strong> · UNIST, 2020 (GPA 3.78/4.3)</p>
+<p><strong>Visiting Exchange Student</strong> · McGill University,
+Montréal, Canada · January–August 2019</p>
+<h2 id="publications">Publications</h2>
+<p>† denotes equal first-author contribution.</p>
+<h3 id="peer-reviewed">Peer-reviewed</h3>
+<ol type="1">
+<li>Choi YS†, Choi SA†, Koh EJ†, <strong>Yun I†</strong>, et
+al. “Comprehensive multiomics analysis reveals distinct differences
+between pediatric choroid plexus papilloma and carcinoma.” <em>Acta
+Neuropathologica Communications</em> <strong>12</strong>, 93 (2024).
+DOI: <a
+href="https://doi.org/10.1186/s40478-024-01814-y">10.1186/s40478-024-01814-y</a>.</li>
+</ol>
+<h3 id="under-revision">Under revision</h3>
+<ol start="2" type="1">
+<li><strong>Yun I</strong>, Lee SM, Lee KY. “Clinical Implications of
+Platelet-derived Growth Factor Receptor A &amp; B in Colorectal Cancer
+and Developing a Predictive Model for Consensus Molecular Subtype 4: A
+Multi-Cohort Observational Study with External Validation.”
+<em>Medicine.</em> Under revision.</li>
+<li>Kang B†, <strong>Yun I†</strong>, Lee S, Ha H. “Clinical
+Implications of the SChLAP1:UBE2E3 Gene Fusion According to Disease
+Stage in Patients with Prostate Cancer.” <em>The World Journal of Men’s
+Health.</em> Under revision.</li>
+</ol>
+<h3 id="in-preparation">In preparation</h3>
+<ol start="4" type="1">
+<li><strong>Yun I†</strong>, Kim H†, Lee S, Park J. “Comparative
+Analysis of Bile and Fecal Microbiome in Pancreatic and Biliary Cancer
+Patients” (working title). Manuscript in preparation.</li>
+</ol>
+<h2 id="research-experience">Research Experience</h2>
+<h3 id="ph.d.-research-unist-march-2020-august-2026">Ph.D. Research,
+UNIST · March 2020 – August 2026</h3>
+<p><em>Advisor: Prof. Semin Lee</em></p>
+<p><strong>CMS4 colorectal cancer classifier (<em>Medicine</em>, under
+revision)</strong></p>
+<ul>
+<li>Developed a CMS4 Random Forest classifier and validated it across
+TCGA (n=512), CRCSC (n=796), four GEO cohorts (n=515), and an in-house
+RT-qPCR cohort from Uijeongbu St. Mary’s Hospital (n=109).</li>
+<li>Addressed RNA-seq → microarray → RT-qPCR platform shift via
+cross-platform normalization and hyperparameter tuning, achieving AUC
+0.87–0.88 across the four external GEO cohorts.</li>
+<li>Identified PDGFRB as a stromal-independent CMS4 signal using
+ESTIMATE residualization (Cohen’s d=0.44 in the high-stromal stratum)
+and random-effects meta-analysis across four GEO cohorts.</li>
+</ul>
+<p><strong>Pediatric choroid plexus tumor multi-omics (<em>Acta
+Neuropathologica Communications</em>, 2024)</strong></p>
+<ul>
+<li>Co-first author on a multi-omics characterization integrating WGS,
+transcriptomic, and clinical data of pediatric choroid plexus
+tumors.</li>
+<li>Led somatic-variant analysis under scarcity of matched normal
+samples by combining ensemble-based variant triage, VAF-neighborhood
+features, ClinVar annotation, Korea1K / gnomAD / 1000G filtering, and
+cross-species conservation evidence; prioritized TP53 alterations in 9
+of 11 CPC cases.</li>
+<li>Performed WGS-based clonality analysis using FastClone, identifying
+multiclonal architecture in 5 of 8 carcinoma cases versus single-clone
+CPP/aCPP (Wilcoxon p=0.019).</li>
+</ul>
+<p><strong>Korean prostate cancer genomics (<em>The World Journal of
+Men’s Health</em>, under revision)</strong></p>
+<ul>
+<li>Co-first author on an integrated WGS / WES / WTS study of
+<em>SChLAP1:UBE2E3</em> fusion in Korean prostate cancer (n=114).</li>
+<li>Compared fusion prevalence between Korean cases (12.5–15.5%) and
+TCGA European-ancestry cases (3.2%), followed by orthogonal RNA in-situ
+hybridization validation; presented as a poster at the ASHG 2025 Annual
+Meeting (Boston, MA).</li>
+<li>Conducted stage-stratified survival analysis: biochemical recurrence
+in localized disease (HR=2.84) and overall survival in advanced disease
+(HR=2.86); integrated risk model AUC=0.85.</li>
+</ul>
+<p><strong>Bile–stool microbiome discovery (ASHG 2026 poster; manuscript
+in preparation)</strong></p>
+<ul>
+<li>Designed a bile–stool microbiome analysis framework across
+pancreatic and biliary cancer subsets (QIIME2, DADA2, SILVA, PICRUSt2,
+DESeq2, ANCOMBC).</li>
+<li>Selected bile microbiome clusters with a survival-blind consensus
+PAC rule (1,000 × 80% resampling), then assessed cluster stability
+separately from prognostic reproducibility using bootstrap ARI,
+leave-one-out reassignment, and permutation testing.</li>
+<li>Identified a bile microbiome cluster associated with poorer overall
+survival in pancreatobiliary cancer (n=77; HR=4.04) and in the biliary
+tract cancer subset (n=57; HR=5.27), persisting after age and stage
+adjustment; a single-cohort association without external
+validation.</li>
+</ul>
+<p><strong>Multi-institutional collaboration</strong></p>
+<ul>
+<li>Served as computational analysis lead across four Korean tertiary
+hospitals (Uijeongbu St. Mary’s, Samsung Medical Center, Pusan National
+University Hospital, Seoul National University Children’s Hospital),
+coordinating bioinformatics workflows for parallel pediatric brain,
+prostate, colorectal, and pancreatobiliary cancer manuscripts.</li>
+</ul>
+<h3
+id="machine-learning-research-intern-data4good-january-august-2019">Machine
+Learning Research Intern, Data4Good · January – August 2019</h3>
+<p><em>McGill University / Université de Montréal · Supervisor:
+Prof. Janosch Ortmann (Université de Montréal)</em></p>
+<ul>
+<li>Built a predictive model for housing-support allocation for
+domestic-violence survivors; first applied-ML experience outside cancer
+genomics, in a decision-support context.</li>
+</ul>
+<h2 id="technical-skills">Technical Skills</h2>
+<p><strong>Computational genomics</strong></p>
+<ul>
+<li>Somatic variant calling, fusion detection, CNV analysis, clonality
+analysis, population-aware variant filtering.</li>
+<li>Tools: GATK Mutect2, BWA-MEM, SAMtools, STAR, RSEM, STAR-Fusion,
+Ensembl-VEP, FastClone, GISTIC2.0, CNVkit.</li>
+</ul>
+<p><strong>Clinical machine learning &amp; statistics</strong></p>
+<ul>
+<li>Cross-platform classifier development and validation across RNA-seq,
+microarray, and RT-qPCR cohorts; class-imbalance-aware evaluation;
+survival analysis and meta-analysis.</li>
+<li>Tools: Python (scikit-learn, AutoGluon, SHAP, lifelines,
+statsmodels), R (DESeq2, survival).</li>
+</ul>
+<p><strong>Microbiome</strong></p>
+<ul>
+<li>16S amplicon processing, differential abundance, β-diversity,
+functional inference, survival-linked clustering.</li>
+<li>Tools: QIIME2 v2024.10, DADA2, SILVA 138, PICRUSt2 v2.5, DESeq2,
+ANCOMBC, LEfSe, PERMANOVA.</li>
+</ul>
+<p><strong>Reproducible research</strong></p>
+<ul>
+<li>Workflow automation, Git-based version control, reproducible
+analysis documentation, code-review practice; AI-assisted workflow
+tooling for analysis pipelines.</li>
+</ul>
+<h2 id="selected-conference-presentations">Selected Conference
+Presentations</h2>
+<ul>
+<li><strong>Yun I</strong>, Kim H, Jang DK, Park JK, Lee S. “Biliary
+microbiome stratifies pancreaticobiliary cancer prognosis via
+unsupervised clustering and machine learning.” Poster 1006T,
+<em>American Society of Human Genetics (ASHG) Annual Meeting</em>,
+Montréal, QC, Canada, 2026.</li>
+<li><strong>Yun I</strong>, Kang BJ, Lee S, Kim KH, Ha HK.
+“SChLAP1:UBE2E3 Gene Fusion: A Novel Prognostic Biomarker in Korean
+Prostate Cancer.” Poster, <em>American Society of Human Genetics (ASHG)
+Annual Meeting</em>, Boston, MA, USA, 2025.</li>
+</ul>
+<h2 id="fellowships-awards">Fellowships &amp; Awards</h2>
+<ul>
+<li><strong>Kyungdong Scholarship</strong> (USD 8,000), Kyungdong
+Foundation, 2019. Competitive private foundation scholarship supporting
+the McGill University exchange.</li>
+</ul>
+<h2 id="mentoring-teaching-service">Mentoring, Teaching &amp;
+Service</h2>
+<ul>
+<li><strong>Bioinformatics onboarding lead</strong>, Prof. Semin Lee
+Lab, UNIST (2020 – present). Led training for junior Ph.D. students and
+visiting wet-lab researchers in somatic variant calling, fusion
+detection, and microbiome analysis workflows; maintained internal
+documentation for reproducible GATK Mutect2, STAR-Fusion, and QIIME2
+pipelines.</li>
+<li><strong>Mathematics tutor</strong>, Samsung Dream Class education
+outreach program (2013 – 2015). Two academic years of one-on-one
+tutoring for low-income middle-school students.</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
