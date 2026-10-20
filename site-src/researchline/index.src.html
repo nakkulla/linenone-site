@@ -3,271 +3,387 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark light">
-<title>Researchline: a control room for research</title>
-<meta name="description" content="Researchline is a control room that tracks research work as issues. Several AI sessions work through the queue at once, another model reviews each change with receipts, and the server decides when work is done by checking the actual pull request.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>Researchline · Ilsun Yun</title>
+<meta name="description" content="Researchline is the board Ilsun Yun uses to run and record research work. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Researchline: a control room for research">
-<meta property="og:description" content="Researchline is a control room that tracks research work as issues. Several AI sessions work through the queue at once, another model reviews each change with receipts, and the server decides when work is done by checking the actual pull request.">
+<meta property="og:title" content="Researchline · Ilsun Yun">
+<meta property="og:description" content="Researchline is the board Ilsun Yun uses to run and record research work. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
+<script>
+try { if (localStorage.getItem('site-lang') === 'ko') { document.documentElement.lang = 'ko'; document.documentElement.setAttribute('data-lang', 'ko'); } } catch (e) {}
+</script>
 <style>
-/*FONTS*/
 :root{
-  --night:#0d1730; --night-2:#142041; --night-3:#1b2a50;
-  --star:#e9eef7; --star-dim:#a9b5cd; --star-faint:#8796b8;
-  --sodium:#f2b13c; --sodium-ink:#1d1402; --sodium-soft:rgba(242,177,60,.16);
-  --steel:#8fb2e3;
-  --rule:rgba(170,190,230,.16);
-  --bg:#0d1730; --surface:#132040; --ink:#e9eef7; --muted:#9aa8c4; --line:rgba(170,190,230,.16);
-  --accent:#f2b13c; --accent-ink:#1d1402; --data:#8fb2e3;
-  --radius:14px; --pill:999px;
-  --board-1:rgba(20,32,65,.92); --board-2:rgba(16,26,54,.92); --shadow:rgba(3,8,22,.8); --nav-bg:rgba(13,23,48,.82);
-  --hold:#9aa8c4; --limit:#e7735b; --limit-ink:#d0573f; --sodium-hi:#ffc35a; --sodium-lo:#b97d14; --sodium-pale:#ffe2a6;
-  --dawn-1:#1d3466; --dawn-2:#46578c; --dawn-3:#b07a72; --dawn-4:#e4a35c; --glow:rgba(255,206,120,.55);
-  --note-bg:#fff7e6; --note-ink:#22190a; --note-shadow:rgba(0,0,0,.55);
-  --ko:"Plex KR","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
-  --disp:"Bricolage","Plex KR",sans-serif;
+  --bg:#f7f4ed; --ink:#1e1d1b; --muted:#5f5a51; --line:rgba(30,29,27,.15); --accent:#1d3a66;
+  --serif:Charter,"Bitstream Charter","Iowan Old Style","Palatino Linotype",Georgia,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --warn:#8a5a00; --limit:#a3392b;
 }
-@media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]){
-    --bg:#eef1f6; --surface:#fbfcfe; --ink:#132039; --muted:#4f5b73; --line:rgba(19,32,57,.13);
-    --accent:#a65f00; --accent-ink:#fdfdfc; --data:#2f5f9e;
-  }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#18191b; --ink:#e7e3da; --muted:#a39d92; --line:rgba(231,227,218,.16); --accent:#a8bde3; --warn:#d2ad62; --limit:#e0907e}
 }
-:root[data-theme="light"]{--bg:#eef1f6; --surface:#fbfcfe; --ink:#132039; --muted:#4f5b73; --line:rgba(19,32,57,.13); --accent:#a65f00; --accent-ink:#fdfdfc; --data:#2f5f9e}
-*{box-sizing:border-box}
-html{overflow-x:clip}
-h1,h2,h3{overflow-wrap:anywhere;min-width:0}
-button:disabled{opacity:.55;cursor:not-allowed}
-
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ko);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
+:root[data-theme="dark"]{--bg:#18191b; --ink:#e7e3da; --muted:#a39d92; --line:rgba(231,227,218,.16); --accent:#a8bde3; --warn:#d2ad62; --limit:#e0907e}
+:root{--tint:color-mix(in srgb,var(--ink) 4%,transparent)}
 html[data-lang="ko"] [lang="en"],html[data-lang="en"] [lang="ko"]{display:none !important}
 html[lang="ko"] body{word-break:keep-all;overflow-wrap:break-word}
-p,li{text-wrap:pretty}
-h1,h2,h3{text-wrap:balance;margin:0}
-html[lang="en"] h1,html[lang="en"] h2{font-family:var(--disp);font-variation-settings:"wdth" 92}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;left:16px;top:-60px;background:var(--accent);color:var(--accent-ink);padding:8px 14px;border-radius:var(--pill);z-index:20;text-decoration:none}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:normal;text-wrap:balance;overflow-wrap:anywhere;min-width:0}
+p,li,dd{text-wrap:pretty}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button{font:inherit;color:inherit}
+button:disabled{opacity:.55;cursor:not-allowed}
+.skip{position:absolute;left:20px;top:-60px;background:var(--bg);color:var(--ink);padding:6px 10px;border:1px solid var(--line);z-index:20}
 .skip:focus{top:12px}
-.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
-.num{font-family:var(--disp);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.wrap{width:min(680px,100% - 40px);margin-inline:auto}
+.wide{width:min(1000px,100% - 40px);margin-inline:auto}
+.num{font-variant-numeric:tabular-nums}
 
-/* buttons: pills for every interactive control, 14px for panels */
-.btn{white-space:nowrap;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border-radius:var(--pill);font:600 16px/1 var(--ko);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background-color .2s ease}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--sodium);color:var(--sodium-ink)}
-.btn-primary:hover{background:var(--sodium-hi)}
-.btn-ghost{background:transparent;color:var(--star);border-color:color-mix(in srgb,var(--star) 34%,transparent)}
-.btn-ghost:hover{border-color:var(--star)}
+/* header: same as the hub */
+.top .wrap{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding:28px 0 0}
+.name{font:19px/1.2 var(--serif);color:var(--ink);text-decoration:none;white-space:nowrap}
+.top nav{margin-left:auto;display:flex;align-items:baseline;gap:18px;font-size:15px;white-space:nowrap}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--ink);text-decoration:underline}
+.top nav a[aria-current]{color:var(--ink)}
+.lang-btn{padding:0;border:0;background:none;color:var(--muted);font:inherit;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.lang-btn:hover{color:var(--ink)}
 
-/* ---------- nav ---------- */
-.nav{position:sticky;top:0;z-index:10;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);color:var(--star)}
-.nav .wrap{display:flex;align-items:center;gap:28px;height:66px}
-.brand{font:700 19px/1 var(--disp);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
-.brand-mark{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 34%,var(--sodium-pale) 0,var(--sodium) 46%,var(--sodium-lo) 100%)}
-.nav-links{display:flex;gap:22px;margin-left:12px}
-.nav-links a{font-size:15px;color:var(--star-dim);text-decoration:none}
-.nav-links a:hover{color:var(--star)}
-.nav-end{margin-left:auto;display:flex;align-items:center;gap:10px}
-.lang-btn{min-height:34px;padding:0 13px;border-radius:var(--pill);border:1px solid color-mix(in srgb,var(--star) 30%,transparent);background:transparent;color:var(--star);font:600 13px/1 var(--ko);cursor:pointer}
-.nav .btn{min-height:38px;padding:0 16px;font-size:14px}
+.intro{padding:clamp(56px,10vw,104px) 0 clamp(40px,6vw,56px)}
+.intro h1{font-size:clamp(40px,7vw,56px);line-height:1.08;letter-spacing:-.01em}
+.role{margin:14px 0 0;color:var(--muted)}
+.lede{margin:28px 0 0}
 
-/* ---------- hero = the simulator ---------- */
-.hero{position:relative;isolation:isolate;background:var(--night);color:var(--star);padding:clamp(20px,2.4vw,34px) 0 clamp(40px,5vw,64px);overflow:hidden}
-.sky{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.dawn{position:absolute;inset:0;opacity:0;background:linear-gradient(180deg,var(--dawn-1) 0%,var(--dawn-2) 38%,var(--dawn-3) 76%,var(--dawn-4) 100%);transition:opacity .4s linear}
-.horizon{position:absolute;left:-10%;right:-10%;bottom:-62%;height:100%;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent);opacity:0;transform:translateY(18%);transition:opacity .4s linear,transform .4s linear}
-.stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 12% 18%,var(--star) 98%,transparent),radial-gradient(1px 1px at 27% 62%,var(--star) 98%,transparent),radial-gradient(1.4px 1.4px at 44% 12%,var(--star) 98%,transparent),radial-gradient(1px 1px at 61% 34%,var(--star) 98%,transparent),radial-gradient(1px 1px at 78% 8%,var(--star) 98%,transparent),radial-gradient(1.2px 1.2px at 89% 46%,var(--star) 98%,transparent),radial-gradient(1px 1px at 7% 84%,var(--star) 98%,transparent),radial-gradient(1px 1px at 53% 78%,var(--star) 98%,transparent);opacity:.5;transition:opacity .4s linear}
-.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,64px);align-items:center}
-.hero-copy h1{font-size:clamp(38px,4.6vw,64px);line-height:1.12;letter-spacing:-.035em;font-weight:700}
-html[lang="en"] .hero-copy h1{letter-spacing:-.03em;line-height:1.04;font-weight:700;font-size:clamp(34px,3.4vw,48px)}
-.lede{margin:22px 0 0;font-size:clamp(17px,1.4vw,19px);color:var(--star-dim);max-width:34em}
-.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:30px}
-.hero-note{margin-top:26px;font-size:14px;color:color-mix(in srgb,var(--star) 70%,transparent);max-width:30em}
+section.block{padding:0 0 clamp(40px,6vw,56px)}
+section.block > .wrap:first-child{border-top:1px solid var(--line);padding-top:clamp(40px,6vw,56px)}
+#contact{padding-bottom:clamp(64px,10vw,104px)}
+.block h2{font-size:clamp(24px,3.4vw,30px);line-height:1.25}
+.block p{margin:16px 0 0}
+.sub{margin-top:clamp(48px,7vw,72px)}
+.sub h3{font-size:21px;line-height:1.3}
+.note{font-size:15px;color:var(--muted)}
+.fig{margin-top:28px}
+.ex{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:2px 7px;white-space:nowrap}
 
-.board{position:relative;background:linear-gradient(180deg,var(--board-1),var(--board-2));border:1px solid var(--rule);border-radius:22px;padding:20px 20px 16px;box-shadow:0 30px 80px -30px var(--shadow),inset 0 1px 0 color-mix(in srgb,var(--star) 5%,transparent)}
+/* buttons and toggles: plain rectangles */
+.seg button,.chip,.play,.morning-actions button{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;min-height:32px;min-width:32px;justify-content:center;padding:0 10px;border:1px solid var(--line);border-radius:3px;background:transparent;color:var(--ink);font:14px/1 var(--sans);cursor:pointer}
+.seg button:hover,.chip:hover,.play:hover,.morning-actions button:hover{border-color:var(--ink)}
+.seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ---------- simulator ---------- */
+.board{position:relative;border:1px solid var(--line);border-radius:4px;padding:18px 18px 14px}
 .board-head{display:flex;align-items:center;gap:18px}
-.clock{font:600 clamp(40px,4vw,52px)/1 var(--disp);letter-spacing:-.04em;font-variant-numeric:tabular-nums;min-width:3.1em}
+.clock{font:clamp(34px,4vw,44px)/1 var(--serif);font-variant-numeric:tabular-nums;min-width:3.1em}
 .board-title{display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.35}
 .board-title b{font-size:15px;font-weight:600}
-.board-title span{color:var(--star-faint)}
-.play{white-space:nowrap;margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:var(--pill);border:1px solid color-mix(in srgb,var(--star) 30%,transparent);background:color-mix(in srgb,var(--star) 6%,transparent);color:var(--star);font:600 14px/1 var(--ko);cursor:pointer}
-.play:hover{background:color-mix(in srgb,var(--star) 12%,transparent)}
-.play-ico{width:10px;height:12px;background:currentColor;clip-path:polygon(0 0,100% 50%,0 100%)}
+.board-title span{color:var(--muted)}
+.play{margin-left:auto;min-height:36px;padding:0 14px}
+.play-ico{width:9px;height:11px;background:currentColor;clip-path:polygon(0 0,100% 50%,0 100%)}
 .play[data-state="playing"] .play-ico{clip-path:polygon(0 0,35% 0,35% 100%,0 100%,0 0,65% 0,100% 0,100% 100%,65% 100%,65% 0)}
-.counters{display:flex;gap:18px;margin:10px 0 10px;font-size:13px;color:var(--star-dim)}
-.counters b{display:block;font:600 22px/1.1 var(--disp);color:var(--star);font-variant-numeric:tabular-nums}
+.counters{display:flex;gap:22px;margin:12px 0;font-size:13px;color:var(--muted)}
+.counters b{display:block;font:20px/1.1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums}
 
 .slots{display:flex;flex-direction:column;gap:6px}
-.slot{display:grid;grid-template-columns:64px minmax(0,1fr) 46px;align-items:center;gap:10px;min-height:42px}
-.slot-n{font-size:12px;color:var(--star-faint)}
-.slot-body{position:relative;height:42px;border-radius:12px;background:color-mix(in srgb,var(--star) 4%,transparent);border:1px dashed color-mix(in srgb,var(--star-dim) 18%,transparent);overflow:hidden}
-.slot-fill{position:absolute;inset:0;transform-origin:left center;transform:scaleX(0);background:var(--sodium-soft)}
-.slot[data-kind="run"] .slot-body,.slot[data-kind="fix"] .slot-body{border:1px solid color-mix(in srgb,var(--sodium) 55%,transparent);background:color-mix(in srgb,var(--sodium) 8%,transparent)}
-.slot[data-kind="review"] .slot-body{border:1px solid color-mix(in srgb,var(--star) 55%,transparent);background:color-mix(in srgb,var(--star) 7%,transparent)}
-.slot[data-kind="review"] .slot-fill{background:color-mix(in srgb,var(--star) 12%,transparent)}
-.slot[data-kind="hold"] .slot-body{border:1px solid color-mix(in srgb,var(--hold) 40%,transparent);background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--hold) 14%,transparent) 0 6px,transparent 6px 12px)}
+.slot{display:grid;grid-template-columns:64px minmax(0,1fr) 40px;align-items:center;gap:10px;min-height:40px}
+.slot-n{font-size:12px;color:var(--muted)}
+.slot-body{position:relative;height:40px;border-radius:3px;border:1px dashed var(--line);overflow:hidden}
+.slot-fill{position:absolute;inset:0;transform-origin:left center;transform:scaleX(0);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.slot[data-kind="run"] .slot-body,.slot[data-kind="fix"] .slot-body{border:1px solid color-mix(in srgb,var(--accent) 60%,transparent)}
+.slot[data-kind="review"] .slot-body{border:1px solid var(--ink)}
+.slot[data-kind="review"] .slot-fill{background:var(--tint)}
+.slot[data-kind="hold"] .slot-body{border:1px solid var(--line);background:repeating-linear-gradient(135deg,var(--line) 0 5px,transparent 5px 10px)}
 .slot[data-kind="hold"] .slot-fill{opacity:0}
-.slot-text{position:absolute;inset:0;display:flex;align-items:center;gap:10px;padding:0 14px;font-size:14px;white-space:nowrap;overflow:hidden}
-.slot-text .proj{font-size:12px;color:var(--star-dim);flex:none}
+.slot-text{position:absolute;inset:0;display:flex;align-items:center;gap:10px;padding:0 12px;font-size:14px;white-space:nowrap;overflow:hidden}
+.slot-text .proj{font-size:12px;color:var(--muted);flex:none}
 .slot-text .task{overflow:hidden;text-overflow:ellipsis;min-width:0}
-.slot-text .phase{margin-left:auto;flex:none;font-size:12px;color:var(--star-dim)}
-.slot[data-kind="run"] .phase,.slot[data-kind="fix"] .phase{color:var(--sodium)}
-.slot[data-kind="empty"] .slot-text{color:var(--star-faint)}
+.slot-text .phase{margin-left:auto;flex:none;font-size:12px;color:var(--muted)}
+.slot[data-kind="run"] .phase,.slot[data-kind="fix"] .phase{color:var(--accent)}
+.slot[data-kind="empty"] .slot-text{color:var(--muted)}
 .slot[data-kind="empty"] .acct{visibility:hidden}
-.acct{justify-self:center;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font:700 14px/1 var(--disp);border:1px solid color-mix(in srgb,var(--star) 25%,transparent);color:var(--star-dim)}
-.acct[data-a="A"]{color:var(--star)}
-.acct[data-a="B"]{color:var(--sodium-ink);background:var(--sodium);border-color:var(--sodium)}
-.acct.flip{animation:flip .6s ease}
-@keyframes flip{0%{transform:scale(.6) rotate(-90deg);opacity:.2}100%{transform:none;opacity:1}}
-.queue-line,.job-line{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13px;color:var(--star-dim);min-height:22px}
-.queue-line b,.job-line b{font-weight:600;color:var(--star)}
-.job-bar{flex:1;height:6px;position:relative;max-width:220px}
-.job-bar i{position:absolute;inset:0;background:var(--steel);transform-origin:left;transform:scaleX(0);border-radius:3px}
+.acct{justify-self:center;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font:600 13px/1 var(--sans);border:1px solid var(--line);color:var(--muted)}
+.acct[data-a="A"]{color:var(--ink)}
+.acct[data-a="B"]{color:var(--bg);background:var(--accent);border-color:var(--accent)}
+.acct.flip{animation:flip .5s ease}
+@keyframes flip{from{transform:scale(.6);opacity:.2}to{transform:none;opacity:1}}
+.queue-line,.job-line{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13px;color:var(--muted);min-height:22px}
+.queue-line b,.job-line b{font-weight:600;color:var(--ink)}
+.job-bar{flex:1;height:4px;position:relative;max-width:220px;background:var(--tint)}
+.job-bar i{position:absolute;inset:0;background:var(--muted);transform-origin:left;transform:scaleX(0)}
 
-.meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
-.meter{font-size:12px;color:var(--star-dim);line-height:1.35}
+.meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.meter{font-size:12px;color:var(--muted);line-height:1.35}
 .meter-top{display:flex;justify-content:space-between;gap:8px}
-.meter-top b{color:var(--star);font-weight:600}
-.meter-val{font:600 13px/1 var(--disp);color:var(--star);font-variant-numeric:tabular-nums}
-.meter-bar{height:4px;margin-top:8px;position:relative;border-left:1px solid color-mix(in srgb,var(--star) 35%,transparent)}
-.meter-bar i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--star-dim);transform-origin:left;transform:scaleX(0);border-radius:0 2px 2px 0}
+.meter-top b{color:var(--ink);font-weight:600}
+.meter-val{font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+.meter-bar{height:4px;margin-top:8px;position:relative;background:var(--tint)}
+.meter-bar i{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--muted);transform-origin:left;transform:scaleX(0)}
 .meter[data-full="1"] .meter-bar i{background:var(--limit)}
-.meter[data-acct="B"] .meter-bar i{background:var(--sodium)}
-.meter[data-acct="C"] .meter-bar i{background:var(--steel)}
+.meter[data-acct="B"] .meter-bar i{background:var(--accent)}
+.meter[data-acct="C"] .meter-bar i{background:var(--ink)}
 .meter-note{margin-top:6px;min-height:1.35em}
 
-.ticker{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:3px;min-height:64px;font-size:13.5px;line-height:1.45}
-.tick{display:grid;grid-template-columns:46px minmax(0,1fr);gap:8px;color:var(--star-dim);animation:tickin .35s ease}
-.tick:first-child{color:var(--star)}
-.tick time{font-family:var(--disp);font-variant-numeric:tabular-nums;color:var(--star-faint)}
-.tick.hot{color:var(--sodium)}
-.still .tick{animation:none}
+.ticker{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-height:64px;font-size:13.5px;line-height:1.45}
+.tick{display:grid;grid-template-columns:46px minmax(0,1fr);gap:8px;color:var(--muted);animation:tickin .3s ease}
+.tick:first-child{color:var(--ink)}
+.tick time{font-variant-numeric:tabular-nums;color:var(--muted)}
+.tick.hot span{color:var(--accent)}
+.still *,.still *::before,.still *::after{animation:none !important;transition:none !important}
 @keyframes tickin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
-.controls{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:flex-start;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-start;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .ctl{border:0;margin:0;padding:0;min-width:0}
-.ctl legend{font-size:12px;color:var(--star-faint);margin-bottom:7px;padding:0}
+.ctl legend{font-size:12px;color:var(--muted);margin-bottom:7px;padding:0}
 .seg{display:inline-flex;gap:4px;flex-wrap:wrap}
-.seg button,.chip{white-space:nowrap;min-height:34px;min-width:34px;padding:0 12px;border-radius:var(--pill);border:1px solid color-mix(in srgb,var(--star) 22%,transparent);background:transparent;color:var(--star-dim);font:600 13px/1 var(--ko);cursor:pointer}
-.seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--star);color:var(--night);border-color:var(--star)}
-.seg button:hover,.chip:hover{border-color:var(--star)}
 .tasks-ctl{flex-basis:100%}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.chip{font-weight:500;min-height:30px;padding:0 10px;font-size:12.5px}
-.chip small{font-size:11px;opacity:.7;margin-right:4px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{min-height:30px;padding:0 9px;font-size:13px}
+.chip small{font-size:11px;opacity:.7;margin-right:2px}
 
-.morning{position:absolute;left:14px;right:14px;bottom:14px;background:var(--note-bg);color:var(--note-ink);border-radius:16px;padding:20px 22px;box-shadow:0 24px 60px -20px var(--note-shadow);transform:translateY(12px);opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease}
-.morning.show{opacity:1;transform:none;pointer-events:auto}
-.morning h3{font-size:20px;letter-spacing:-.02em}
+.morning{position:absolute;left:14px;right:14px;bottom:14px;background:var(--bg);color:var(--ink);border:1px solid var(--ink);border-radius:4px;padding:18px 20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.morning.show{opacity:1;pointer-events:auto}
+.morning h3{font-size:20px}
 .morning ul{margin:10px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;font-size:14.5px}
-.morning li b{font-family:var(--disp);font-variant-numeric:tabular-nums}
-.compare{margin-top:12px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--note-ink) 14%,transparent);font-size:14.5px}
-.compare b{font-family:var(--disp)}
+.morning li b{font-variant-numeric:tabular-nums}
+.compare{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:14.5px}
 .morning-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.morning-actions button{min-height:38px;padding:0 16px;border-radius:var(--pill);border:1px solid color-mix(in srgb,var(--note-ink) 30%,transparent);background:transparent;color:var(--note-ink);font:600 14px/1 var(--ko);cursor:pointer;white-space:nowrap}
-.morning-actions button.primary{background:var(--note-ink);color:var(--note-bg);border-color:var(--note-ink)}
-.illus{margin-top:14px;font-size:12.5px;color:color-mix(in srgb,var(--star) 62%,transparent);max-width:44em}
+.morning-actions button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.illus{margin-top:12px;font-size:13px;color:var(--muted)}
 
-/* ---------- sections ---------- */
-section.band{padding:clamp(72px,9vw,128px) 0}
-.sec-title{font-size:clamp(30px,3.4vw,46px);line-height:1.18;letter-spacing:-.03em;font-weight:700;max-width:18em}
-.sec-lede{margin:18px 0 0;color:var(--muted);max-width:40em;font-size:18px}
+/* three problems */
+.fix-rows{margin:24px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.fix-rows li{padding:16px 0;border-bottom:1px solid var(--line)}
+.fix-rows li:last-child{border-bottom:0}
+.fix-rows .was{display:block;color:var(--muted);font-size:15px}
+.fix-rows .now{display:block;margin-top:4px}
+.fix-rows .now > b{font-weight:600}
+.fix-rows .now > span{display:block;margin-top:2px}
 
-/* night log (gantt) */
-.gantt{margin-top:44px;position:relative}
+/* ---------- night log (gantt) ---------- */
+.gantt{position:relative}
 .g-axis{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;font-size:12px;color:var(--muted);margin-bottom:8px}
 .g-ticks{position:relative;height:16px}
-.g-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--disp);font-variant-numeric:tabular-nums}
+.g-ticks span{position:absolute;transform:translateX(-50%);font-variant-numeric:tabular-nums}
 .g-rows{position:relative}
-.g-row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:center;min-height:38px}
+.g-row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:center;min-height:36px}
 .g-label{font-size:14px;line-height:1.3;overflow:hidden}
 .g-label small{display:block;font-size:12px;color:var(--muted)}
-.g-track{position:relative;height:22px}
-.g-seg{position:absolute;top:0;bottom:0;border-radius:5px;border:0;padding:0;cursor:pointer}
+.g-track{position:relative;height:20px}
+.g-seg{position:absolute;top:0;bottom:0;border-radius:2px;border:0;padding:0;cursor:pointer}
 .g-seg[data-k="run"],.g-seg[data-k="fix"]{background:var(--accent)}
-.g-seg[data-k="fix"]{background:repeating-linear-gradient(135deg,var(--accent) 0 5px,color-mix(in srgb,var(--accent) 55%,transparent) 5px 9px)}
+.g-seg[data-k="fix"]{background:repeating-linear-gradient(135deg,var(--accent) 0 5px,color-mix(in srgb,var(--accent) 45%,transparent) 5px 9px)}
 .g-seg[data-k="review"]{background:transparent;border:1.5px solid var(--ink)}
-.g-seg[data-k="hold"]{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--muted) 55%,transparent) 0 4px,transparent 4px 8px);border:1px solid color-mix(in srgb,var(--muted) 60%,transparent)}
-.g-seg[data-k="job"]{background:var(--data);height:8px;top:7px}
-.g-seg[data-b="B"]::after{content:"B";position:absolute;right:6px;top:50%;transform:translateY(-50%);font:700 11px/1 var(--disp);color:var(--accent-ink)}
+.g-seg[data-k="hold"]{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--muted) 50%,transparent) 0 4px,transparent 4px 8px);border:1px solid color-mix(in srgb,var(--muted) 60%,transparent)}
+.g-seg[data-k="job"]{background:var(--muted);height:6px;top:7px}
+.g-seg[data-b="B"]::after{content:"B";position:absolute;right:5px;top:50%;transform:translateY(-50%);font:600 11px/1 var(--sans);color:var(--bg)}
 .g-seg[data-k="review"][data-b="B"]::after,.g-seg[data-k="job"]::after{content:none}
-.g-merge{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
-.g-limit{position:absolute;top:-8px;bottom:-4px;background:color-mix(in srgb,var(--limit) 12%,transparent);border-left:1px dashed var(--limit);border-right:1px dashed var(--limit);pointer-events:none}
-.g-limit span{position:absolute;top:-22px;left:6px;font-size:12px;color:var(--limit-ink);white-space:nowrap}
-.g-head{position:absolute;top:-8px;bottom:-4px;left:0;width:2px;margin-left:-1px;background:var(--ink);opacity:.6;pointer-events:none;transform:translateX(0)}
+.g-merge{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
+.g-limit{position:absolute;top:-8px;bottom:-4px;background:color-mix(in srgb,var(--limit) 8%,transparent);border-left:1px dashed var(--limit);border-right:1px dashed var(--limit);pointer-events:none}
+.g-limit span{position:absolute;top:-22px;left:6px;font-size:12px;color:var(--limit);white-space:nowrap}
+.g-head{position:absolute;top:-8px;bottom:-4px;left:0;width:1px;background:var(--ink);opacity:.6;pointer-events:none;transform:translateX(0)}
 .g-overlay{position:absolute;inset:0;left:216px;pointer-events:none}
-.g-legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;font-size:13px;color:var(--muted)}
-.g-legend i{display:inline-block;width:22px;height:10px;border-radius:3px;margin-right:8px;vertical-align:middle}
-.g-detail{margin-top:16px;min-height:1.6em;font-size:15px}
-.g-detail b{font-family:var(--disp)}
+.g-legend{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:20px;font-size:13px;color:var(--muted)}
+.g-legend i{display:inline-block;width:22px;height:10px;border-radius:2px;margin-right:8px;vertical-align:middle}
+.g-detail{margin-top:14px;min-height:1.6em;font-size:15px}
 
-/* accounts */
-.acct-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:start}
-.rules-list{margin:0;padding:0;list-style:none}
-.rules-list li{padding:22px 0;border-top:1px solid var(--line)}
-.rules-list li:last-child{border-bottom:1px solid var(--line)}
-.rules-list b{display:block;font-size:19px;letter-spacing:-.01em;margin-bottom:4px}
-.rules-list li > span{color:var(--muted)}
-.swap{position:relative;margin-top:36px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
-.swap-card{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--surface)}
-.swap-card b{display:block;font:600 28px/1.1 var(--disp)}
-.swap-card > span{font-size:13px;color:var(--muted)}
-.swap-arrow{font:600 28px/1 var(--disp);color:var(--accent)}
+/* ---------- monitor mock ---------- */
+.app{border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.app-bar{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.app-bar > b{color:var(--ink);font-weight:600}
+.app-bar .ex{margin-left:auto}
+.tabs{display:flex;gap:14px;flex-wrap:wrap}
+.tabs > span{padding:2px 0;border-bottom:2px solid transparent}
+.tabs > span[data-on]{color:var(--ink);border-bottom-color:var(--ink)}
+.app-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.app-h{font-size:12px;color:var(--muted);margin:0 0 10px}
+.block .app-h{margin:0 0 10px}
+.usage{display:grid;gap:9px}
+.u-row{display:grid;grid-template-columns:118px minmax(0,1fr) 40px;gap:10px;align-items:center;font-size:13px}
+.u-bar{height:4px;background:var(--tint);position:relative;overflow:hidden}
+.u-bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--muted);transition:transform .8s ease}
+.u-row[data-lv="warn"] .u-bar i{background:var(--warn)}
+.u-row[data-lv="hot"] .u-bar i{background:var(--limit)}
+.u-row .num{text-align:right;font-size:13px}
+.block .u-note{margin:8px 0 0;font-size:12px;color:var(--muted);min-height:1.4em}
+.repos{display:grid;gap:6px}
+.repo{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:12px;align-items:center;font-size:13px;padding:7px 0;border-top:1px solid var(--line)}
+.repo:first-child{border-top:0}
+.repo > b{font-weight:600}
+.sw{display:inline-flex;align-items:center;gap:6px;margin-right:14px;color:var(--muted);white-space:nowrap}
+.sw::before{content:"";width:10px;height:10px;border:1px solid var(--muted);border-radius:2px}
+.sw[data-on]::before{background:var(--ink);border-color:var(--ink)}
+.repo .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.repo .cnt b{color:var(--ink)}
+.flow-wrap{overflow-x:auto;overscroll-behavior-x:contain}
+.flow{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:14px 18px 18px}
+.col h3{display:flex;justify-content:space-between;font:600 13px/1.4 var(--sans);color:var(--muted);margin:0 0 8px}
+.col h3 b{color:var(--ink)}
+.col-body{height:300px;border-radius:3px;background:var(--tint)}
+.col[data-c="2"] .col-body{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.kcard{position:absolute;left:0;top:0;padding:7px 9px 8px;border-radius:3px;background:var(--bg);border:1px solid var(--line);font-size:12.5px;line-height:1.35;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .4s ease}
+.kcard .kid{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted)}
+.kcard .kid b{color:var(--ink)}
+.kcard .kt{display:block;margin-top:3px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kticks{display:flex;gap:3px;margin-top:7px}
+.kticks i{flex:1;height:3px;background:var(--line)}
+.kticks i[data-on]{background:var(--muted)}
+.kcard[data-col="2"]{border-color:color-mix(in srgb,var(--accent) 65%,transparent)}
+.kcard[data-col="2"] .kticks i[data-on]{background:var(--accent)}
+.kcard[data-col="4"] .kticks,.kcard[data-col="4"] .dep{display:none}
+.kcard[data-col="4"]{opacity:.75}
+.kcard[data-col="4"] .kt{font-weight:500}
+.dep{display:inline-block;margin-top:6px;padding:0 6px;border-radius:2px;border:1px dashed var(--muted);font-size:11px;color:var(--muted)}
+.kbadge{position:absolute;right:7px;top:6px;padding:1px 6px;border-radius:2px;background:var(--accent);color:var(--bg);font-size:11px;font-weight:600;opacity:0;transition:opacity .3s ease}
+.kcard[data-badge] .kbadge{opacity:1}
+.flow-cap{margin:16px 0 0;padding:0 0 0 1.2em;font-size:15px;color:var(--muted)}
+.flow-cap li{margin:2px 0}
+.flow-cap b{color:var(--ink);font-weight:600}
 
-/* measured */
-.measured{background:var(--surface);border-block:1px solid var(--line)}
-.big-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,5vw,80px);margin-top:48px;align-items:end}
-.huge{font:700 clamp(110px,15vw,220px)/.86 var(--disp);letter-spacing:-.06em;font-variant-numeric:tabular-nums}
-.huge-cap{margin-top:14px;font-size:18px;max-width:22em}
-.stack{display:flex;flex-direction:column;gap:30px}
-.stat b{display:block;font:650 clamp(44px,5vw,64px)/1 var(--disp);letter-spacing:-.04em}
-.stat > span{display:block;margin-top:8px;color:var(--muted);font-size:15.5px}
-.day{margin-top:64px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,4vw,56px);align-items:center}
-.day h3{font-size:22px;letter-spacing:-.02em}
-.day p{color:var(--muted);margin:8px 0 0;font-size:15.5px}
-.bars{display:flex;flex-direction:column;gap:14px}
-.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;font-size:14px}
-.bar{height:26px;border-radius:6px;background:var(--muted);transform-origin:left;position:relative}
-.bar.par{background:var(--accent)}
-.bar em{position:absolute;right:-8px;top:50%;transform:translate(100%,-50%);font:600 15px/1 var(--disp);font-style:normal;white-space:nowrap}
-.foot{margin-top:40px;font-size:13.5px;color:var(--muted)}
-.ratio{margin-top:56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,64px);padding-top:32px;border-top:1px solid var(--line)}
+/* usage-limit order */
+.lsteps{margin:20px 0 0;padding:0 0 0 1.4em}
+.lsteps li{margin:10px 0;padding-left:.2em}
+.lsteps b{font-weight:600}
+
+/* ---------- issue record ---------- */
+.issue-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,56px);align-items:start}
+.issue{border:1px solid var(--line);border-radius:4px;padding:20px 22px}
+.issue-head{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:12.5px}
+.issue-head > b{font-weight:600;font-size:14px;margin-right:4px}
+.tag{padding:2px 7px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
+.tag[data-ex]{margin-left:auto;white-space:nowrap}
+.issue h3{margin-top:12px;font-size:20px;line-height:1.38}
+.issue-body{margin:16px 0 0;display:grid;gap:8px;font-size:15px;color:var(--muted)}
+.issue-body > div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px}
+.issue-body > div > b{color:var(--ink);font-weight:600}
+.receipts{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);display:grid;gap:5px;font:13px/1.5 var(--mono)}
+.rc{display:grid;grid-template-columns:112px minmax(0,1fr);gap:10px;opacity:.28;transition:opacity .4s ease}
+.rc[data-on]{opacity:1}
+.rc > span:first-child{color:var(--muted)}
+.rc > span:last-child{overflow-wrap:anywhere}
+.block .zone-note{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;position:relative}
+.steps::before{content:"";position:absolute;left:16px;top:18px;bottom:18px;width:1px;background:var(--line)}
+.steps li{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;padding:7px 0;align-items:start}
+.sdot{width:18px;height:18px;margin:4px 8px;border-radius:50%;background:var(--muted);opacity:.35;transition:opacity .35s ease}
+.sdot[data-k="h"]{background:var(--accent)}
+.sdot[data-k="r"]{background:var(--bg);box-shadow:inset 0 0 0 2px var(--ink)}
+.steps li[data-s="on"] .sdot,.steps li[data-s="done"] .sdot{opacity:1}
+.steps li[data-s="on"] > div > b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.steps li > div > b{font-size:16px;font-weight:600}
+.steps li > div > span{display:block;font-size:13.5px;color:var(--muted)}
+.steps li > code{font:12px/1.6 var(--mono);color:var(--muted);padding-top:4px}
+.steps li[data-s="on"] > code{color:var(--ink)}
+.s-legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;font-size:12.5px;color:var(--muted)}
+.s-legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--muted)}
+.s-legend i[data-k="h"]{background:var(--accent)}
+.s-legend i[data-k="r"]{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.routes{margin:24px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.routes li{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.routes code{font:13px/1.7 var(--mono)}
+.routes li > span{color:var(--muted)}
+
+/* ---------- server checks ---------- */
+.wk-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:18px;align-items:stretch}
+.tx{border:1px solid var(--line);border-radius:4px;background:var(--tint);padding:16px 18px 14px;display:flex;flex-direction:column}
+.tx-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.tx-head > b{color:var(--ink);font-size:15px;font-weight:600}
+.tx-lines{flex:1;display:flex;flex-direction:column;gap:2px;padding:10px 0;min-height:236px;font-size:13.5px}
+.tx-line{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;padding:3px 0;opacity:0;transition:opacity .3s ease}
+.tx-line[data-on]{opacity:1}
+.tx-line > em{font:normal 12px/1.7 var(--mono);color:var(--muted)}
+.tx-line > span{overflow-wrap:anywhere}
+.tx-line[data-k="tool"] > span{font-family:var(--mono);font-size:13px}
+.tx-line[data-k="self"] > span{color:var(--accent)}
+.tx-ctl{display:flex;flex-wrap:wrap;gap:6px 16px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.tx-ctl > span{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.check{border:1px solid var(--line);border-radius:4px;padding:16px 18px}
+.check > h3{font:600 16px/1.4 var(--sans)}
+.block .claim{margin:12px 0 4px;padding:10px 12px;border-left:2px solid var(--line);font-size:13.5px;color:var(--muted)}
+.claim > b{display:block;color:var(--ink);font-weight:500}
+.ck{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px;opacity:.38;transition:opacity .3s ease}
+.ck:first-of-type{border-top:0}
+.ck[data-on]{opacity:1}
+.ck > i{position:relative;width:18px;height:18px;margin-top:2px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted)}
+.ck[data-on] > i{background:var(--ink);box-shadow:none}
+.ck > i::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .25s ease}
+.ck[data-on] > i::after{transform:rotate(45deg) scale(1)}
+.state{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.state > b{padding:2px 8px;border-radius:2px;border:1px solid var(--ink);color:var(--ink);font-size:13px;font-weight:600}
+.state[data-s="done"] > b{background:var(--ink);color:var(--bg)}
+
+/* ---------- ADR ---------- */
+.adr-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,64px);align-items:start}
+.crit{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.crit li{padding:14px 0;border-bottom:1px solid var(--line)}
+.crit b{display:block;font-weight:600}
+.crit li > span{color:var(--muted);font-size:15px}
+.adr-app{border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.adr-search{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:15px}
+.adr-search > span:first-child{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.adr-q{flex:1;min-width:0;padding:6px 10px;border-radius:3px;border:1px solid var(--line);min-height:36px}
+.caret{display:inline-block;width:1px;height:1.05em;margin-left:1px;background:var(--ink);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.adr-hit{padding:16px 18px 6px;opacity:0;transition:opacity .4s ease}
+.adr-hit[data-on]{opacity:1}
+.adr-meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
+.adr-hit h3{margin-top:10px;font-size:19px;line-height:1.4}
+.adr-hit dl{margin:12px 0 0;display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 12px;font-size:14px}
+.adr-hit dt{color:var(--muted)}
+.adr-hit dd{margin:0}
+.adr-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13.5px;color:var(--accent)}
+.signals{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px 16px;opacity:0;transition:opacity .4s ease}
+.signals[data-on]{opacity:1}
+.sig{padding:2px 8px;border-radius:2px;font-size:12.5px;border:1px dashed var(--accent);color:var(--accent)}
 
 /* rules */
-.rule-rows{margin-top:44px}
-.rule-row{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;padding:26px 0;border-top:1px solid var(--line)}
-.rule-row h3{font-size:20px;letter-spacing:-.02em}
-.rule-row h3 small{display:block;margin-top:6px;font-size:14px;font-weight:400;color:var(--muted)}
-.pills{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}
-.pills > span{padding:8px 14px;border-radius:var(--pill);border:1px solid var(--line);font-size:15px;background:var(--surface)}
-.rule-row.never .pills > span{border-style:dashed}
+.rules{margin:20px 0 0}
+.rules dt{margin-top:18px;font-weight:600}
+.rules dt small{font-weight:400;color:var(--muted);font-size:15px}
+.rules dd{margin:4px 0 0}
+.rules ul{margin:0;padding-left:1.2em}
+.rules li{margin:2px 0}
 
-/* pilot */
-.pilot{background:var(--night);color:var(--star);position:relative;overflow:hidden;isolation:isolate}
-.pilot::before{content:"";position:absolute;inset:auto -10% -70% -10%;height:120%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--sodium) 32%,transparent),transparent);z-index:-1}
-.pilot .sec-lede{color:var(--star-dim)}
-.pilot .cta-row{margin-top:32px}
-footer{padding:28px 0;color:var(--muted);font-size:14px}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* ---------- measured ---------- */
+.sky780{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:clamp(20px,4vw,48px);align-items:end}
+.c780 b{display:block;font:clamp(48px,7vw,72px)/1 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
+.block .c780 p{margin:10px 0 0;color:var(--muted);font-size:15px}
+#sky-cv{width:100%;height:220px;display:block}
+.block .sky-cap{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.stats{margin:24px 0 0;border-top:1px solid var(--line)}
+.stat{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.stat b{font:normal 30px/1.1 var(--serif);font-variant-numeric:tabular-nums}
+.stat > span{color:var(--muted);font-size:15.5px}
+.day{margin-top:36px}
+.day h3{font-size:20px}
+.block .day p{margin:6px 0 0;color:var(--muted);font-size:15.5px}
+.bars{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;font-size:14px}
+.bar{height:20px;border-radius:2px;background:var(--muted);position:relative}
+.bar.par{background:var(--accent)}
+.bar em{position:absolute;right:-8px;top:50%;transform:translate(100%,-50%);font-size:15px;font-style:normal;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cmp{margin-top:36px}
+.cmp h3{font-size:20px}
+.block .cmp p{margin:6px 0 0;color:var(--muted);font-size:15.5px}
+.block .cmp .cmp-h{margin-top:14px;color:var(--ink);font-size:15px;font-weight:600}
+.cmp ul{margin:6px 0 0;padding-left:1.2em;columns:2;column-gap:32px;font-size:15px}
+.block .foot{margin-top:28px;font-size:14px;color:var(--muted)}
 
-@media (max-width: 1080px){
-  .nav-links{display:none}
-  .hero-grid{grid-template-columns:1fr}
-  .hero-copy{max-width:640px}
-}
+.contact{display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:20px 0 0}
+.contact dt{color:var(--muted)}
+.contact dd{margin:0;overflow-wrap:anywhere}
+
 @media (max-width: 760px){
   body{font-size:16px}
-  .nav .wrap{gap:12px}
-  .nav .btn{display:none}
-  .board{padding:16px 12px 12px;border-radius:18px}
+  .board{padding:14px 10px 10px}
   .board-head{flex-wrap:wrap;gap:10px 14px}
   .play{margin-left:0}
-  .slot{grid-template-columns:44px minmax(0,1fr) 38px;gap:8px}
+  .slot{grid-template-columns:44px minmax(0,1fr) 32px;gap:8px}
   .slot-text .proj{display:none}
-  .acct{width:30px;height:30px;font-size:13px}
+  .acct{width:26px;height:26px;font-size:12px}
   .meters{grid-template-columns:1fr;gap:10px}
   .morning{position:relative;left:auto;right:auto;bottom:auto;margin-top:14px;display:none}
   .morning.show{display:block}
@@ -276,225 +392,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .g-label{font-size:12.5px}
   .g-label small{display:none}
   .g-overlay{left:106px}
-  .acct-grid,.big-grid,.day,.rule-row,.ratio{grid-template-columns:1fr}
-  .bar-row{grid-template-columns:1fr}
-  .swap{grid-template-columns:1fr;text-align:left}
-  .swap-arrow{transform:rotate(90deg);justify-self:start;margin-left:20px}
-}
-
-/* ---------- Beads UI: what it is ---------- */
-.night-band{background:var(--night);color:var(--star);position:relative;isolation:isolate}
-.night-band .sec-lede{color:var(--star-dim)}
-.fix-rows{margin:44px 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
-.fix-rows li{display:grid;grid-template-columns:minmax(0,5fr) 44px minmax(0,7fr);gap:18px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--rule)}
-.fix-rows .was{color:var(--star-faint);font-size:16px}
-.fix-rows .arrow{color:var(--sodium);font:600 22px/1 var(--disp);text-align:center}
-.fix-rows .now > b{display:block;font-size:20px;letter-spacing:-.01em}
-.fix-rows .now > span{display:block;margin-top:4px;color:var(--star-dim);font-size:15.5px}
-.sky780{margin-top:72px;display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:clamp(20px,4vw,56px);align-items:end}
-.c780 b{display:block;font:700 clamp(84px,10vw,150px)/.9 var(--disp);letter-spacing:-.05em;color:var(--sodium);font-variant-numeric:tabular-nums}
-.c780 p{margin:16px 0 0;color:var(--star-dim);font-size:15.5px;max-width:16em}
-#sky-cv{width:100%;height:220px;display:block}
-.sky-cap{margin:14px 0 0;font-size:13px;color:var(--star-faint);max-width:52em}
-
-/* ---------- monitor mock ---------- */
-.app{margin-top:44px;border:1px solid var(--line);border-radius:20px;background:var(--surface);overflow:hidden}
-.app-bar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
-.app-bar > b{color:var(--ink);font:700 14px/1 var(--disp)}
-.tabs{display:flex;gap:4px;flex-wrap:wrap}
-.tabs > span{padding:5px 12px;border-radius:var(--pill)}
-.tabs > span[data-on]{background:var(--ink);color:var(--bg)}
-.app-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;padding:18px 20px;border-bottom:1px solid var(--line)}
-.app-h{font-size:12px;color:var(--muted);margin:0 0 10px}
-.usage{display:grid;gap:9px}
-.u-row{display:grid;grid-template-columns:118px minmax(0,1fr) 40px;gap:10px;align-items:center;font-size:13px}
-.u-bar{height:6px;border-radius:3px;background:color-mix(in srgb,var(--ink) 10%,transparent);position:relative;overflow:hidden}
-.u-bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--data);transition:transform .8s ease}
-.u-row[data-lv="warn"] .u-bar i{background:var(--accent)}
-.u-row[data-lv="hot"] .u-bar i{background:var(--limit)}
-.u-row .num{text-align:right;font-size:13px}
-.u-note{margin-top:8px;font-size:12px;color:var(--muted);min-height:1.4em}
-.repos{display:grid;gap:6px}
-.repo{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:12px;align-items:center;font-size:13px;padding:7px 0;border-top:1px solid var(--line)}
-.repo:first-child{border-top:0}
-.repo > b{font-weight:600}
-.sw{display:inline-flex;align-items:center;gap:6px;margin-right:14px;color:var(--muted);white-space:nowrap}
-.sw::before{content:"";width:22px;height:12px;border-radius:6px;background:color-mix(in srgb,var(--ink) 16%,transparent);box-shadow:inset 0 0 0 3px var(--surface)}
-.sw[data-on]::before{background:var(--data)}
-.repo .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
-.repo .cnt b{color:var(--ink);font-family:var(--disp)}
-.flow-wrap{overflow-x:auto;overscroll-behavior-x:contain}
-.flow{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:16px 20px 20px}
-.col h3{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--muted);margin:0 0 8px;letter-spacing:0}
-.col h3 b{font-family:var(--disp);color:var(--ink)}
-.col-body{height:300px;border-radius:12px;background:color-mix(in srgb,var(--ink) 3.5%,transparent)}
-.col[data-c="2"] .col-body{background:color-mix(in srgb,var(--accent) 7%,transparent)}
-.kcard{position:absolute;left:0;top:0;padding:8px 10px 9px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:12.5px;line-height:1.35;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .4s ease}
-.kcard .kid{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted)}
-.kcard .kid b{font-family:var(--disp);color:var(--ink)}
-.kcard .kt{display:block;margin-top:3px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.kticks{display:flex;gap:3px;margin-top:7px}
-.kticks i{flex:1;height:3px;border-radius:2px;background:color-mix(in srgb,var(--ink) 14%,transparent)}
-.kticks i[data-on]{background:var(--data)}
-.kcard[data-col="2"]{border-color:color-mix(in srgb,var(--accent) 65%,transparent)}
-.kcard[data-col="2"] .kticks i[data-on]:last-of-type{animation:pulse 1.2s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.35}}
-.kcard[data-col="4"] .kticks,.kcard[data-col="4"] .dep{display:none}
-.kcard[data-col="4"]{opacity:.78}
-.kcard[data-col="4"] .kt{font-weight:500}
-.dep{display:inline-block;margin-top:6px;padding:1px 8px;border-radius:var(--pill);border:1px dashed var(--muted);font-size:11px;color:var(--muted)}
-.kbadge{position:absolute;right:8px;top:7px;padding:2px 8px;border-radius:var(--pill);background:var(--data);color:var(--bg);font-size:11px;font-weight:600;opacity:0;transform:scale(.8);transition:opacity .3s ease,transform .3s ease}
-.kcard[data-badge] .kbadge{opacity:1;transform:none}
-.flow-cap{display:flex;flex-wrap:wrap;gap:8px 28px;margin:20px 0 0;padding:0;list-style:none;font-size:14.5px;color:var(--muted)}
-.flow-cap b{color:var(--ink);font-weight:600}
-
-/* ---------- issue record ---------- */
-.issue-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,64px);margin-top:44px;align-items:start}
-.issue{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:22px 24px}
-.issue-head{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:12.5px}
-.issue-head > b{font:700 14px/1 var(--disp);margin-right:4px}
-.tag{padding:3px 10px;border-radius:var(--pill);border:1px solid var(--line);color:var(--muted)}
-.tag[data-ex]{margin-left:auto;border-style:dashed;white-space:nowrap}
-.issue h3{margin-top:12px;font-size:21px;letter-spacing:-.02em;line-height:1.38}
-.issue-body{margin:16px 0 0;display:grid;gap:8px;font-size:15px;color:var(--muted)}
-.issue-body > div{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px}
-.issue-body > div > b{color:var(--ink);font-weight:600}
-.receipts{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);display:grid;gap:5px;font-size:13.5px}
-.rc{display:grid;grid-template-columns:112px minmax(0,1fr);gap:10px;opacity:.28;transition:opacity .4s ease}
-.rc[data-on]{opacity:1}
-.rc > span:first-child{font-family:var(--disp);color:var(--muted)}
-.rc > span:last-child{font-family:var(--disp);font-weight:600;overflow-wrap:anywhere}
-.zone-note{margin:14px 0 0;font-size:14px;color:var(--muted)}
-.steps{list-style:none;margin:0;padding:0;position:relative}
-.steps::before{content:"";position:absolute;left:16px;top:18px;bottom:18px;width:1px;background:var(--line)}
-.steps li{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;padding:8px 0;align-items:start}
-.sdot{width:22px;height:22px;margin:2px 6px;border-radius:50%;background:var(--data);opacity:.4;transform:scale(.78);transition:transform .35s ease,opacity .35s ease}
-.sdot[data-k="h"]{background:var(--accent)}
-.sdot[data-k="r"]{background:var(--bg);box-shadow:inset 0 0 0 2.5px var(--ink)}
-.steps li[data-s="on"] .sdot{opacity:1;transform:scale(1.18)}
-.steps li[data-s="done"] .sdot{opacity:1;transform:none}
-.steps li > div > b{font-size:16px}
-.steps li > div > span{display:block;font-size:13.5px;color:var(--muted)}
-.steps li > code{font-family:var(--disp);font-size:12px;color:var(--muted);padding-top:4px}
-.steps li[data-s="on"] > code{color:var(--ink)}
-.s-legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;font-size:12.5px;color:var(--muted)}
-.s-legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--data)}
-.s-legend i[data-k="h"]{background:var(--accent)}
-.s-legend i[data-k="r"]{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
-.routes{margin-top:26px;padding:0;list-style:none;border-top:1px solid var(--line)}
-.routes li{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
-.routes code{font-family:var(--disp);font-weight:600}
-.routes li > span{color:var(--muted)}
-
-/* ---------- worker ---------- */
-.wk-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:18px;margin-top:44px;align-items:stretch}
-.tx{border-radius:18px;background:var(--night);color:var(--star);padding:18px 20px 16px;border:1px solid var(--rule);display:flex;flex-direction:column}
-.tx-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:12px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--star-dim)}
-.tx-head > b{color:var(--star);font-size:15px}
-.tx-head .tag{border-color:var(--rule);color:var(--star-dim);font-size:12px}
-.tx-lines{flex:1;display:flex;flex-direction:column;gap:2px;padding:10px 0;min-height:236px;font-size:13.5px}
-.tx-line{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;padding:3px 0;opacity:0;transform:translateY(5px);transition:opacity .3s ease,transform .3s ease}
-.tx-line[data-on]{opacity:1;transform:none}
-.tx-line > em{font-style:normal;font:500 12px/1.6 var(--disp);color:var(--star-faint)}
-.tx-line > span{overflow-wrap:anywhere}
-.tx-line[data-k="tool"] > span{color:var(--steel);font-family:var(--disp)}
-.tx-line[data-k="self"] > span{color:var(--sodium-pale)}
-.tx-ctl{display:flex;flex-wrap:wrap;gap:6px;padding-top:12px;border-top:1px solid var(--rule)}
-.tx-ctl > span{padding:6px 12px;border-radius:var(--pill);border:1px solid color-mix(in srgb,var(--star) 24%,transparent);font-size:12.5px;color:var(--star-dim)}
-.check{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:18px 20px}
-.check > h3{font-size:17px;letter-spacing:-.01em}
-.claim{margin:12px 0 4px;padding:10px 12px;border-radius:12px;border:1px dashed var(--line);font-size:13.5px;color:var(--muted)}
-.claim > b{display:block;color:var(--ink);font-weight:500}
-.ck{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px;opacity:.38;transition:opacity .3s ease}
-.ck:first-of-type{border-top:0}
-.ck[data-on]{opacity:1}
-.ck > i{position:relative;width:18px;height:18px;margin-top:2px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted)}
-.ck[data-on] > i{background:var(--data);box-shadow:none}
-.ck > i::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .25s ease}
-.ck[data-on] > i::after{transform:rotate(45deg) scale(1)}
-.state{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
-.state > b{padding:4px 12px;border-radius:var(--pill);background:var(--ink);color:var(--bg);font-size:13px;font-weight:600}
-.state[data-s="done"] > b{background:var(--data)}
-
-/* ---------- limit order ---------- */
-.lim{margin-top:80px;padding-top:44px;border-top:1px solid var(--line)}
-.lim > h3{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.02em}
-.day24{position:relative;height:64px;margin-top:30px}
-.day24 .track{position:absolute;left:0;right:0;top:18px;height:24px;border-radius:6px;background:color-mix(in srgb,var(--ink) 5%,transparent)}
-.day24 .win{position:absolute;top:18px;height:24px;border-radius:6px;background:color-mix(in srgb,var(--data) 20%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--data) 55%,transparent)}
-.day24 .win > span{position:absolute;left:8px;top:50%;transform:translateY(-50%);font:600 11.5px/1 var(--disp);color:var(--ink);white-space:nowrap}
-.day24 .ping{position:absolute;top:10px;width:2px;height:40px;margin-left:-1px;background:var(--accent)}
-.day24 .ax{position:absolute;top:50px;transform:translateX(-50%);font:500 11.5px/1 var(--disp);color:var(--muted)}
-.day24 .now{position:absolute;left:0;top:4px;width:2px;height:46px;margin-left:-1px;background:var(--limit);transition:transform .6s ease}
-.day24 .now::before{content:"";position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--limit)}
-.lim-status{margin:14px 0 0;min-height:1.6em;font-size:15px}
-.lim-status > b{font-family:var(--disp);margin-right:8px}
-.lsteps{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
-.lsteps li{position:relative;padding-top:16px;border-top:2px solid var(--line);opacity:.45;transition:opacity .35s ease}
-.lsteps li::after{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left}
-.lsteps li[data-s]{opacity:1}
-.lsteps li[data-s="on"]::after{transform:scaleX(1);transition:transform 2s linear}
-.lsteps li[data-s="done"]::after{transform:scaleX(1)}
-.lsteps small{display:block;font:600 12.5px/1 var(--disp);color:var(--accent);margin-bottom:8px}
-.lsteps b{display:block;font-size:17px;letter-spacing:-.01em}
-.lsteps li > span{display:block;margin-top:6px;font-size:14px;color:var(--muted)}
-
-/* ---------- compare (inside measured) ---------- */
-.cmp{margin-top:56px;padding-top:32px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px)}
-.cmp h3{font-size:22px;letter-spacing:-.02em}
-.cmp p{margin:8px 0 0;color:var(--muted);font-size:15.5px}
-.cmp .pills{margin-top:10px}
-.cmp-h{font-size:13px;color:var(--muted)}
-
-/* ---------- ADR ---------- */
-.adr-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);margin-top:44px;align-items:start}
-.adr-app{border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
-.adr-search{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:15px}
-.adr-search > span:first-child{font-size:12.5px;color:var(--muted);white-space:nowrap}
-.adr-q{flex:1;min-width:0;padding:8px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line);min-height:38px}
-.caret{display:inline-block;width:1.5px;height:1.05em;margin-left:1px;background:var(--ink);vertical-align:-2px;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.adr-hit{padding:18px 20px 6px;opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
-.adr-hit[data-on]{opacity:1;transform:none}
-.adr-meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
-.adr-hit h3{margin-top:10px;font-size:19px;letter-spacing:-.02em;line-height:1.4}
-.adr-hit dl{margin:12px 0 0;display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 12px;font-size:14px}
-.adr-hit dt{color:var(--muted)}
-.adr-hit dd{margin:0}
-.adr-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13.5px;color:var(--data)}
-.signals{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px 18px;opacity:0;transition:opacity .4s ease}
-.signals[data-on]{opacity:1}
-.sig{padding:4px 11px;border-radius:var(--pill);font-size:12.5px;border:1px dashed var(--accent);color:var(--accent)}
-
-/* ---------- anywhere ---------- */
-.any-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(28px,6vw,96px);align-items:center;margin-top:44px}
-.phone{position:relative;width:min(300px,100%);margin-inline:auto;border-radius:18px;border:1px solid var(--rule);background:var(--night);color:var(--star);padding:16px 14px 18px;min-height:440px;overflow:hidden}
-.ph-h{display:flex;justify-content:space-between;font:700 13px/1 var(--disp);padding:0 4px 12px}
-.ph-h > span{font:500 11px/1 var(--ko);color:var(--star-faint)}
-.ph-sec{margin-top:12px;font-size:11px;color:var(--star-faint);padding:0 4px}
-.ph-card{margin-top:6px;padding:8px 10px;border-radius:10px;border:1px solid var(--rule);font-size:12px;background:color-mix(in srgb,var(--star) 4%,transparent)}
-.ph-card[data-run]{border-color:color-mix(in srgb,var(--sodium) 55%,transparent)}
-.ph-card > small{display:block;font-size:10.5px;color:var(--star-faint)}
-.toast{position:absolute;left:10px;right:10px;padding:10px 12px;border-radius:14px;background:var(--note-bg);color:var(--note-ink);font-size:12px;line-height:1.4;box-shadow:0 14px 30px -10px var(--note-shadow);opacity:0;transform:translateY(-14px);transition:opacity .4s ease,transform .4s ease}
-.toast[data-on]{opacity:1;transform:none}
-.toast > small{display:block;font-size:10.5px;opacity:.65;margin-bottom:2px}
-.toast.t1{top:52px}
-.toast.t2{top:126px}
-@media (max-width: 760px){
-  .fix-rows li{grid-template-columns:1fr;gap:4px}
-  .fix-rows .arrow{text-align:left;width:22px;transform:rotate(90deg)}
-  .sky780,.app-top,.issue-grid,.wk-grid,.cmp,.adr-grid,.any-grid{grid-template-columns:1fr}
-  .flow{min-width:720px}
-  .lsteps{grid-template-columns:1fr;gap:14px}
+  .sky780,.app-top,.issue-grid,.wk-grid,.adr-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:minmax(0,1fr)}
   .repo{grid-template-columns:92px minmax(0,1fr)}
   .repo .cnt{grid-column:2}
   .u-row{grid-template-columns:104px minmax(0,1fr) 40px}
-  .issue{padding:18px}
+  .issue{padding:16px}
   .issue-body > div{grid-template-columns:1fr;gap:0}
   .rc{grid-template-columns:100px minmax(0,1fr)}
-  .day24 .win > span{display:none}
   .adr-search{flex-wrap:wrap}
-  .day24 .ax-minor{display:none}
+  .stat{grid-template-columns:1fr;gap:4px}
+  .bar-row{grid-template-columns:1fr;gap:6px}
+  .cmp ul{columns:1}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -503,31 +412,31 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </style>
 </head>
 <body>
-<a class="skip" href="#main"><span lang="ko">본문으로 건너뛰기</span><span lang="en">Skip to content</span></a>
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Researchline</a>
-    <div class="nav-end">
-      <button class="lang-btn" id="lang-btn" type="button" data-aria-ko="Switch to English" data-aria-en="한국어로 보기"><span lang="ko">EN</span><span lang="en">한국어</span></button>
-      <a class="btn btn-primary" href="#pilot"><span lang="ko">파일럿 신청</span><span lang="en">Request a pilot</span></a>
-    </div>
-  </div>
-</header>
+<a class="skip" href="#main"><span lang="en">Skip to content</span><span lang="ko">본문으로 건너뛰기</span></a>
+<header class="top"><div class="wrap">
+  <a class="name" href="./">Ilsun Yun</a>
+  <nav aria-label="Site">
+    <a href="cv.html">CV</a>
+    <a href="researchline.html" aria-current="page">Researchline</a>
+    <button class="lang-btn" id="lang-btn" type="button" data-aria-en="한국어로 보기" data-aria-ko="Switch to English" aria-label="한국어로 보기"><span lang="en">한국어</span><span lang="ko">English</span></button>
+  </nav>
+</div></header>
 
 <main id="main">
-<section class="hero" id="sim">
-  <div class="sky" aria-hidden="true"><div class="stars" id="stars"></div><div class="dawn" id="dawn"></div><div class="horizon" id="horizon"></div></div>
-  <div class="wrap hero-grid" id="top">
-    <div class="hero-copy">
-      <h1><span lang="ko">퇴근해도 분석은 멈추지 않습니다.</span><span lang="en">Analyses keep running after you log off.</span></h1>
-      <p class="lede"><span lang="ko">작업을 줄 세워 두면 AI 세션 여러 개가 밤새 돌고 아침에는 리뷰를 마친 PR이 기다립니다.</span><span lang="en">Queue the work before you leave. Several AI sessions run through the night, and reviewed pull requests wait for you in the morning.</span></p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#pilot"><span lang="ko">파일럿 신청</span><span lang="en">Request a pilot</span></a>
-        <button class="btn btn-ghost" type="button" id="hero-play"><span lang="ko">오늘 밤 돌려 보기</span><span lang="en">Run tonight</span></button>
-      </div>
-      <p class="hero-note"><span lang="ko">시뮬레이터는 실제로 돌아갑니다. 동시에 돌릴 세션 수와 한도 대처 방식을 바꾸면 그 밤이 처음부터 다시 돕니다.</span><span lang="en">The simulator really runs. Change how many sessions run at once, or what happens at a usage limit, and the night starts over.</span></p>
-    </div>
+<div class="wrap">
+<section class="intro">
+  <h1>Researchline</h1>
+  <p class="role"><span lang="en">The board I use to run and record research work</span><span lang="ko">연구 작업을 진행하고 기록할 때 쓰는 보드</span></p>
+  <p class="lede"><span lang="en">Each task is written down as an issue. AI sessions take issues from a queue and do the work, a model other than the one that wrote a change reviews it, and the server checks the actual pull request before a task counts as done. What was done, why, and who reviewed it stays on the issue.</span><span lang="ko">할 일은 이슈로 적어 둡니다. AI 세션이 대기열에서 이슈를 가져가 작업하고, 변경은 그것을 쓴 모델이 아닌 다른 모델이 리뷰합니다. 일이 끝났는지는 서버가 실제 PR을 확인해 정합니다. 무엇을 왜 했는지, 누가 검토했는지도 모두 그 이슈에 남습니다.</span></p>
+</section>
+</div>
 
+<section class="block" id="what">
+  <div class="wrap">
+    <h2><span lang="en">What it is</span><span lang="ko">어떤 도구인가</span></h2>
+    <p><span lang="en">The simulator below plays one example night. Change how many sessions run at once, or what happens at a usage limit, and the night starts over.</span><span lang="ko">아래 시뮬레이터는 예시로 만든 하룻밤을 재생합니다. 동시에 돌릴 세션 수나 사용 한도에 걸렸을 때의 처리 방식을 바꾸면 그 밤이 처음부터 다시 돕니다.</span></p>
+  </div>
+  <div class="wide fig" id="sim">
     <div class="board" id="board" role="region" data-aria-ko="밤 시뮬레이터" data-aria-en="Night simulator">
       <div class="board-head">
         <div class="clock" id="clock" aria-hidden="true">01:00</div>
@@ -559,56 +468,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
       <div class="morning" id="morning" aria-live="polite"></div>
     </div>
+    <p class="illus"><span lang="ko">시뮬레이션은 예시입니다. 작업 이름과 시간은 실제 야간 실행의 흐름을 본떠 지어낸 값입니다. 아래 '실제로 잰 숫자' 구역만 실측입니다.</span><span lang="en">The simulation is illustrative. Task names and durations are made up, modeled on the shape of real overnight runs; only the measured section further down is real data.</span></p>
   </div>
-  <div class="wrap"><p class="illus"><span lang="ko">시뮬레이션은 예시입니다. 작업 이름과 시간은 실제 야간 실행의 흐름을 본떠 지어낸 값입니다. 아래 '실제로 잰 숫자' 구역만 실측입니다.</span><span lang="en">The simulation is illustrative. Task names and durations are made up, modeled on the shape of real overnight runs; only the measured section further down is real data.</span></p></div>
+  <div class="wrap" id="tower">
+    <p><span lang="en">It answers three problems that come with handing analysis to a chat window.</span><span lang="ko">채팅창에 분석을 맡길 때 생기는 세 가지 문제를 이렇게 풉니다.</span></p>
+    <ul class="fix-rows">
+      <li><span class="was"><span lang="ko">대화가 끝나면 어제 왜 그렇게 정했는지 잊습니다.</span><span lang="en">When the chat ends, the reasons behind yesterday's decisions are gone.</span></span><span class="now"><b><span lang="ko">일마다 기록이 남는 이슈</span><span lang="en">An issue that keeps the record</span></b><span><span lang="ko">목적, 근거, 결정, 남은 일이 버전 관리되는 DB에 쌓이고 다음 세션은 이 기록부터 읽습니다.</span><span lang="en">Purpose, evidence, decisions and open items build up in a versioned database, and the next session reads them first.</span></span></span></li>
+      <li><span class="was"><span lang="ko">코드를 쓴 모델이 테스트를 통과했다고 스스로 보고합니다.</span><span lang="en">The model that wrote the code reports its own tests as passing.</span></span><span class="now"><b><span lang="ko">다른 모델의 리뷰와 영수증</span><span lang="en">Review by another model, with receipts</span></b><span><span lang="ko">쓴 모델이 아닌 다른 모델이 한 번 검토하고 그 결과를 커밋 해시와 함께 남깁니다.</span><span lang="en">A different model reviews the work once, and the verdict is stored with the hash of the commit it covers.</span></span></span></li>
+      <li><span class="was"><span lang="ko">사람이 화면을 지켜야 한 번에 하나씩 진행됩니다.</span><span lang="en">Work moves one task at a time, and only while you watch.</span></span><span class="now"><b><span lang="ko">대기열과 동시 실행</span><span lang="en">A queue that runs in parallel</span></b><span><span lang="ko">여러 저장소의 일을 줄 세워 두면 서버가 세션을 띄우고 PR까지 가져옵니다.</span><span lang="en">Line up work from several repositories and the server starts the sessions and brings back pull requests.</span></span></span></li>
+    </ul>
+  </div>
 </section>
 
-<section class="band" id="log">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">방금 돌린 밤을 분 단위로 펼쳤습니다.</span><span lang="en">The night you just ran, minute by minute.</span></h2>
-    <p class="sec-lede"><span lang="ko">이슈마다 작업 폴더와 브랜치가 따로 있어서 세션들이 같은 파일을 건드리지 않습니다. 앞 결과가 필요한 작업은 그 작업이 머지된 뒤에 출발하고 모든 변경은 쓴 모델이 아닌 다른 모델의 리뷰를 거칩니다. 막대를 누르면 그 구간이 무엇이었는지 보입니다.</span><span lang="en">Each issue gets its own working folder and branch, so sessions never touch the same files. A task that needs an earlier result starts after that one merges, and every change is reviewed by a model other than the one that wrote it. Tap a bar to see what that stretch was.</span></p>
+<section class="block" id="how">
+  <div class="wrap" id="log">
+    <h2><span lang="en">How a night runs</span><span lang="ko">밤에 일이 진행되는 방식</span></h2>
+    <p><span lang="ko">이슈마다 작업 폴더와 브랜치가 따로 있어서 세션들이 같은 파일을 건드리지 않습니다. 앞 결과가 필요한 작업은 그 작업이 머지된 뒤에 출발하고 모든 변경은 쓴 모델이 아닌 다른 모델의 리뷰를 거칩니다. 아래는 위 시뮬레이터의 밤을 분 단위로 펼친 것입니다. 막대를 누르면 그 구간이 무엇이었는지 보입니다.</span><span lang="en">Each issue gets its own working folder and branch, so sessions never touch the same files. A task that needs an earlier result starts after that one merges, and every change is reviewed by a model other than the one that wrote it. Below is the simulator's night, minute by minute. Tap a bar to see what that stretch was.</span></p>
+  </div>
+  <div class="wide fig">
     <div class="gantt" id="gantt">
       <div class="g-axis"><span></span><div class="g-ticks" id="g-ticks"></div></div>
       <div class="g-rows" id="g-rows" role="img"></div>
     </div>
     <div class="g-legend">
       <span><i style="background:var(--accent)"></i><span lang="ko">AI 세션 작업</span><span lang="en">AI session working</span></span>
-      <span><i style="background:repeating-linear-gradient(135deg,var(--accent) 0 5px,color-mix(in srgb,var(--accent) 55%,transparent) 5px 9px)"></i><span lang="ko">리뷰 지적 반영</span><span lang="en">Fixing review notes</span></span>
+      <span><i style="background:repeating-linear-gradient(135deg,var(--accent) 0 5px,color-mix(in srgb,var(--accent) 45%,transparent) 5px 9px)"></i><span lang="ko">리뷰 지적 반영</span><span lang="en">Fixing review notes</span></span>
       <span><i style="border:1.5px solid var(--ink)"></i><span lang="ko">다른 모델의 리뷰</span><span lang="en">Review by another model</span></span>
-      <span><i style="background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--muted) 55%,transparent) 0 4px,transparent 4px 8px);border:1px solid var(--muted)"></i><span lang="ko">한도로 보류</span><span lang="en">Held at the limit</span></span>
-      <span><i style="background:var(--data);height:6px"></i><span lang="ko">랩 서버 잡</span><span lang="en">Lab-server job</span></span>
-      <span><i style="background:var(--accent);color:var(--accent-ink);font:700 9px/10px var(--disp);text-align:right;padding-right:3px;font-style:normal">B</i><span lang="ko">계정 B로 옮겨 실행</span><span lang="en">Moved to account B</span></span>
+      <span><i style="background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--muted) 50%,transparent) 0 4px,transparent 4px 8px);border:1px solid var(--muted)"></i><span lang="ko">한도로 보류</span><span lang="en">Held at the limit</span></span>
+      <span><i style="background:var(--muted);height:6px"></i><span lang="ko">랩 서버 잡</span><span lang="en">Lab-server job</span></span>
+      <span><i style="background:var(--accent);color:var(--bg);font:600 9px/10px var(--sans);text-align:right;padding-right:3px;font-style:normal">B</i><span lang="ko">계정 B로 옮겨 실행</span><span lang="en">Moved to account B</span></span>
     </div>
     <p class="g-detail" id="g-detail" aria-live="polite"></p>
   </div>
-</section>
 
-
-<section class="band night-band" id="tower">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">Researchline은 연구 작업의 관제실이자 기록부입니다.</span><span lang="en">A control room for research work, and its logbook.</span></h2>
-    <p class="sec-lede"><span lang="ko">할 일은 이슈로 적어 두고 AI 세션은 그 이슈를 받아 일합니다. 무엇을 왜 했는지, 누가 검토했는지는 모두 그 이슈에 남습니다. 채팅창에 분석을 맡길 때 생기는 세 가지 문제를 이렇게 풉니다.</span><span lang="en">Each task is written down as an issue, and AI sessions pick issues up and do the work. What was done, why, and who reviewed it all stays on that issue. This is how it fixes three problems of handing analysis to a chat window.</span></p>
-    <ul class="fix-rows">
-      <li><span class="was"><span lang="ko">대화가 끝나면 어제 왜 그렇게 정했는지 잊습니다.</span><span lang="en">When the chat ends, the reasons behind yesterday's decisions are gone.</span></span><span class="arrow" aria-hidden="true">→</span><span class="now"><b><span lang="ko">일마다 기록이 남는 이슈</span><span lang="en">An issue that keeps the record</span></b><span><span lang="ko">목적, 근거, 결정, 남은 일이 버전 관리되는 DB에 쌓이고 다음 세션은 이 기록부터 읽습니다.</span><span lang="en">Purpose, evidence, decisions and open items build up in a versioned database, and the next session reads them first.</span></span></span></li>
-      <li><span class="was"><span lang="ko">코드를 쓴 모델이 테스트를 통과했다고 스스로 보고합니다.</span><span lang="en">The model that wrote the code reports its own tests as passing.</span></span><span class="arrow" aria-hidden="true">→</span><span class="now"><b><span lang="ko">다른 모델의 리뷰와 영수증</span><span lang="en">Review by another model, with receipts</span></b><span><span lang="ko">쓴 모델이 아닌 다른 모델이 한 번 검토하고 그 결과를 커밋 해시와 함께 남깁니다.</span><span lang="en">A different model reviews the work once, and the verdict is stored with the hash of the commit it covers.</span></span></span></li>
-      <li><span class="was"><span lang="ko">사람이 화면을 지켜야 한 번에 하나씩 진행됩니다.</span><span lang="en">Work moves one task at a time, and only while you watch.</span></span><span class="arrow" aria-hidden="true">→</span><span class="now"><b><span lang="ko">대기열과 동시 실행</span><span lang="en">A queue that runs in parallel</span></b><span><span lang="ko">여러 저장소의 일을 줄 세워 두면 서버가 세션을 띄우고 PR까지 가져옵니다.</span><span lang="en">Line up work from several repositories and the server starts the sessions and brings back pull requests.</span></span></span></li>
-    </ul>
-    <div class="sky780">
-      <div class="c780"><b id="c780">780</b><p><span lang="ko">2026년에 닫은 연구 이슈. 점 하나가 이슈 하나입니다.</span><span lang="en">Research issues closed in 2026. One dot, one issue.</span></p></div>
-      <div>
-        <canvas id="sky-cv" role="img" data-aria-ko="2026년 월별로 닫은 연구 이슈 780건. 3월 287건, 8월 234건, 7월 125건, 9월 68건, 10월 7일까지 37건, 4월 22건, 5월 7건." data-aria-en="780 research issues closed in 2026 by month: 287 in March, 234 in August, 125 in July, 68 in September, 37 in October through the 7th, 22 in April, 7 in May."></canvas>
-      </div>
-    </div>
-    <p class="sky-cap"><span lang="ko">연구자 한 명이 연구 저장소 4곳에서 2026년 1월 1일부터 10월 7일까지 닫은 이슈를 셌습니다. 10월은 7일까지입니다. 처음 몇 달은 연구보다 이 작업 환경을 만드는 데 썼습니다.</span><span lang="en">Issues one researcher closed across four research repositories from January 1 to October 7, 2026; October is partial. The first months went into building this setup rather than research.</span></p>
+  <div class="wrap sub" id="monitor">
+    <h3><span lang="en">The morning screen</span><span lang="ko">아침에 여는 화면</span></h3>
+    <p><span lang="ko">저장소마다 한 줄, 이슈마다 카드 한 장입니다. 카드가 후보에서 완료까지 어디쯤 왔는지와 계정마다 쓴 사용량이 한 화면에 보입니다.</span><span lang="en">One row per repository, one card per issue. You see how far each card has come, from candidate to done, and how much of each account's usage is spent.</span></p>
   </div>
-</section>
-
-<section class="band" id="monitor">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">아침에는 이 화면 하나만 엽니다.</span><span lang="en">In the morning, you open one screen.</span></h2>
-    <p class="sec-lede"><span lang="ko">저장소마다 한 줄, 이슈마다 카드 한 장입니다. 카드가 후보에서 완료까지 어디쯤 왔는지와 계정마다 쓴 사용량이 한 화면에 보입니다.</span><span lang="en">One row per repository, one card per issue. You see how far each card has come, from candidate to done, and how much of each account's usage is spent.</span></p>
+  <div class="wide fig">
     <div class="app" id="mon" role="img" data-aria-ko="Monitor 화면 도식. 계정별 사용량, 저장소별 자동화 설정, 후보에서 완료까지 다섯 열로 흐르는 이슈 카드." data-aria-en="Diagram of the Monitor screen: usage per account, automation settings per repository, and issue cards flowing through five columns from candidate to done.">
-      <div class="app-bar"><b>Researchline</b><div class="tabs"><span data-on>Monitor</span><span>Worker</span><span>Compare</span><span>ADR</span></div><span class="tag" data-ex><span lang="ko">예시</span><span lang="en">Example</span></span></div>
+      <div class="app-bar"><b>Researchline</b><div class="tabs"><span data-on>Monitor</span><span>Worker</span><span>Compare</span><span>ADR</span></div><span class="ex"><span lang="ko">예시</span><span lang="en">Example</span></span></div>
       <div class="app-top">
         <div>
           <p class="app-h"><span lang="ko">계정별 사용량</span><span lang="en">Usage by account</span></p>
@@ -635,18 +534,35 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </div>
       </div>
     </div>
+  </div>
+  <div class="wrap">
     <ul class="flow-cap">
       <li><b><span lang="ko">카드 한 장이 이슈 하나</span><span lang="en">One card is one issue</span></b> <span lang="ko">막대 여덟 칸이 작업 단계입니다.</span><span lang="en">The eight ticks are its steps.</span></li>
       <li><b><span lang="ko">선행 관계</span><span lang="en">Prerequisites</span></b> <span lang="ko">앞 작업이 머지돼야 출발합니다.</span><span lang="en">A card starts once the one before it merges.</span></li>
       <li><b><span lang="ko">계정 색</span><span lang="en">Account colors</span></b> <span lang="ko">60%를 넘으면 노랑, 85%를 넘으면 빨강.</span><span lang="en">Amber past 60%, red past 85%.</span></li>
     </ul>
+    <p class="note"><span lang="ko">이 화면은 인터넷에 공개하지 않고 Tailscale 사설망 안에서만 열립니다.</span><span lang="en">The board is not exposed to the internet; it opens only inside a private Tailscale network.</span></p>
+  </div>
+
+  <div class="wrap sub" id="accounts">
+    <h3><span lang="en">At a usage limit</span><span lang="ko">사용 한도에 걸리면</span></h3>
+    <p><span lang="ko">한 계정에서 실행이 사용 한도에 닿으면 허용해 둔 다른 내 계정 중 여유가 있는 쪽으로 그 실행만 옮기고, 나머지 작업은 있던 자리에 둡니다. 한도를 우회하지는 않습니다. 옮기지 않고 리셋을 기다리게 할 수도 있으니 위 시뮬레이터에서 두 방식을 바꿔 가며 끝나는 시각을 비교해 보세요.</span><span lang="en">When a run reaches the usage limit on one account, only that run moves to another of your allowed accounts that still has room; everything else stays where it was. No limit is bypassed. You can also have it wait for the reset instead; switch between the two in the simulator above and compare when the night ends.</span></p>
+    <ol class="lsteps" id="lsteps">
+      <li><b><span lang="ko">창 맞추기.</span><span lang="en">Align the windows.</span></b> <span lang="ko">매일 08, 13, 18, 23시에 계정마다 가장 작은 모델로 한 줄을 보내 5시간 창을 업무 시간에 맞춥니다.</span><span lang="en">At 08, 13, 18 and 23 h each account sends one line to its smallest model, so the 5-hour windows line up with the working day.</span></li>
+      <li><b><span lang="ko">미리 전환.</span><span lang="en">Switch early.</span></b> <span lang="ko">사용률이 기준을 넘으면 허용한 계정 중 여유 있는 곳으로 그 실행만 바꿔 같은 세션을 이어 갑니다.</span><span lang="en">Past the threshold, only that run moves to an allowed account with room, and the same session carries on.</span></li>
+      <li><b><span lang="ko">보류.</span><span lang="en">Hold.</span></b> <span lang="ko">바꿀 계정이 없으면 그 계정을 서버 전체에서 잠시 빼서 다른 저장소의 작업도 같은 한도에 걸리지 않게 합니다.</span><span lang="en">With no account free, that account is set aside server-wide so work in other repositories does not hit the same limit.</span></li>
+      <li><b><span lang="ko">시험 호출.</span><span lang="en">Probe.</span></b> <span lang="ko">리셋 60초 뒤 정말 풀렸는지 시험 호출로 확인합니다. 장애라면 1분, 2분, 4분 간격을 최대 1시간까지 늘립니다.</span><span lang="en">Sixty seconds after the reset a test call checks the limit is really gone. If the service is down it retries after 1, 2, 4 minutes, up to an hour.</span></li>
+      <li><b><span lang="ko">자동 재개.</span><span lang="en">Resume.</span></b> <span lang="ko">멈췄던 세션이 그 자리에서 이어지고 Discord로 회복 알림이 한 번 옵니다.</span><span lang="en">Paused sessions continue where they stopped, and one recovery notice arrives on Discord.</span></li>
+    </ol>
   </div>
 </section>
 
-<section class="band" id="issue" style="padding-top:0">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">일마다 기록이 남고 다음 세션은 그 기록부터 읽습니다.</span><span lang="en">Every task leaves a record, and the next session starts from it.</span></h2>
-    <p class="sec-lede"><span lang="ko">이슈 하나에 사람이 읽는 본문과 기계가 읽는 영수증이 함께 담깁니다. 영수증에는 어느 모델이 어느 커밋을 검토하고 승인했는지 남습니다. 영수증이 없으면 다음 단계로 넘어가지 않습니다.</span><span lang="en">Each issue carries a body people read and receipts machines read. The receipts record which model reviewed and approved which commit, and without them the work does not move to the next step.</span></p>
+<section class="block" id="records">
+  <div class="wrap" id="issue">
+    <h2><span lang="en">Records and checks</span><span lang="ko">기록과 검증</span></h2>
+    <p><span lang="ko">이슈 하나에 사람이 읽는 본문과 기계가 읽는 영수증이 함께 담깁니다. 영수증에는 어느 모델이 어느 커밋을 검토하고 승인했는지 남습니다. 영수증이 없으면 다음 단계로 넘어가지 않습니다.</span><span lang="en">Each issue carries a body people read and receipts machines read. The receipts record which model reviewed and approved which commit, and without them the work does not move to the next step.</span></p>
+  </div>
+  <div class="wide fig">
     <div class="issue-grid">
       <div>
         <article class="issue" aria-labelledby="issue-t">
@@ -689,12 +605,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
   </div>
-</section>
 
-<section class="band" id="worker" style="padding-top:0">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">일이 끝났는지는 세션이 아니라 서버가 판정합니다.</span><span lang="en">The server decides when work is done, not the session.</span></h2>
-    <p class="sec-lede"><span lang="ko">Worker 탭의 대기열에 후보를 끌어다 놓으면 병렬 칸은 빈자리가 나는 대로 출발하고 직렬 레인은 앞 일이 끝나야 출발합니다. 세션이 마쳤다고 말해도 서버는 실제 PR과 영수증과 검증 결과를 직접 확인한 뒤에 머지합니다.</span><span lang="en">Drag candidates into the Worker queue. Parallel slots start as soon as one frees up, and a serial lane waits for the task ahead. When a session says it is finished, the server still checks the actual pull request, the receipts and the checks before it merges.</span></p>
+  <div class="wrap sub" id="worker">
+    <h3><span lang="en">The server decides when work is done</span><span lang="ko">서버가 내리는 완료 판정</span></h3>
+    <p><span lang="ko">Worker 탭의 대기열에 후보를 끌어다 놓으면 병렬 칸은 빈자리가 나는 대로 출발하고 직렬 레인은 앞 일이 끝나야 출발합니다. 세션이 마쳤다고 말해도 서버는 실제 PR과 영수증과 검증 결과를 직접 확인한 뒤에 머지합니다.</span><span lang="en">Drag candidates into the Worker queue. Parallel slots start as soon as one frees up, and a serial lane waits for the task ahead. When a session says it is finished, the server still checks the actual pull request, the receipts and the checks before it merges.</span></p>
+  </div>
+  <div class="wide fig">
     <div class="wk-grid">
       <div class="tx" role="img" data-aria-ko="세션 기록 보기 도식. 구현, 검증, 리뷰 줄이 차례로 나타나고 마지막에 세션이 마쳤다고 보고합니다." data-aria-en="Diagram of the session transcript: build, check and review lines appear in order, ending with the session reporting it is finished.">
         <div class="tx-head"><b><span lang="ko">세션 기록 보기</span><span lang="en">Session transcript</span></b><span><span lang="ko">#2 발현 차이 표 갱신, 실행 중</span><span lang="en">#2 Refresh the DE table, running</span></span><span class="tag" data-ex><span lang="ko">예시</span><span lang="en">Example</span></span></div>
@@ -723,101 +639,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
   </div>
-</section>
 
-<section class="band" id="accounts">
-  <div class="wrap acct-grid">
-    <div>
-      <h2 class="sec-title"><span lang="ko">한도는 그대로 두고 일은 이어 갑니다.</span><span lang="en">The limit stays. The work goes on.</span></h2>
-      <p class="sec-lede"><span lang="ko">한 계정에서 실행이 사용 한도에 닿으면 허용해 둔 다른 내 계정 중 여유가 있는 쪽으로 그 실행을 옮깁니다. 옮기지 않고 리셋을 기다리게 할 수도 있습니다. 위 시뮬레이터에서 두 방식을 바꿔 가며 끝나는 시각을 비교해 보세요.</span><span lang="en">When a run reaches the usage limit on one account, it moves to another of your allowed accounts that still has room. You can also have it wait for the reset instead. Switch between the two in the simulator above and compare when the night ends.</span></p>
-      <div class="swap" aria-hidden="true">
-        <div class="swap-card"><b>100%</b><span><span lang="ko">계정 A, 5시간 창</span><span lang="en">Account A, 5-hour window</span></span></div>
-        <div class="swap-arrow">→</div>
-        <div class="swap-card"><b id="swap-b">31%</b><span><span lang="ko">계정 B, 여유 있음</span><span lang="en">Account B, has room</span></span></div>
-      </div>
-    </div>
-    <ul class="rules-list">
-      <li><b><span lang="ko">내 계정 중 허용한 계정만 씁니다</span><span lang="en">Only your own accounts, only the ones you allow</span></b><span><span lang="ko">Claude와 Codex 계정의 5시간·주간 사용량을 나란히 보여 줍니다.</span><span lang="en">Claude and Codex accounts are listed side by side with their 5-hour and weekly usage.</span></span></li>
-      <li><b><span lang="ko">한도에 걸린 그 실행만 옮깁니다</span><span lang="en">Only the run that hit the limit moves</span></b><span><span lang="ko">나머지 작업은 있던 자리에 그대로 둡니다.</span><span lang="en">Everything else stays where it was.</span></span></li>
-      <li><b><span lang="ko">한도를 우회하지 않습니다</span><span lang="en">No limit is bypassed</span></b><span><span lang="ko">이미 구독한 사용량을 나눠 쓰고 전환할 때마다 이유를 알려 줍니다.</span><span lang="en">It shares out capacity you already pay for, and tells you why each switch happened.</span></span></li>
-    </ul>
+  <div class="wrap sub" id="adr">
+    <h3><span lang="en">Decision records</span><span lang="ko">결정 기록</span></h3>
+    <p><span lang="ko">무게 있는 결정은 ADR(결정 기록)로 남깁니다. 결정이 바뀌면 원본을 고치지 않고 새 기록으로 대체합니다. 리뷰어에게 답할 때 근거 문서와 이슈를 바로 찾을 수 있습니다.</span><span lang="en">Weighty decisions are kept as ADRs (decision records). When a decision changes, a new record replaces it instead of the old one being edited. When a reviewer asks, the supporting spec and issue are one click away.</span></p>
   </div>
-
-  <div class="wrap lim" id="lim">
-    <h3><span lang="ko">사용 한도는 이 순서로 처리합니다.</span><span lang="en">How a usage limit is handled, in order.</span></h3>
-    <div class="day24" id="day24" role="img" data-aria-ko="하루 24시간 띠. 08, 13, 18, 23시에 5시간 창이 시작하고 13시 리셋 직후 시험 호출 뒤 세션이 이어집니다." data-aria-en="A 24-hour strip. Five-hour windows start at 08, 13, 18 and 23 h; just after the 13 h reset a probe runs and the sessions resume.">
-      <div class="track"></div>
-      <div class="now" id="day-now"></div>
-    </div>
-    <p class="lim-status" id="lim-status" aria-live="polite"></p>
-    <p class="zone-note"><span lang="ko">창이 시작하는 시각은 실제 설정이고 띠 위의 사건과 시각은 예시입니다.</span><span lang="en">The window start times are the real schedule; the events and times on the strip are an example.</span></p>
-    <ol class="lsteps" id="lsteps">
-      <li><small>1</small><b><span lang="ko">창 맞추기</span><span lang="en">Align the windows</span></b><span><span lang="ko">매일 08, 13, 18, 23시에 계정마다 가장 작은 모델로 한 줄을 보내 5시간 창을 업무 시간에 맞춥니다.</span><span lang="en">At 08, 13, 18 and 23 h each account sends one line to its smallest model, so the 5-hour windows line up with the working day.</span></span></li>
-      <li><small>2</small><b><span lang="ko">미리 전환</span><span lang="en">Switch early</span></b><span><span lang="ko">사용률이 기준을 넘으면 허용한 계정 중 여유 있는 곳으로 그 실행만 바꿔 같은 세션을 이어 갑니다.</span><span lang="en">Past the threshold, only that run moves to an allowed account with room, and the same session carries on.</span></span></li>
-      <li><small>3</small><b><span lang="ko">보류</span><span lang="en">Hold</span></b><span><span lang="ko">바꿀 계정이 없으면 그 계정을 서버 전체에서 잠시 빼서 다른 저장소의 작업도 같은 한도에 걸리지 않게 합니다.</span><span lang="en">With no account free, that account is set aside server-wide so work in other repositories does not hit the same limit.</span></span></li>
-      <li><small>4</small><b><span lang="ko">시험 호출</span><span lang="en">Probe</span></b><span><span lang="ko">리셋 60초 뒤 정말 풀렸는지 시험 호출로 확인합니다. 장애라면 1분, 2분, 4분 간격을 최대 1시간까지 늘립니다.</span><span lang="en">Sixty seconds after the reset a test call checks the limit is really gone. If the service is down it retries after 1, 2, 4 minutes, up to an hour.</span></span></li>
-      <li><small>5</small><b><span lang="ko">자동 재개</span><span lang="en">Resume</span></b><span><span lang="ko">멈췄던 세션이 그 자리에서 이어지고 Discord로 회복 알림이 한 번 옵니다.</span><span lang="en">Paused sessions continue where they stopped, and one recovery notice arrives on Discord.</span></span></li>
-    </ol>
-  </div>
-</section>
-
-<section class="band measured" id="numbers">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">여기부터는 실제로 잰 숫자입니다.</span><span lang="en">From here down, the numbers are measured.</span></h2>
-    <p class="sec-lede"><span lang="ko">연구자 한 명이 모든 프로젝트에서 남긴 실행 기록을 셌습니다.</span><span lang="en">Counted from one researcher's run logs across all of their projects.</span></p>
-    <div class="big-grid">
-      <div>
-        <div class="huge num">433</div>
-        <p class="huge-cap"><span lang="ko">최근 30일 동안 사람 없이 돈 세션 수.</span><span lang="en">Unattended sessions in the last 30 days.</span></p>
-      </div>
-      <div class="stack">
-        <div class="stat"><b class="num">89%</b><span><span lang="ko">끝난 세션 385건 중 343건이 깔끔하게 끝났습니다. 머지, push, 또는 바꿀 것 없음으로 종료.</span><span lang="en">Of 385 finished sessions, 343 ended cleanly: merged, pushed, or closed with nothing to change.</span></span></div>
-        <div class="stat"><b class="num"><span lang="ko">19분</span><span lang="en">19 min</span></b><span><span lang="ko">세션 길이의 중앙값. 평균은 45분입니다.</span><span lang="en">Median session length. The average is 45 minutes.</span></span></div>
-      </div>
-    </div>
-    <div class="day">
-      <div>
-        <h3><span lang="ko">어느 하루, 세션 32개</span><span lang="en">One working day, 32 sessions</span></h3>
-        <p><span lang="ko">다섯 프로젝트에서 최대 여섯 개가 동시에 돌았습니다.</span><span lang="en">Up to six ran at once, across five projects.</span></p>
-      </div>
-      <div class="bars">
-        <div class="bar-row"><span><span lang="ko">하나씩 차례로 돌렸다면</span><span lang="en">If run one after another</span></span><div class="bar" style="width:calc(100% - 90px)"><em><span lang="ko">10.7시간</span><span lang="en">10.7 h</span></em></div></div>
-        <div class="bar-row"><span><span lang="ko">실제로 걸린 시간</span><span lang="en">As they actually ran</span></span><div class="bar par" style="width:calc((100% - 90px) * .692)"><em><span lang="ko">7.4시간</span><span lang="en">7.4 h</span></em></div></div>
-      </div>
-    </div>
-    <div class="ratio">
-      <div class="stat"><b class="num">1.35×</b><span><span lang="ko">30일 평균으로 실제 흐른 시간보다 세션 시간이 이만큼 많았습니다. 101시간 동안 136시간어치 일을 했습니다. 바쁜 날은 2배까지 올라갑니다.</span><span lang="en">More session time than wall-clock time, averaged over 30 days: 136 hours of work done in 101. On busy days it reaches 2×.</span></span></div>
-      <div class="stat"><b class="num">17%</b><span><span lang="ko">전체 세션 시간 가운데 자정부터 오전 7시 사이, 키보드 앞에 아무도 없을 때 돈 비율입니다.</span><span lang="en">Share of session time that ran between midnight and 7 a.m., with nobody at the keyboard.</span></span></div>
-    </div>
-
-    <div class="cmp">
-      <div>
-        <h3><span lang="ko">이 숫자들은 Compare 탭이 셉니다.</span><span lang="en">The Compare tab counts these numbers.</span></h3>
-        <p><span lang="ko">모델 조합마다 착지율, 문제 세션 비율, 걸린 시간을 나란히 놓고 문제가 적은 조합을 기본값으로 올립니다.</span><span lang="en">It lines up landing rate, problem-session rate and time for each model combination, and the one with fewer problems becomes the default.</span></p>
-      </div>
-      <div>
-        <p class="cmp-h"><span lang="ko">문제 세션으로 세는 것</span><span lang="en">What counts as a problem session</span></p>
-        <div class="pills">
-          <span><span lang="ko">실패</span><span lang="en">Failure</span></span>
-          <span><span lang="ko">재시도</span><span lang="en">Retry</span></span>
-          <span><span lang="ko">막는 리뷰 지적</span><span lang="en">Blocking review finding</span></span>
-          <span><span lang="ko">사람 개입</span><span lang="en">Human intervention</span></span>
-          <span><span lang="ko">검증 실패</span><span lang="en">Failed check</span></span>
-          <span><span lang="ko">시간이나 비용 초과</span><span lang="en">Time or cost overrun</span></span>
-        </div>
-      </div>
-    </div>
-    <p class="foot"><span lang="ko">연구자 한 명의 실행 기록에서 잰 값입니다. 1.35×와 17%는 최근 30일, 기록이 남은 세션 306건 기준입니다.</span><span lang="en">Measured from one researcher's own run logs. The 1.35× and 17% figures cover 306 logged sessions over the last 30 days.</span></p>
-  </div>
-</section>
-
-
-<section class="band" id="adr">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">몇 달 뒤 왜 이 방법을 썼냐는 질문에도 답할 수 있습니다.</span><span lang="en">Months later, you can still answer why you chose that method.</span></h2>
-    <p class="sec-lede"><span lang="ko">무게 있는 결정은 ADR(결정 기록)로 남깁니다. 결정이 바뀌면 원본을 고치지 않고 새 기록으로 대체합니다. 리뷰어에게 답할 때 근거 문서와 이슈를 바로 찾을 수 있습니다.</span><span lang="en">Weighty decisions are kept as ADRs (decision records). When a decision changes, a new record replaces it instead of the old one being edited. When a reviewer asks, the supporting spec and issue are one click away.</span></p>
+  <div class="wide fig">
     <div class="adr-grid">
-      <ul class="rules-list">
+      <ul class="crit">
         <li><b><span lang="ko">되돌리기 어렵다</span><span lang="en">Hard to undo</span></b><span><span lang="ko">다시 하려면 재분석이나 원고 재작성이 필요한 결정</span><span lang="en">Redoing it would mean reanalysis or rewriting the manuscript</span></span></li>
         <li><b><span lang="ko">나중에 이유를 물을 만하다</span><span lang="en">Likely to be questioned</span></b><span><span lang="ko">몇 달 뒤 "왜 이렇게 했지?"라는 질문이 나올 결정</span><span lang="en">Someone will ask "why did we do this?" months from now</span></span></li>
         <li><b><span lang="ko">포기한 대안이 있다</span><span lang="en">An alternative was given up</span></b><span><span lang="ko">다른 방법의 장점을 버리고 고른 결정</span><span lang="en">Another method's strengths were traded away</span></span></li>
@@ -837,73 +666,93 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
   </div>
-</section>
 
-<section class="band" id="rules" style="padding-top:0">
-  <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">혼자 돌아가되, 규칙은 글로 정해 둡니다.</span><span lang="en">It runs alone, by rules you can read.</span></h2>
-    <p class="sec-lede"><span lang="ko">혼자 해도 되는 일, 반드시 물어야 하는 일, 절대 하지 않는 일은 그날 밤 모델의 판단에 맡기지 않고 미리 적어 둡니다.</span><span lang="en">What it may do alone, what it must ask you, and what it never does are written down in advance, not left to the model's judgment on the night.</span></p>
-    <div class="rule-rows">
-      <div class="rule-row"><h3><span lang="ko">혼자 처리하는 일</span><span lang="en">Handles on its own</span></h3><div class="pills">
-        <span><span lang="ko">fetch가 시간 초과로 실패하면 한 번 재시도</span><span lang="en">Retries a timed-out fetch once</span></span>
-        <span><span lang="ko">저장소 잠금이 풀릴 때까지 대기</span><span lang="en">Waits for a repository lock to clear</span></span>
-        <span><span lang="ko">서버가 재시작되면 작업을 다시 넘겨받음</span><span lang="en">Takes the work back after a server restart</span></span>
-        <span><span lang="ko">세션이 끝난 뒤에도 랩 서버 잡을 지켜봄</span><span lang="en">Watches lab-server jobs after the session ends</span></span>
-      </div></div>
-      <div class="rule-row"><h3><span lang="ko">멈추고 묻는 일</span><span lang="en">Stops and asks you</span><small><span lang="ko">AI가 혼자 진행하지 않는 다섯 가지</span><span lang="en">Five things AI never pushes through alone</span></small></h3><div class="pills">
-        <span><span lang="ko">되돌릴 수 없는 삭제</span><span lang="en">Deletion that can't be undone</span></span>
-        <span><span lang="ko">비밀번호와 토큰</span><span lang="en">Passwords and tokens</span></span>
-        <span><span lang="ko">필수 검증 실패</span><span lang="en">A required check fails</span></span>
-        <span><span lang="ko">안전하지 않은 머지</span><span lang="en">A merge that isn't safe</span></span>
-        <span><span lang="ko">기준 기록끼리 충돌</span><span lang="en">Sources of truth disagree</span></span>
-      </div></div>
-      <div class="rule-row never"><h3><span lang="ko">절대 하지 않는 일</span><span lang="en">Never does</span></h3><div class="pills">
-        <span><span lang="ko">실패한 검증을 무시하기</span><span lang="en">Ignore a failed check</span></span>
-        <span><span lang="ko">자기 보고를 성공의 증거로 삼기</span><span lang="en">Count its own report as proof of success</span></span>
-        <span><span lang="ko">리뷰 뒤에 바뀐 코드를 머지하기</span><span lang="en">Merge code that changed after review</span></span>
-      </div></div>
-    </div>
+  <div class="wrap sub" id="rules">
+    <h3><span lang="en">Rules written in advance</span><span lang="ko">미리 적어 둔 규칙</span></h3>
+    <p><span lang="ko">혼자 해도 되는 일, 반드시 물어야 하는 일, 절대 하지 않는 일은 그날 밤 모델의 판단에 맡기지 않고 미리 적어 둡니다.</span><span lang="en">What it may do alone, what it must ask you, and what it never does are written down in advance, not left to the model's judgment on the night.</span></p>
+    <dl class="rules">
+      <dt><span lang="ko">혼자 처리하는 일</span><span lang="en">Handles on its own</span></dt>
+      <dd><ul>
+        <li><span lang="ko">fetch가 시간 초과로 실패하면 한 번 재시도</span><span lang="en">Retries a timed-out fetch once</span></li>
+        <li><span lang="ko">저장소 잠금이 풀릴 때까지 대기</span><span lang="en">Waits for a repository lock to clear</span></li>
+        <li><span lang="ko">서버가 재시작되면 작업을 다시 넘겨받음</span><span lang="en">Takes the work back after a server restart</span></li>
+        <li><span lang="ko">세션이 끝난 뒤에도 랩 서버 잡을 지켜봄</span><span lang="en">Watches lab-server jobs after the session ends</span></li>
+      </ul></dd>
+      <dt><span lang="ko">멈추고 묻는 일</span><span lang="en">Stops and asks you</span> <small><span lang="ko">AI가 혼자 진행하지 않는 다섯 가지</span><span lang="en">Five things AI never pushes through alone</span></small></dt>
+      <dd><ul>
+        <li><span lang="ko">되돌릴 수 없는 삭제</span><span lang="en">Deletion that can't be undone</span></li>
+        <li><span lang="ko">비밀번호와 토큰</span><span lang="en">Passwords and tokens</span></li>
+        <li><span lang="ko">필수 검증 실패</span><span lang="en">A required check fails</span></li>
+        <li><span lang="ko">안전하지 않은 머지</span><span lang="en">A merge that isn't safe</span></li>
+        <li><span lang="ko">기준 기록끼리 충돌</span><span lang="en">Sources of truth disagree</span></li>
+      </ul></dd>
+      <dt><span lang="ko">절대 하지 않는 일</span><span lang="en">Never does</span></dt>
+      <dd><ul>
+        <li><span lang="ko">실패한 검증을 무시하기</span><span lang="en">Ignore a failed check</span></li>
+        <li><span lang="ko">자기 보고를 성공의 증거로 삼기</span><span lang="en">Count its own report as proof of success</span></li>
+        <li><span lang="ko">리뷰 뒤에 바뀐 코드를 머지하기</span><span lang="en">Merge code that changed after review</span></li>
+      </ul></dd>
+    </dl>
   </div>
 </section>
 
-
-<section class="band" id="anywhere" style="padding-top:0">
+<section class="block" id="numbers">
   <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">자리를 비워도 폰으로 이어 봅니다.</span><span lang="en">Away from the desk, follow along on your phone.</span></h2>
-    <p class="sec-lede"><span lang="ko">인터넷에 공개하지 않고 내 사설망(Tailscale) 안에서만 엽니다. 폰에서는 열이 세로로 쌓이고 세션 기록이 전체 화면으로 열립니다.</span><span lang="en">It is never exposed to the internet; you open it only inside your own private network (Tailscale). On a phone the columns stack and transcripts open full screen.</span></p>
-    <div class="any-grid">
-      <div class="phone" id="phone" role="img" data-aria-ko="폰 화면 도식. 실행 중인 카드 위로 회복 알림과 머지 알림이 내려옵니다." data-aria-en="Diagram of the phone view: a recovery notice and a merge notice slide in above the running cards.">
-        <div class="ph-h">Researchline<span><span lang="ko">폰 화면, 예시</span><span lang="en">Phone layout, example</span></span></div>
-        <p class="ph-sec"><span lang="ko">실행 중 2</span><span lang="en">Running 2</span></p>
-        <div class="ph-card" data-run><small>microbiome</small>#4 <span lang="ko">다양성 지표 재계산</span><span lang="en">Recompute diversity metrics</span></div>
-        <div class="ph-card" data-run><small>survival</small>#6 <span lang="ko">Cox 모델에 공변량 추가</span><span lang="en">Add covariates to the Cox model</span></div>
-        <p class="ph-sec"><span lang="ko">PR 대기 1</span><span lang="en">PR waiting 1</span></p>
-        <div class="ph-card"><small>rna-seq</small>#2 <span lang="ko">발현 차이 표 갱신</span><span lang="en">Refresh the DE table</span></div>
-        <p class="ph-sec"><span lang="ko">완료 3</span><span lang="en">Done 3</span></p>
-        <div class="ph-card"><small>rna-seq</small>#1 <span lang="ko">배치 보정 다시 돌리기</span><span lang="en">Rerun batch correction</span></div>
-        <div class="ph-card"><small>microbiome</small>#5 <span lang="ko">메타데이터 정리</span><span lang="en">Clean up sample metadata</span></div>
-        <div class="toast t1" id="toast1"><small>Discord</small><span lang="ko">회복 알림: 계정 A 한도가 풀려 세션 2개가 이어졌습니다.</span><span lang="en">Recovered: account A is clear and 2 sessions resumed.</span></div>
-        <div class="toast t2" id="toast2"><small>Researchline</small><span lang="ko">#2 발현 차이 표 갱신, 머지됨</span><span lang="en">#2 Refresh the DE table, merged</span></div>
+    <h2><span lang="en">Measured</span><span lang="ko">실제로 잰 숫자</span></h2>
+    <p><span lang="ko">연구자 한 명이 모든 프로젝트에서 남긴 실행 기록을 셌습니다.</span><span lang="en">Counted from one researcher's run logs across all of their projects.</span></p>
+  </div>
+  <div class="wide fig">
+    <div class="sky780">
+      <div class="c780"><b id="c780">780</b><p><span lang="ko">2026년에 닫은 연구 이슈. 점 하나가 이슈 하나입니다.</span><span lang="en">Research issues closed in 2026. One dot, one issue.</span></p></div>
+      <div>
+        <canvas id="sky-cv" role="img" data-aria-ko="2026년 월별로 닫은 연구 이슈 780건. 3월 287건, 8월 234건, 7월 125건, 9월 68건, 10월 7일까지 37건, 4월 22건, 5월 7건." data-aria-en="780 research issues closed in 2026 by month: 287 in March, 234 in August, 125 in July, 68 in September, 37 in October through the 7th, 22 in April, 7 in May."></canvas>
       </div>
-      <ul class="rules-list">
-        <li><b><span lang="ko">실시간으로 바뀝니다</span><span lang="en">Live updates</span></b><span><span lang="ko">다른 컴퓨터에서 바꾼 내용도 새로고침 없이 바로 보입니다.</span><span lang="en">Changes made from another machine show up without a refresh.</span></span></li>
-        <li><b><span lang="ko">알림은 필요한 것만</span><span lang="en">Only the alerts that matter</span></b><span><span lang="ko">한도에서 회복하면 Discord로 한 번 알립니다. 랩 서버 잡이 끝나거나 실패해도 알림이 옵니다.</span><span lang="en">One Discord notice when a limit clears. Lab-server jobs report when they finish or fail.</span></span></li>
-        <li><b><span lang="ko">키보드만으로 다룹니다</span><span lang="en">Keyboard first</span></b><span><span lang="ko">마우스 없이 카드를 옮기고 고칩니다.</span><span lang="en">Move and edit cards without touching the mouse.</span></span></li>
-        <li><b><span lang="ko">여러 프로젝트를 오갑니다</span><span lang="en">Many projects, one screen</span></b><span><span lang="ko">머리글에서 작업공간을 바꿔 가며 봅니다.</span><span lang="en">Switch workspaces from the header.</span></span></li>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="sky-cap"><span lang="ko">연구자 한 명이 연구 저장소 4곳에서 2026년 1월 1일부터 10월 7일까지 닫은 이슈를 셌습니다. 10월은 7일까지입니다. 처음 몇 달은 연구보다 이 작업 환경을 만드는 데 썼습니다.</span><span lang="en">Issues one researcher closed across four research repositories from January 1 to October 7, 2026; October is partial. The first months went into building this setup rather than research.</span></p>
+    <div class="stats">
+      <div class="stat"><b class="num">433</b><span><span lang="ko">최근 30일 동안 사람 없이 돈 세션 수.</span><span lang="en">Unattended sessions in the last 30 days.</span></span></div>
+      <div class="stat"><b class="num">89%</b><span><span lang="ko">끝난 세션 385건 중 343건이 깔끔하게 끝났습니다. 머지, push, 또는 바꿀 것 없음으로 종료.</span><span lang="en">Of 385 finished sessions, 343 ended cleanly: merged, pushed, or closed with nothing to change.</span></span></div>
+      <div class="stat"><b class="num"><span lang="ko">19분</span><span lang="en">19 min</span></b><span><span lang="ko">세션 길이의 중앙값. 평균은 45분입니다.</span><span lang="en">Median session length. The average is 45 minutes.</span></span></div>
+      <div class="stat"><b class="num">1.35×</b><span><span lang="ko">30일 평균으로 실제 흐른 시간보다 세션 시간이 이만큼 많았습니다. 101시간 동안 136시간어치 일을 했습니다. 바쁜 날은 2배까지 올라갑니다.</span><span lang="en">More session time than wall-clock time, averaged over 30 days: 136 hours of work done in 101. On busy days it reaches 2×.</span></span></div>
+      <div class="stat"><b class="num">17%</b><span><span lang="ko">전체 세션 시간 가운데 자정부터 오전 7시 사이, 키보드 앞에 아무도 없을 때 돈 비율입니다.</span><span lang="en">Share of session time that ran between midnight and 7 a.m., with nobody at the keyboard.</span></span></div>
+    </div>
+    <div class="day">
+      <h3><span lang="ko">어느 하루, 세션 32개</span><span lang="en">One working day, 32 sessions</span></h3>
+      <p><span lang="ko">다섯 프로젝트에서 최대 여섯 개가 동시에 돌았습니다.</span><span lang="en">Up to six ran at once, across five projects.</span></p>
+      <div class="bars">
+        <div class="bar-row"><span><span lang="ko">하나씩 차례로 돌렸다면</span><span lang="en">If run one after another</span></span><div class="bar" style="width:calc(100% - 90px)"><em><span lang="ko">10.7시간</span><span lang="en">10.7 h</span></em></div></div>
+        <div class="bar-row"><span><span lang="ko">실제로 걸린 시간</span><span lang="en">As they actually ran</span></span><div class="bar par" style="width:calc((100% - 90px) * .692)"><em><span lang="ko">7.4시간</span><span lang="en">7.4 h</span></em></div></div>
+      </div>
+    </div>
+    <div class="cmp">
+      <h3><span lang="ko">이 숫자들은 Compare 탭이 셉니다.</span><span lang="en">The Compare tab counts these numbers.</span></h3>
+      <p><span lang="ko">모델 조합마다 착지율, 문제 세션 비율, 걸린 시간을 나란히 놓고 문제가 적은 조합을 기본값으로 올립니다.</span><span lang="en">It lines up landing rate, problem-session rate and time for each model combination, and the one with fewer problems becomes the default.</span></p>
+      <p class="cmp-h"><span lang="ko">문제 세션으로 세는 것</span><span lang="en">What counts as a problem session</span></p>
+      <ul>
+        <li><span lang="ko">실패</span><span lang="en">Failure</span></li>
+        <li><span lang="ko">재시도</span><span lang="en">Retry</span></li>
+        <li><span lang="ko">막는 리뷰 지적</span><span lang="en">Blocking review finding</span></li>
+        <li><span lang="ko">사람 개입</span><span lang="en">Human intervention</span></li>
+        <li><span lang="ko">검증 실패</span><span lang="en">Failed check</span></li>
+        <li><span lang="ko">시간이나 비용 초과</span><span lang="en">Time or cost overrun</span></li>
       </ul>
     </div>
+    <p class="foot"><span lang="ko">연구자 한 명의 실행 기록에서 잰 값입니다. 1.35×와 17%는 최근 30일, 기록이 남은 세션 306건 기준입니다.</span><span lang="en">Measured from one researcher's own run logs. The 1.35× and 17% figures cover 306 logged sessions over the last 30 days.</span></p>
   </div>
 </section>
 
-<section class="band pilot" id="pilot">
+<section class="block" id="contact">
   <div class="wrap">
-    <h2 class="sec-title"><span lang="ko">오늘 밤 분석을 줄 세우고 아침 커피와 함께 확인하세요.</span><span lang="en">Queue tonight's analyses. Review them over coffee.</span></h2>
-    <p class="sec-lede"><span lang="ko">Researchline은 아직 초기 단계라 소수의 계산 연구실과 먼저 시작합니다. 프로젝트와 서버 환경을 알려 주시면 함께 설정해 드립니다.</span><span lang="en">Researchline is early and opening to a small number of computational labs. Tell us about your projects and servers and we'll set it up with you.</span></p>
-    <div class="cta-row"><a class="btn btn-primary" href="mailto:ilsun@linenone.co.kr?subject=Researchline%20pilot"><span lang="ko">파일럿 신청</span><span lang="en">Request a pilot</span></a></div>
+    <h2><span lang="en">Contact</span><span lang="ko">연락처</span></h2>
+    <dl class="contact">
+      <dt><span lang="en">Email</span><span lang="ko">이메일</span></dt><dd><a href="mailto:nakkulla@gmail.com">nakkulla@gmail.com</a></dd>
+    </dl>
+    <p class="note"><span lang="en">Built on the open-source beads-ui (MIT).</span><span lang="ko">오픈소스 beads-ui(MIT)를 바탕으로 만들었습니다.</span></p>
   </div>
 </section>
 </main>
-<footer><div class="wrap"><span>Researchline</span><span><span lang="ko">오픈소스 beads-ui(MIT)를 바탕으로 만들었습니다.</span><span lang="en">Built on the open-source beads-ui (MIT).</span></span><a href="mailto:ilsun@linenone.co.kr">ilsun@linenone.co.kr</a></div></footer>
 
 <script>
 /*ENGINE*/
@@ -917,7 +766,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   if (STILL) root.classList.add('still');
   if (params.get('theme') === 'light' || params.get('theme') === 'dark') root.setAttribute('data-theme', params.get('theme'));
   var META = {
-    ko:{title:'Researchline · 연구 작업 관제실', desc:'Researchline은 연구 작업을 이슈로 관리하는 관제 화면입니다. AI 세션 여러 개가 대기열의 일을 동시에 처리하고, 다른 모델의 리뷰와 영수증을 남기며, 완료는 서버가 실제 PR을 보고 판정합니다.'},
+    ko:{title:'Researchline · Ilsun Yun', desc:'Researchline은 연구 작업을 진행하고 기록할 때 쓰는 보드입니다. 할 일은 이슈로 적고, AI 세션이 대기열의 이슈를 처리하며, 변경마다 다른 모델이 리뷰하고, 완료는 서버가 실제 PR을 확인해 정합니다.'},
     en:{title:document.title, desc:document.querySelector('meta[name="description"]').getAttribute('content')}
   };
   function both(ko, en){ return '<span lang="ko">' + ko + '</span><span lang="en">' + en + '</span>'; }
@@ -929,9 +778,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     document.querySelectorAll('[data-aria-' + l + ']').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + l)); });
     if (save) { try { localStorage.setItem('site-lang', l); } catch (e) {} }
   }
-  var initial = 'en';
-  try { var s = localStorage.getItem('site-lang'); if (s === 'ko' || s === 'en') initial = s; } catch (e) {}
-  setLang(initial, false);
+  setLang(lang() === 'ko' ? 'ko' : 'en', false);
   document.getElementById('lang-btn').addEventListener('click', function(){ setLang(lang() === 'ko' ? 'en' : 'ko', true); });
 
   /* ---------- simulator state ---------- */
@@ -1074,12 +921,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     $('mn-a').innerHTML = full ? both('5시간 창 100%, ' + clock(res.resetAt) + ' 리셋', '5-hour window full, resets ' + clock(res.resetAt)) : both('5시간 창 기준', '5-hour window');
     $('mn-b').innerHTML = res.policy === 'switch' ? both('허용한 계정, 여유 있음', 'Allowed, has room') : both('허용 안 함 (기다리기)', 'Not used (waiting)');
     renderTicker(false);
-    /* sky: night to dawn */
-    var p = Math.max(0, Math.min(1, (m - res.start) / Math.max(1, Math.max(res.end, 7 * 60) - res.start)));
-    $('dawn').style.opacity = (p * 0.92).toFixed(3);
-    $('horizon').style.opacity = Math.max(0, (p - .35) / .65).toFixed(3);
-    $('horizon').style.transform = 'translateY(' + (18 - 18 * p).toFixed(1) + '%)';
-    $('stars').style.opacity = (0.5 * (1 - p)).toFixed(3);
     playhead();
     if (m >= res.end) showMorning(); else $('morning').classList.remove('show');
   }
@@ -1166,7 +1007,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     buildSlots(); renderGantt();
     m = STILL ? (AT !== null ? Math.max(res.start, Math.min(res.end, AT)) : res.end) : res.start;
     render(); renderTicker(true);
-    $('swap-b').textContent = pct(res.usage.B[Math.min(res.usage.B.length - 1, res.limitAt - res.start + 6)] || .31);
     setPlay(!!autoplay && !STILL);
   }
   $('play').addEventListener('click', function(){
@@ -1174,14 +1014,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     if (m >= res.end) { m = res.start; slotCache = []; shownEvents = 0; render(); renderTicker(true); }
     setPlay(true);
   });
-  $('hero-play').addEventListener('click', function(){ m = res.start; slotCache = []; shownEvents = 0; render(); renderTicker(true); setPlay(!STILL); $('board').scrollIntoView({block:'nearest'}); });
   rebuild(false);
   if (!STILL && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(es){ if (es[0].isIntersecting) { setPlay(true); io.disconnect(); } }, {threshold:.5});
     io.observe($('board'));
   }
 
-  /* ---------- Beads UI motion scenes ---------- */
+  /* ---------- diagram motion ---------- */
   /* One rAF loop drives every scene that is on screen; STILL draws each scene's final frame once. */
   var scenes = [];
   var rafOn = false, lastT = 0;
@@ -1189,6 +1028,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     var dt = Math.max(0, Math.min(100, now - lastT)), any = false; lastT = now;
     scenes.forEach(function(sc){
       if (!sc.vis) return;
+      if (sc.hold) { any = true; return; }
       sc.t += dt;
       if (sc.t >= sc.len) { if (sc.once) { sc.t = sc.len; sc.vis = false; sc.done = true; } else sc.t = sc.t % sc.len; }
       sc.draw(sc.t); any = any || sc.vis;
@@ -1200,8 +1040,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     es.forEach(function(e){ var sc = e.target._scene; if (sc && !sc.done) sc.vis = e.isIntersecting; });
     kick();
   }, {threshold:.3}) : null;
-  function addScene(el, sc){
+  function addScene(el, sc, area){
     sc.t = 0; sc.vis = false; el._scene = sc; scenes.push(sc);
+    /* looping diagrams pause while the whole figure is pointed at or focused */
+    if (area) {
+      if (!area.hasAttribute('tabindex')) area.setAttribute('tabindex', '0');
+      var hold = function(v){ return function(){ sc.hold = v; }; };
+      ['mouseenter', 'focusin'].forEach(function(n){ area.addEventListener(n, hold(true)); });
+      ['mouseleave', 'focusout'].forEach(function(n){ area.addEventListener(n, hold(false)); });
+    }
     if (sio) { sc.draw(0); sio.observe(el); } else { sc.t = sc.still; sc.draw(sc.still); }
   }
   var epoch = 0;
@@ -1232,7 +1079,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       if (cv.style.height !== H + 'px') cv.style.height = H + 'px';
       if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-      var dot = cssv('--sodium'), faint = cssv('--star-faint'), ink = cssv('--star'), base = top + rows * pitch;
+      var dot = cssv('--accent'), faint = cssv('--muted'), ink = cssv('--ink'), base = top + rows * pitch;
       ctx.textAlign = 'center';
       var k = 0, shown = 0;
       MON.forEach(function(n, mi){
@@ -1247,11 +1094,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           ctx.beginPath(); ctx.arc(x0 + col * pitch + pitch / 2, base - row * pitch - pitch / 2 - (1 - a) * 14, r, 0, 6.2832); ctx.fill();
         }
         ctx.globalAlpha = 1;
-        ctx.font = '500 12px ' + cssv('--disp');
+        ctx.font = '12px ' + cssv('--sans');
         ctx.fillStyle = faint;
         ctx.fillText(lang() === 'ko' ? (mi + 1) + '월' : EN[mi], x0 + colW / 2, H - 6);
         if (n && t >= (k - 1) / TOTAL * FILL + FADE) {
-          ctx.font = '600 12px ' + cssv('--disp'); ctx.fillStyle = ink;
+          ctx.font = '600 12px ' + cssv('--sans'); ctx.fillStyle = ink;
           ctx.fillText(String(n), x0 + colW / 2, base - Math.ceil(n / per) * pitch - 6);
         }
       });
@@ -1287,11 +1134,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       }
       return {col:col, order:order, moved:step <= STEPS.length ? moved : null};
     }
-    var lastKey = '', prevStep = -1;
+    /* on narrow screens the columns stack, each tall enough for its busiest moment */
+    var MAXN = [0, 0, 0, 0, 0];
+    for (var s0 = 0; s0 <= STEPS.length; s0++) state(s0).order.forEach(function(l, c){ MAXN[c] = Math.max(MAXN[c], l.length); });
+    var lastKey = '', prevStep = -1, wideH = 0, cardH = 0;
     function draw(t){
       var step = Math.floor(t / STEP_MS) % (STEPS.length + HOLD + 1);
       var key = step + lang() + flow.clientWidth + '/' + epoch;
       if (key === lastKey) return; lastKey = key;
+      if (flow.clientWidth < 600) {
+        var cw = bodies[0].getBoundingClientRect().width - 12;
+        IDS.forEach(function(id){ cards[id].style.width = cw + 'px'; cardH = Math.max(cardH, cards[id].offsetHeight); });
+        bodies.forEach(function(b, c){ b.style.height = (12 + MAXN[c] * (cardH + 6)) + 'px'; });
+      } else bodies.forEach(function(b){ b.style.height = wideH ? wideH + 'px' : ''; });
       var st = state(step), fr = flow.getBoundingClientRect();
       var fading = step === STEPS.length + HOLD, jump = prevStep === -1 || (step === 0 && prevStep > 0);
       prevStep = step;
@@ -1314,6 +1169,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           el.style.transform = 'translate(' + (br.left - fr.left + 6).toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
           y += el.offsetHeight + 6;
         });
+        /* wide columns grow once to the tallest stack seen, so no card is clipped */
+        var need = Math.ceil(y - (br.top - fr.top));
+        if (flow.clientWidth >= 600 && need > br.height) { wideH = need; lastKey = ''; }
       });
       if (jump) { void flow.offsetWidth; IDS.forEach(function(id){ cards[id].style.transition = ''; }); }
       var aUse = Math.min(92, 41 + step * 2.3), bUse = aUse > 85 ? 8 + (step - 20) * 3 : 0;
@@ -1330,7 +1188,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       row.querySelector('i').style.transform = 'scaleX(' + (v / 100).toFixed(3) + ')';
       row.querySelector('.num').textContent = v + '%';
     }
-    addScene($('mon'), {len:STEP_MS * (STEPS.length + HOLD + 1), still:STEP_MS * 9 + 1, draw:draw});
+    addScene($('mon'), {len:STEP_MS * (STEPS.length + HOLD + 1), still:STEP_MS * 9 + 1, draw:draw}, $('mon'));
   })();
 
   /* 3. Issue record: steps light up, receipts follow */
@@ -1342,7 +1200,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       lis.forEach(function(li, i){ li.dataset.s = i < cur ? 'done' : i === cur ? 'on' : ''; });
       rcs.forEach(function(rc, i){ on(rc, RC_AT[i] <= Math.min(cur, N - 1)); });
     }
-    addScene($('steps'), {len:STEP * N + 2600, still:STEP * N + 2599, draw:draw});
+    addScene($('steps'), {len:STEP * N + 2600, still:STEP * N + 2599, draw:draw}, $('steps').closest('.issue-grid'));
   })();
 
   /* 4. Worker: transcript streams, then the server checks for itself */
@@ -1358,42 +1216,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         stEl.querySelector('b').innerHTML = s === 'done' ? both('완료, 머지됨', 'Done, merged') : s === 'pr' ? both('PR 대기', 'PR waiting') : both('실행 중', 'Running');
       }
     }
-    addScene($('tx-lines'), {len:12500, still:12499, draw:draw});
+    addScene($('tx-lines'), {len:12500, still:12499, draw:draw}, $('tx-lines').closest('.wk-grid'));
   })();
 
-  /* 5. Usage-limit order on a 24-hour strip */
-  (function(){
-    var day = $('day24'), now = $('day-now'), lis = $('lsteps').querySelectorAll('li');
-    var h = '';
-    [8, 13, 18, 23].forEach(function(s){
-      var w = Math.min(5, 24 - s);
-      h += '<div class="win" style="left:' + (s / 24 * 100) + '%;width:calc(' + (w / 24 * 100) + '% - 3px)"><span>' + both(s + '시 창', s + ' h window') + '</span></div><div class="ping" style="left:' + (s / 24 * 100) + '%"></div>';
-    });
-    [0, 6, 8, 13, 18, 23, 24].forEach(function(x){ h += '<span class="ax' + (x === 6 || x === 24 ? ' ax-minor' : '') + '" style="left:' + (x / 24 * 100) + '%">' + x + '</span>'; });
-    day.insertAdjacentHTML('afterbegin', h);
-    var AT = [8, 11 + 40 / 60, 12 + 20 / 60, 13 + 1 / 60, 13 + 2 / 60];
-    var MSG = [
-      ['08:00', both('계정 A, B와 Codex에 창 맞추기 신호', 'window ping to accounts A, B and Codex')],
-      ['11:40', both('계정 A가 기준을 넘어 #4 실행만 계정 B로 옮김', 'account A passes the threshold; only run #4 moves to B')],
-      ['12:20', both('계정 B도 가득 차서 두 계정을 잠시 빼고 실행 보류', 'account B is full too; both set aside, runs held')],
-      ['13:01', both('리셋 60초 뒤 시험 호출, 정상 응답', 'probe 60 s after the reset: clear')],
-      ['13:01', both('보류된 세션 2개가 이어지고 회복 알림 1건', 'two held sessions resume, one recovery notice')]
-    ];
-    var STEP = 2200, last = -1;
-    function draw(t){
-      var cur = Math.min(4, Math.floor(t / STEP)), key = cur + lang() + day.clientWidth + '/' + epoch;
-      lis.forEach(function(li, i){ li.dataset.s = i < cur ? 'done' : i === cur ? 'on' : ''; if (!li.dataset.s) li.removeAttribute('data-s'); });
-      if (key === last) return; last = key;
-      now.style.transform = 'translateX(' + (day.clientWidth * AT[cur] / 24).toFixed(1) + 'px)';
-      $('lim-status').innerHTML = '<b>' + MSG[cur][0] + '</b>' + MSG[cur][1];
-    }
-    addScene(day, {len:STEP * 5 + 1800, still:STEP * 5 + 1799, draw:function(t){
-      draw(t);
-      if (t >= STEP * 5) lis.forEach(function(li){ li.dataset.s = 'done'; });
-    }});
-  })();
-
-  /* 6. ADR: a search finds the decision and its check signals */
+  /* 5. ADR: a search finds the decision and its check signals */
   (function(){
     var q = $('adr-q'), hit = $('adr-hit'), sig = $('adr-sig');
     var Q = {ko:'희귀 분류군', en:'rare taxa'}, T0 = 500, CH = 160;
@@ -1403,15 +1229,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       var full = T0 + s.length * CH;
       on(hit, t >= full + 400); on(sig, t >= full + 1100);
     }
-    addScene(q.parentNode.parentNode.parentNode, {len:9000, still:8999, draw:draw});
+    addScene(q.parentNode.parentNode.parentNode, {len:9000, still:8999, draw:draw}, q.closest('.adr-app'));
   })();
 
-  /* 7. Phone: notices slide in */
-  (function(){
-    var t1 = $('toast1'), t2 = $('toast2');
-    function draw(t){ on(t1, t >= 1000 && t < 7600); on(t2, t >= 2800 && t < 7600); }
-    addScene($('phone'), {len:8600, still:3000, draw:draw});
-  })();
 })();
 </script>
 </body>
