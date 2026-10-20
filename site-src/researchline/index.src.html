@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="ko" data-lang="ko">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>Researchline · 연구 작업 관제실</title>
-<meta name="description" content="Researchline은 연구 작업을 이슈로 관리하는 관제 화면입니다. AI 세션 여러 개가 대기열의 일을 동시에 처리하고, 다른 모델의 리뷰와 영수증을 남기며, 완료는 서버가 실제 PR을 보고 판정합니다.">
+<title>Researchline: a control room for research</title>
+<meta name="description" content="Researchline is a control room that tracks research work as issues. Several AI sessions work through the queue at once, another model reviews each change with receipts, and the server decides when work is done by checking the actual pull request.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Researchline · 연구 작업 관제실">
-<meta property="og:description" content="Researchline은 연구 작업을 이슈로 관리하는 관제 화면입니다. AI 세션 여러 개가 대기열의 일을 동시에 처리하고, 다른 모델의 리뷰와 영수증을 남기며, 완료는 서버가 실제 PR을 보고 판정합니다.">
+<meta property="og:title" content="Researchline: a control room for research">
+<meta property="og:description" content="Researchline is a control room that tracks research work as issues. Several AI sessions work through the queue at once, another model reviews each change with receipts, and the server decides when work is done by checking the actual pull request.">
 <style>
 /*FONTS*/
 :root{
@@ -917,8 +917,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   if (STILL) root.classList.add('still');
   if (params.get('theme') === 'light' || params.get('theme') === 'dark') root.setAttribute('data-theme', params.get('theme'));
   var META = {
-    ko:{title:'Researchline · 연구 작업 관제실', desc:document.querySelector('meta[name="description"]').getAttribute('content')},
-    en:{title:'Researchline: a control room for research', desc:'Researchline is a control room that tracks research work as issues. Several AI sessions work through the queue at once, another model reviews each change with receipts, and the server decides when work is done by checking the actual pull request.'}
+    ko:{title:'Researchline · 연구 작업 관제실', desc:'Researchline은 연구 작업을 이슈로 관리하는 관제 화면입니다. AI 세션 여러 개가 대기열의 일을 동시에 처리하고, 다른 모델의 리뷰와 영수증을 남기며, 완료는 서버가 실제 PR을 보고 판정합니다.'},
+    en:{title:document.title, desc:document.querySelector('meta[name="description"]').getAttribute('content')}
   };
   function both(ko, en){ return '<span lang="ko">' + ko + '</span><span lang="en">' + en + '</span>'; }
   function lang(){ return root.getAttribute('data-lang'); }
@@ -927,10 +927,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     document.title = META[l].title;
     document.querySelector('meta[name="description"]').setAttribute('content', META[l].desc);
     document.querySelectorAll('[data-aria-' + l + ']').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + l)); });
-    if (save) { try { localStorage.setItem('rl-lang', l); } catch (e) {} }
+    if (save) { try { localStorage.setItem('site-lang', l); } catch (e) {} }
   }
-  var initial = params.get('lang');
-  if (initial !== 'ko' && initial !== 'en') { initial = /^ko\b/i.test((navigator.languages && navigator.languages[0]) || navigator.language || '') ? 'ko' : 'en'; try { var s = localStorage.getItem('rl-lang'); if (s === 'ko' || s === 'en') initial = s; } catch (e) {} }
+  var initial = 'en';
+  try { var s = localStorage.getItem('site-lang'); if (s === 'ko' || s === 'en') initial = s; } catch (e) {}
   setLang(initial, false);
   document.getElementById('lang-btn').addEventListener('click', function(){ setLang(lang() === 'ko' ? 'en' : 'ko', true); });
 

@@ -11,37 +11,32 @@
 <meta property="og:description" content="Academic CV of Ilsun Yun, postdoctoral researcher in computational genomics at UNIST.">
 <style>
 :root{
-  --star:#e9eef7; --star-dim:#a9b5cd; --rule:rgba(170,190,230,.16);
-  --sodium:#f2b13c; --sodium-ink:#1d1402; --sodium-hi:#ffc35a; --sodium-lo:#b97d14; --sodium-pale:#ffe2a6;
-  --bg:#0d1730; --surface:#132040; --ink:#e9eef7; --muted:#9aa8c4; --line:rgba(170,190,230,.16);
-  --accent:#f2b13c; --nav-bg:rgba(13,23,48,.82); --pill:999px;
-  --sans:"Plex KR","Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo",sans-serif;
-  --disp:"Bricolage","Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --bg:#f7f4ed; --ink:#1e1d1b; --muted:#5f5a51; --line:rgba(30,29,27,.15); --accent:#1d3a66;
+  --serif:Charter,"Bitstream Charter","Iowan Old Style","Palatino Linotype",Georgia,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
 }
-@media (prefers-color-scheme: light){
-  :root{--bg:#eef1f6; --surface:#fbfcfe; --ink:#132039; --muted:#4f5b73; --line:rgba(19,32,57,.13); --accent:#a65f00}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#18191b; --ink:#e7e3da; --muted:#a39d92; --line:rgba(231,227,218,.16); --accent:#a8bde3}
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
-a{color:inherit;text-underline-offset:3px;overflow-wrap:anywhere}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;left:16px;top:-60px;background:var(--sodium);color:var(--sodium-ink);padding:8px 14px;border-radius:var(--pill);z-index:20;text-decoration:none}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px;overflow-wrap:anywhere}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:20px;top:-60px;background:var(--bg);color:var(--ink);padding:6px 10px;border:1px solid var(--line);z-index:20}
 .skip:focus{top:12px}
-.wrap{width:min(860px,100% - 32px);margin-inline:auto}
-.nav{position:sticky;top:0;z-index:10;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);color:var(--star)}
-.nav .wrap{display:flex;align-items:center;gap:20px;height:62px}
-.brand{font:700 18px/1 var(--disp);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px;white-space:nowrap}
-.brand-mark{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 34%,var(--sodium-pale) 0,var(--sodium) 46%,var(--sodium-lo) 100%)}
-.nav-links{margin-left:auto;display:flex;gap:18px}
-.nav-links a{font-size:15px;color:var(--star-dim);text-decoration:none;white-space:nowrap}
-.nav-links a:hover{color:var(--star)}
-.pdf{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;margin:28px 0 0;border-radius:var(--pill);background:var(--sodium);color:var(--sodium-ink);font:600 15px/1 var(--sans);text-decoration:none}
-.pdf:hover{background:var(--sodium-hi)}
+.wrap{width:min(680px,100% - 40px);margin-inline:auto}
+.nav .wrap{display:flex;align-items:baseline;gap:20px;padding:28px 0 0}
+.brand{font:19px/1.2 var(--serif);text-decoration:none;white-space:nowrap}
+.nav-links{margin-left:auto;display:flex;gap:18px;font-size:15px}
+.nav-links a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav-links a:hover{color:var(--ink);text-decoration:underline}
+.pdf{display:inline-block;margin:clamp(40px,7vw,64px) 0 0;color:var(--accent);font-size:15px}
+.pdf:hover{text-decoration-thickness:2px}
 .cv{padding:8px 0 72px}
-.cv h1{margin:28px 0 6px;font:700 clamp(36px,6vw,52px)/1.05 var(--disp);letter-spacing:-.03em}
+.cv h1{margin:20px 0 6px;font:normal clamp(36px,6vw,48px)/1.08 var(--serif);letter-spacing:-.01em}
 .cv h1+p{color:var(--muted)}
-.cv h2{margin:40px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:700 20px/1.3 var(--disp);color:var(--accent);letter-spacing:-.01em}
+.cv h2{margin:44px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:normal 22px/1.3 var(--serif);color:var(--accent)}
 .cv h3{margin:24px 0 8px;font-size:17px;line-height:1.4}
 .cv p,.cv li{text-wrap:pretty}
 .cv p{margin:8px 0}

@@ -1,132 +1,145 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light dark">
 <title>Ilsun Yun · Computational genomics, UNIST</title>
 <meta name="description" content="Ilsun Yun, postdoctoral researcher in computational genomics at UNIST. ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and Researchline.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ilsun Yun · Computational genomics, UNIST">
 <meta property="og:description" content="ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and Researchline.">
+<script>
+try { if (localStorage.getItem('site-lang') === 'ko') { document.documentElement.lang = 'ko'; document.documentElement.setAttribute('data-lang', 'ko'); } } catch (e) {}
+</script>
 <style>
 :root{
-  --night:#0d1730; --star:#e9eef7; --star-dim:#a9b5cd; --rule:rgba(170,190,230,.16);
-  --sodium:#f2b13c; --sodium-ink:#1d1402; --sodium-hi:#ffc35a; --sodium-lo:#b97d14; --sodium-pale:#ffe2a6;
-  --bg:#0d1730; --surface:#132040; --ink:#e9eef7; --muted:#9aa8c4; --line:rgba(170,190,230,.16);
-  --accent:#f2b13c; --accent-ink:#1d1402; --data:#8fb2e3; --nav-bg:rgba(13,23,48,.82);
-  --radius:14px; --pill:999px;
-  --sans:"Plex KR","Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo",sans-serif;
-  --disp:"Bricolage","Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --bg:#f7f4ed; --ink:#1e1d1b; --muted:#5f5a51; --line:rgba(30,29,27,.15); --accent:#1d3a66;
+  --serif:Charter,"Bitstream Charter","Iowan Old Style","Palatino Linotype",Georgia,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
 }
-@media (prefers-color-scheme: light){
-  :root{--bg:#eef1f6; --surface:#fbfcfe; --ink:#132039; --muted:#4f5b73; --line:rgba(19,32,57,.13); --accent:#a65f00; --accent-ink:#fdfdfc; --data:#2f5f9e}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#18191b; --ink:#e7e3da; --muted:#a39d92; --line:rgba(231,227,218,.16); --accent:#a8bde3}
 }
+html[data-lang="ko"] [lang="en"],html[data-lang="en"] [lang="ko"]{display:none !important}
+html[lang="ko"] body{word-break:keep-all;overflow-wrap:break-word}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
-h1,h2,h3{margin:0;text-wrap:balance;overflow-wrap:anywhere;font-family:var(--disp)}
+h1,h2{margin:0;font-family:var(--serif);font-weight:normal;text-wrap:balance;overflow-wrap:anywhere}
 p,li,dd{text-wrap:pretty}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;left:16px;top:-60px;background:var(--sodium);color:var(--sodium-ink);padding:8px 14px;border-radius:var(--pill);z-index:20;text-decoration:none}
+.nw{white-space:nowrap}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:20px;top:-60px;background:var(--bg);color:var(--ink);padding:6px 10px;border:1px solid var(--line);z-index:20}
 .skip:focus{top:12px}
-.wrap{width:min(1080px,100% - 32px);margin-inline:auto}
+.wrap{width:min(680px,100% - 40px);margin-inline:auto}
 
-.nav{position:sticky;top:0;z-index:10;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);color:var(--star)}
-.nav .wrap{display:flex;align-items:center;gap:20px;height:62px}
-.brand{font:700 18px/1 var(--disp);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px;white-space:nowrap}
-.brand-mark{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 34%,var(--sodium-pale) 0,var(--sodium) 46%,var(--sodium-lo) 100%)}
-.nav-links{margin-left:auto;display:flex;gap:18px}
-.nav-links a{font-size:15px;color:var(--star-dim);text-decoration:none;white-space:nowrap}
-.nav-links a:hover{color:var(--star)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding:28px 0 0}
+.name{font:19px/1.2 var(--serif);color:var(--ink);text-decoration:none;white-space:nowrap}
+.top nav{margin-left:auto;display:flex;align-items:baseline;gap:18px;font-size:15px;white-space:nowrap}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--ink);text-decoration:underline}
+.lang-btn{padding:0;border:0;background:none;color:var(--muted);font:inherit;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.lang-btn:hover{color:var(--ink)}
 
-.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border-radius:var(--pill);font:600 16px/1 var(--sans);text-decoration:none;border:1px solid transparent;white-space:nowrap}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--sodium);color:var(--sodium-ink)}
-.btn-primary:hover{background:var(--sodium-hi)}
-.btn-ghost{color:var(--star);border-color:color-mix(in srgb,var(--star) 34%,transparent)}
-.btn-ghost:hover{border-color:var(--star)}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.intro{padding:clamp(56px,10vw,104px) 0 clamp(40px,6vw,56px)}
+.intro h1{font-size:clamp(40px,7vw,56px);line-height:1.08;letter-spacing:-.01em}
+.role{margin:14px 0 0;color:var(--muted)}
+.lede{margin:28px 0 0}
+.links{display:flex;flex-wrap:wrap;gap:6px 24px;margin:24px 0 0;padding:0;list-style:none}
 
-.hero{background:var(--night);color:var(--star);padding:clamp(48px,8vw,96px) 0 clamp(48px,7vw,80px)}
-.role{margin:0 0 14px;font-size:15px;letter-spacing:.02em;color:var(--sodium)}
-.hero h1{font-size:clamp(44px,7vw,76px);line-height:1.02;letter-spacing:-.035em}
-.lede{margin:24px 0 0;font-size:clamp(17px,1.6vw,20px);color:var(--star-dim);max-width:40em}
+section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
+#contact{padding-bottom:clamp(64px,10vw,104px)}
+.label{margin:0 0 12px;font-size:14px;color:var(--muted)}
+.block h2{font-size:clamp(24px,3.4vw,30px);line-height:1.25}
+.block p{margin:16px 0 0}
+.authors{color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:24px 0 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts dt{font-size:14px;color:var(--muted)}
+.facts dd{margin:2px 0 0;font:20px/1.3 var(--serif);font-variant-numeric:tabular-nums}
+.block .note{font-size:15px;color:var(--muted)}
 
-section.block{padding:clamp(48px,7vw,80px) 0;border-bottom:1px solid var(--line)}
-.kicker{margin:0 0 12px;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.block h2{font-size:clamp(26px,3.2vw,36px);line-height:1.18;letter-spacing:-.02em;max-width:30em}
-.block p{max-width:42em}
-.authors{margin:14px 0 0;color:var(--muted)}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;margin:28px 0 0;padding:0}
-.facts div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
-.facts dt{font-size:13px;color:var(--muted)}
-.facts dd{margin:4px 0 0;font:600 20px/1.3 var(--disp);font-variant-numeric:tabular-nums}
-.summary{margin:26px 0 0}
-.note{margin:12px 0 0;font-size:15px;color:var(--muted)}
-.block .btn-primary{margin-top:26px}
+.contact{display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:20px 0 0}
+.contact dt{color:var(--muted)}
+.contact dd{margin:0;overflow-wrap:anywhere}
 
-.contact{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:12px 28px}
-.contact span{display:block;font-size:13px;color:var(--muted)}
-.contact a{font-weight:600;text-decoration-color:color-mix(in srgb,var(--ink) 35%,transparent);text-underline-offset:3px;overflow-wrap:anywhere}
-
-@media (max-width:560px){
-  .nav-links{gap:14px}
-  .nav-links a{font-size:14px}
-  .nav-links .wide{display:none}
-}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="nav"><div class="wrap">
-  <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Ilsun Yun</a>
-  <nav class="nav-links" aria-label="Sections"><a class="wide" href="#poster">ASHG 2026</a><a href="cv.html">CV</a><a href="researchline.html">Researchline</a></nav>
+<a class="skip" href="#main"><span lang="en">Skip to content</span><span lang="ko">본문으로 건너뛰기</span></a>
+<header class="top"><div class="wrap">
+  <a class="name" href="./">Ilsun Yun</a>
+  <nav aria-label="Site">
+    <a href="cv.html">CV</a>
+    <a href="researchline.html">Researchline</a>
+    <button class="lang-btn" id="lang-btn" type="button" aria-label="한국어로 보기"><span lang="en">한국어</span><span lang="ko">English</span></button>
+  </nav>
 </div></header>
 
 <main id="main">
-<section class="hero"><div class="wrap">
-  <p class="role">Postdoctoral Researcher · Department of Biomedical Engineering, UNIST</p>
+<div class="wrap">
+<section class="intro">
   <h1>Ilsun Yun</h1>
-  <p class="lede">I develop machine-learning and multi-omics analyses for clinical cancer cohorts in Prof. Semin Lee's lab at UNIST, with an emphasis on external validation. My doctoral work (Ph.D., UNIST, 2026) covered colorectal cancer subtyping that carries over from RNA-seq to RT-qPCR, gene fusions in Korean prostate cancer, somatic variant inference in pediatric choroid plexus tumors with few matched normal samples, and the bile microbiome in pancreaticobiliary cancer.</p>
-  <div class="cta-row">
-    <a class="btn btn-primary" href="cv.html">Read CV</a>
-    <a class="btn btn-ghost" href="assets/cv_ilsun_yun.pdf" download>Download CV (PDF)</a>
-    <a class="btn btn-ghost" href="mailto:nakkulla@gmail.com">Email</a>
-  </div>
-</div></section>
+  <p class="role"><span lang="en">Postdoctoral Researcher, Department of Biomedical Engineering, UNIST</span><span lang="ko">UNIST 바이오메디컬공학과 박사후연구원</span></p>
+  <p class="lede"><span lang="en">I develop machine-learning and multi-omics analyses for clinical cancer cohorts in Prof. Semin Lee's lab at UNIST, with an emphasis on external validation. My doctoral work (Ph.D., UNIST, 2026) covered colorectal cancer subtyping that carries over from <span class="nw">RNA-seq</span> to <span class="nw">RT-qPCR</span>, gene fusions in Korean prostate cancer, somatic variant inference in pediatric choroid plexus tumors with few matched normal samples, and the bile microbiome in pancreaticobiliary cancer.</span><span lang="ko">UNIST 이세민 교수 연구실에서 임상 암 코호트를 대상으로 머신러닝·멀티오믹스 분석 방법을 만들고, 그 결과를 외부 코호트로 다시 확인하는 일을 중요하게 여깁니다. 박사 과정(UNIST, 2026)에서는 <span class="nw">RNA-seq</span>에서 만든 대장암 분류 모델을 <span class="nw">RT-qPCR</span>로 옮기는 연구, 한국인 전립선암의 유전자 융합, 정상 대조 시료가 부족한 소아 맥락총 종양의 체세포 변이 추정, 췌담도암 환자 담즙의 미생물군을 연구했습니다.</span></p>
+  <ul class="links">
+    <li><a href="cv.html"><span lang="en">CV</span><span lang="ko">CV 보기</span></a></li>
+    <li><a href="assets/cv_ilsun_yun.pdf" download><span lang="en">CV as PDF</span><span lang="ko">CV 내려받기 (PDF, 영문)</span></a></li>
+    <li><a href="mailto:nakkulla@gmail.com"><span lang="en">Email</span><span lang="ko">이메일</span></a></li>
+  </ul>
+</section>
 
-<section class="block" id="poster"><div class="wrap">
-  <p class="kicker">ASHG 2026 poster · Montréal</p>
+<section class="block" id="poster">
+  <p class="label"><span lang="en">ASHG 2026 poster, Montréal</span><span lang="ko">ASHG 2026 포스터, 몬트리올</span></p>
   <h2>Biliary microbiome stratifies pancreaticobiliary cancer prognosis via unsupervised clustering and machine learning</h2>
   <p class="authors">Ilsun Yun, Hyemin Kim, Dong Kee Jang, Joo Kyung Park, Semin Lee</p>
   <dl class="facts">
-    <div><dt>Poster board</dt><dd>1006T</dd></div>
-    <div><dt>Session</dt><dd>Thu, Oct 22, 2026</dd></div>
-    <div><dt>Time</dt><dd>16:15–18:15</dd></div>
+    <div><dt><span lang="en">Poster board</span><span lang="ko">포스터 번호</span></dt><dd>1006T</dd></div>
+    <div><dt><span lang="en">Session</span><span lang="ko">세션</span></dt><dd><span lang="en">Thu, Oct 22, 2026</span><span lang="ko">2026년 10월 22일 (목)</span></dd></div>
+    <div><dt><span lang="en">Time</span><span lang="ko">시간</span></dt><dd>16:15–18:15</dd></div>
   </dl>
-  <p class="summary">Bile from 77 patients with pancreatic or biliary tract cancer was clustered on genus composition without using survival data. The higher-risk cluster had shorter overall survival (HR 4.04, 95% CI 2.01–8.12). Rerunning the same rule on the 57 biliary tract cancers alone gave HR 5.27 (95% CI 2.25–12.31); those 57 are part of the 77.</p>
-  <p class="note">One cohort at one centre, with no external validation yet. Microbial function is predicted from 16S data.</p>
-</div></section>
+  <p><span lang="en">Bile from 77 patients with pancreatic or biliary tract cancer was clustered on genus composition without using survival data. The higher-risk cluster had shorter overall survival (HR 4.04, 95% CI 2.01–8.12). Rerunning the same rule on the 57 biliary tract cancers alone gave HR 5.27 (95% CI 2.25–12.31); those 57 are part of the 77.</span><span lang="ko">췌장암 또는 담도암 환자 77명의 담즙을 생존 정보 없이 속(genus) 구성만으로 군집화했습니다. 위험이 높은 군집은 전체 생존 기간이 더 짧았습니다(HR 4.04, 95% CI 2.01–8.12). 같은 규칙을 담도암 환자 57명에게만 다시 적용하면 HR은 5.27(95% CI 2.25–12.31)입니다. 이 57명은 앞의 77명에 들어 있습니다.</span></p>
+  <p class="note"><span lang="en">One cohort at one centre, with no external validation yet. Microbial function is predicted from 16S data.</span><span lang="ko">한 기관의 코호트 하나에서 얻은 결과이며 외부 검증은 아직 하지 않았습니다. 미생물 기능은 16S 데이터로 예측한 값입니다.</span></p>
+</section>
 
-<section class="block" id="researchline"><div class="wrap">
-  <p class="kicker">How this research was run</p>
+<section class="block" id="researchline">
+  <p class="label"><span lang="en">How this research was run</span><span lang="ko">이 연구를 진행한 방식</span></p>
   <h2>Researchline</h2>
-  <p>Each analysis on the poster was a tracked issue. Anthropic Claude ran it, OpenAI Codex reviewed it, and a researcher approved it before it merged. Each review verdict carries the hash of the commit it judged. Researchline is the board I use to run and record that work.</p>
-  <a class="btn btn-primary" href="researchline.html">See Researchline</a>
-</div></section>
+  <p><span lang="en">Each analysis on the poster was a tracked issue. Anthropic Claude ran it, OpenAI Codex reviewed it, and a researcher approved it before it merged. Each review verdict carries the hash of the commit it judged. Researchline is the board I use to run and record that work.</span><span lang="ko">포스터에 실린 분석은 모두 이슈 하나씩으로 관리했습니다. Anthropic Claude가 분석을 돌리고 OpenAI Codex가 리뷰했으며, 연구자가 승인한 뒤에 머지했습니다. 리뷰 판정마다 검토한 커밋의 해시가 붙어 있습니다. Researchline은 이 작업을 진행하고 기록할 때 쓰는 보드입니다.</span></p>
+  <p><a href="researchline.html"><span lang="en">More about Researchline</span><span lang="ko">Researchline 자세히 보기</span></a></p>
+</section>
 
-<section class="block" id="contact"><div class="wrap">
-  <p class="kicker">Contact</p>
-  <h2>Happy to talk at ASHG or by email.</h2>
-  <ul class="contact">
-    <li><span>Email</span><a href="mailto:nakkulla@gmail.com">nakkulla@gmail.com</a></li>
-    <li><span>ORCID</span><a href="https://orcid.org/0009-0006-5098-867X">0009-0006-5098-867X</a></li>
-    <li><span>GitHub</span><a href="https://github.com/nakkulla">github.com/nakkulla</a></li>
-  </ul>
-</div></section>
+<section class="block" id="contact">
+  <p class="label"><span lang="en">Contact</span><span lang="ko">연락처</span></p>
+  <h2><span lang="en">Happy to talk at ASHG or by email.</span><span lang="ko">ASHG 현장에서도, 이메일로도 편하게 연락 주세요.</span></h2>
+  <dl class="contact">
+    <dt><span lang="en">Email</span><span lang="ko">이메일</span></dt><dd><a href="mailto:nakkulla@gmail.com">nakkulla@gmail.com</a></dd>
+    <dt>ORCID</dt><dd><a href="https://orcid.org/0009-0006-5098-867X">0009-0006-5098-867X</a></dd>
+    <dt>GitHub</dt><dd><a href="https://github.com/nakkulla">github.com/nakkulla</a></dd>
+  </dl>
+</section>
+</div>
 </main>
+
+
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('lang-btn');
+  var TITLE = {en: document.title, ko: 'Ilsun Yun · UNIST 계산유전체학'};
+  var ARIA = {en: '한국어로 보기', ko: 'Switch to English'};
+  function setLang(l){
+    root.lang = l; root.setAttribute('data-lang', l);
+    document.title = TITLE[l]; btn.setAttribute('aria-label', ARIA[l]);
+  }
+  setLang(root.getAttribute('data-lang') === 'ko' ? 'ko' : 'en');
+  btn.addEventListener('click', function(){
+    var l = root.getAttribute('data-lang') === 'ko' ? 'en' : 'ko';
+    setLang(l);
+    try { localStorage.setItem('site-lang', l); } catch (e) {}
+  });
+})();
+</script>
 </body>
 </html>
