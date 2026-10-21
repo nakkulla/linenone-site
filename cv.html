@@ -36,12 +36,14 @@ a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px;overflow
 .cv{padding:8px 0 72px}
 .cv h1{margin:20px 0 6px;font:normal clamp(36px,6vw,48px)/1.08 var(--serif);letter-spacing:-.01em}
 .cv h1+p{color:var(--muted)}
-.cv h2{margin:44px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:normal 22px/1.3 var(--serif);color:var(--accent)}
+.cv-photo{float:right;width:96px;height:auto;margin:24px 0 12px 24px}
+.cv h2{clear:both;margin:44px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:normal 22px/1.3 var(--serif);color:var(--accent)}
 .cv h3{margin:24px 0 8px;font-size:17px;line-height:1.4}
 .cv p,.cv li{text-wrap:pretty}
 .cv p{margin:8px 0}
 .cv ul,.cv ol{margin:8px 0;padding-left:1.3em}
 .cv li{margin:6px 0}
+@media (max-width:600px){.cv-photo{width:72px;margin:22px 0 10px 16px}}
 @media print{
   @page{size:A4;margin:15mm 16mm}
   :root{--bg:#fff;--ink:#1a1a1a;--muted:#444;--line:#12355b;--accent:#12355b}
@@ -51,6 +53,7 @@ a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px;overflow
   .cv{padding:0}
   .cv h1{margin:0 0 .15em;font:700 2.1em/1.1 "Helvetica Neue",Helvetica,Arial,sans-serif;color:#12355b;letter-spacing:0}
   .cv h1+p{color:#1a1a1a}
+  .cv-photo{width:27mm;margin:0 0 3mm 5mm}
   .cv h2{margin:.9em 0 .4em;padding-bottom:.1em;border-bottom:.6pt solid #12355b;font:700 1.2em/1.3 "Helvetica Neue",Helvetica,Arial,sans-serif;break-after:avoid;letter-spacing:0}
   .cv h3{margin:.7em 0 .25em;font-size:1.02em;break-after:avoid}
   .cv p{margin:.3em 0;break-inside:avoid}
@@ -69,6 +72,7 @@ a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px;overflow
 <main id="main" class="wrap">
 <a class="pdf" href="assets/cv_ilsun_yun.pdf" download>Download PDF</a>
 <article class="cv">
+<img class="cv-photo" src="assets/cv_ilsun_yun_photo.jpg" width="227" height="320" alt="Ilsun Yun">
 <h1 id="ilsun-yun">Ilsun Yun</h1>
 <p>Postdoctoral Researcher, Biomedical Engineering, UNIST<br />
 Computational Genomics · Multi-omics Machine Learning · Cancer
