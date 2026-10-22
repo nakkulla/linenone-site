@@ -65,6 +65,20 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
 #researchline{position:relative}
 .card-link::after{content:"";position:absolute;inset:0}
 #researchline:hover .card-link,#researchline:focus-within .card-link{text-decoration-thickness:2px}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:24px 0 0;padding:0;list-style:none}
+.flow li{position:relative;display:flex;flex-direction:column;align-items:center;padding:0 2px;text-align:center}
+.flow li+li::before{content:"";position:absolute;top:8.5px;left:calc(-50% + 15px);right:calc(50% + 15px);height:1px;background:var(--muted);opacity:.3;transition:opacity .35s ease}
+.fdot{width:18px;height:18px;border-radius:50%;background:var(--muted);opacity:.35;transition:opacity .35s ease}
+.fdot[data-k="h"]{background:var(--accent)}
+.fdot[data-k="r"]{background:var(--bg);box-shadow:inset 0 0 0 2px var(--ink)}
+.flow .fl{display:block;min-height:2.7em;margin-top:8px;font-size:13.5px;line-height:1.35;opacity:.55;transition:opacity .35s ease}
+.flow li[data-s="on"] .fdot,.flow li[data-s="done"] .fdot{opacity:1}
+.flow li[data-s="on"] .fl,.flow li[data-s="done"] .fl{opacity:1}
+.flow li[data-s="on"] .fl{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.flow li[data-s="on"]::before,.flow li[data-s="done"]::before{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .flow li::before,.fdot,.flow .fl{transition:none}
+}
 .facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:24px 0 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .facts dt{font-size:14px;color:var(--muted)}
 .facts dd{margin:2px 0 0;font:20px/1.3 var(--serif);font-variant-numeric:tabular-nums}
@@ -122,6 +136,13 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
   <h2><span lang="en">Research run by AI agents</span><span lang="ko">AI 에이전트가 수행하는 연구</span></h2>
   <p class="sub"><span lang="en">Researchline · the board I use to run and record research work</span><span lang="ko">Researchline · 연구 작업을 진행하고 기록하는 보드</span></p>
   <p><span lang="en">Each analysis on the poster was a tracked issue. Anthropic Claude ran it, OpenAI Codex reviewed it, and a researcher approved it before it merged. Each review verdict carries the hash of the commit it judged.</span><span lang="ko">포스터에 실린 분석은 모두 이슈 하나씩으로 관리했습니다. Anthropic Claude가 분석을 돌리고 OpenAI Codex가 리뷰했으며, 연구자가 승인한 뒤에 머지했습니다. 리뷰 판정마다 검토한 커밋의 해시가 붙어 있습니다.</span></p>
+  <ol class="flow" id="flow" aria-hidden="true">
+    <li data-s="done"><span class="fdot" data-k="a"></span><span class="fl"><span lang="en">Issue</span><span lang="ko">이슈</span></span></li>
+    <li data-s="done"><span class="fdot" data-k="a"></span><span class="fl"><span lang="en">Claude runs it</span><span lang="ko">Claude 분석</span></span></li>
+    <li data-s="done"><span class="fdot" data-k="r"></span><span class="fl"><span lang="en">Codex reviews</span><span lang="ko">Codex 리뷰</span></span></li>
+    <li data-s="done"><span class="fdot" data-k="h"></span><span class="fl"><span lang="en">Researcher approves</span><span lang="ko">연구자 승인</span></span></li>
+    <li data-s="done"><span class="fdot" data-k="a"></span><span class="fl"><span lang="en">Merged</span><span lang="ko">머지</span></span></li>
+  </ol>
   <p><a class="card-link" href="researchline.html"><span lang="en">See how it works →</span><span lang="ko">작동 방식 보기 →</span></a></p>
 </section>
 
@@ -157,6 +178,29 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
     setLang(l);
     try { localStorage.setItem('site-lang', l); } catch (e) {}
   });
+  /* Research card: one step per 1.1 s, hold the merged state 2 s; paused off screen, in a hidden tab, or under reduced motion. */
+  var flow = document.getElementById('flow');
+  if (flow) {
+    var steps = flow.children, n = steps.length, t = n, timer = null, seen = !('IntersectionObserver' in window);
+    var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches: false};
+    var draw = function(){
+      for (var i = 0; i < n; i++) steps[i].setAttribute('data-s', i < t ? 'done' : i === t ? 'on' : '');
+    };
+    var tick = function(){
+      draw();
+      timer = setTimeout(function(){ t = (t + 1) % (n + 1); tick(); }, t === n ? 2000 : 1100);
+    };
+    var sync = function(){
+      var run = seen && !document.hidden && !still.matches;
+      if (run && !timer) tick();
+      else if (!run && timer) { clearTimeout(timer); timer = null; }
+      if (still.matches) { t = n; draw(); }
+    };
+    if (!seen) new IntersectionObserver(function(es){ seen = es[es.length - 1].isIntersecting; sync(); }).observe(flow);
+    document.addEventListener('visibilitychange', sync);
+    if (still.addEventListener) still.addEventListener('change', sync);
+    sync();
+  }
 })();
 </script>
 <img src="https://m.linenone.co.kr/v/index.gif" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0" aria-hidden="true">
