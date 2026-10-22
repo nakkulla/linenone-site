@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Ilsun Yun · Computational genomics, UNIST</title>
-<meta name="description" content="Ilsun Yun, postdoctoral researcher in computational genomics at UNIST. ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and Researchline.">
+<meta name="description" content="Ilsun Yun, postdoctoral researcher in computational genomics at UNIST. ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and how the research was run with AI agents.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ilsun Yun · Computational genomics, UNIST">
-<meta property="og:description" content="ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and Researchline.">
+<meta property="og:description" content="ASHG 2026 poster 1006T on the bile microbiome in pancreaticobiliary cancer, CV, and how the research was run with AI agents.">
 <script>
 try { if (localStorage.getItem('site-lang') === 'ko') { document.documentElement.lang = 'ko'; document.documentElement.setAttribute('data-lang', 'ko'); } } catch (e) {}
 </script>
@@ -56,6 +56,10 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
 .block h2{font-size:clamp(24px,3.4vw,30px);line-height:1.25}
 .block p{margin:16px 0 0}
 .authors{color:var(--muted)}
+.block .sub{margin:8px 0 0;font-size:15px;color:var(--muted)}
+#researchline{position:relative}
+.card-link::after{content:"";position:absolute;inset:0}
+#researchline:hover .card-link,#researchline:focus-within .card-link{text-decoration-thickness:2px}
 .facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:24px 0 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .facts dt{font-size:14px;color:var(--muted)}
 .facts dd{margin:2px 0 0;font:20px/1.3 var(--serif);font-variant-numeric:tabular-nums}
@@ -73,7 +77,7 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
   <a class="name" href="./">Ilsun Yun</a>
   <nav aria-label="Site">
     <a href="cv.html">CV</a>
-    <a href="researchline.html">Researchline</a>
+    <a href="researchline.html"><span lang="en">AI agents</span><span lang="ko">AI 에이전트</span></a>
     <button class="lang-btn" id="lang-btn" type="button" aria-label="한국어로 보기"><span lang="en">한국어</span><span lang="ko">English</span></button>
   </nav>
 </div></header>
@@ -108,9 +112,10 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
 
 <section class="block" id="researchline">
   <p class="label"><span lang="en">How this research was run</span><span lang="ko">이 연구를 진행한 방식</span></p>
-  <h2>Researchline</h2>
-  <p><span lang="en">Each analysis on the poster was a tracked issue. Anthropic Claude ran it, OpenAI Codex reviewed it, and a researcher approved it before it merged. Each review verdict carries the hash of the commit it judged. Researchline is the board I use to run and record that work.</span><span lang="ko">포스터에 실린 분석은 모두 이슈 하나씩으로 관리했습니다. Anthropic Claude가 분석을 돌리고 OpenAI Codex가 리뷰했으며, 연구자가 승인한 뒤에 머지했습니다. 리뷰 판정마다 검토한 커밋의 해시가 붙어 있습니다. Researchline은 이 작업을 진행하고 기록할 때 쓰는 보드입니다.</span></p>
-  <p><a href="researchline.html"><span lang="en">More about Researchline</span><span lang="ko">Researchline 자세히 보기</span></a></p>
+  <h2><span lang="en">Research run by AI agents</span><span lang="ko">AI 에이전트가 수행하는 연구</span></h2>
+  <p class="sub"><span lang="en">Researchline · the board I use to run and record research work</span><span lang="ko">Researchline · 연구 작업을 진행하고 기록하는 보드</span></p>
+  <p><span lang="en">Each analysis on the poster was a tracked issue. Anthropic Claude ran it, OpenAI Codex reviewed it, and a researcher approved it before it merged. Each review verdict carries the hash of the commit it judged.</span><span lang="ko">포스터에 실린 분석은 모두 이슈 하나씩으로 관리했습니다. Anthropic Claude가 분석을 돌리고 OpenAI Codex가 리뷰했으며, 연구자가 승인한 뒤에 머지했습니다. 리뷰 판정마다 검토한 커밋의 해시가 붙어 있습니다.</span></p>
+  <p><a class="card-link" href="researchline.html"><span lang="en">See how it works →</span><span lang="ko">작동 방식 보기 →</span></a></p>
 </section>
 
 <section class="block" id="contact">

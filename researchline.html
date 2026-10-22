@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:,">
-<title>Researchline · Ilsun Yun</title>
-<meta name="description" content="Researchline is the board Ilsun Yun uses to run and record research work. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
+<title>Research run by AI agents · Ilsun Yun</title>
+<meta name="description" content="Research run by AI agents. Ilsun Yun runs and records the work on a board called Researchline. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Researchline · Ilsun Yun">
-<meta property="og:description" content="Researchline is the board Ilsun Yun uses to run and record research work. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
+<meta property="og:title" content="Research run by AI agents · Ilsun Yun">
+<meta property="og:description" content="Research run by AI agents. Ilsun Yun runs and records the work on a board called Researchline. Each task is an issue, AI sessions work through a queue, another model reviews every change, and the server checks the pull request before a task counts as done.">
 <script>
 try { if (localStorage.getItem('site-lang') === 'ko') { document.documentElement.lang = 'ko'; document.documentElement.setAttribute('data-lang', 'ko'); } } catch (e) {}
 </script>
@@ -417,7 +417,7 @@ section.block > .wrap:first-child{border-top:1px solid var(--line);padding-top:c
   <a class="name" href="./">Ilsun Yun</a>
   <nav aria-label="Site">
     <a href="cv.html">CV</a>
-    <a href="researchline.html" aria-current="page">Researchline</a>
+    <a href="researchline.html" aria-current="page"><span lang="en">AI agents</span><span lang="ko">AI 에이전트</span></a>
     <button class="lang-btn" id="lang-btn" type="button" data-aria-en="한국어로 보기" data-aria-ko="Switch to English" aria-label="한국어로 보기"><span lang="en">한국어</span><span lang="ko">English</span></button>
   </nav>
 </div></header>
@@ -425,8 +425,8 @@ section.block > .wrap:first-child{border-top:1px solid var(--line);padding-top:c
 <main id="main">
 <div class="wrap">
 <section class="intro">
-  <h1>Researchline</h1>
-  <p class="role"><span lang="en">The board I use to run and record research work</span><span lang="ko">연구 작업을 진행하고 기록할 때 쓰는 보드</span></p>
+  <h1><span lang="en">Research run by AI agents</span><span lang="ko">AI 에이전트가 수행하는 연구</span></h1>
+  <p class="role"><span lang="en">Researchline · the board I use to run and record research work</span><span lang="ko">Researchline · 연구 작업을 진행하고 기록하는 보드</span></p>
   <p class="lede"><span lang="en">Each task is written down as an issue. AI sessions take issues from a queue and do the work, a model other than the one that wrote a change reviews it, and the server checks the actual pull request before a task counts as done. What was done, why, and who reviewed it stays on the issue.</span><span lang="ko">할 일은 이슈로 적어 둡니다. AI 세션이 대기열에서 이슈를 가져가 작업하고, 변경은 그것을 쓴 모델이 아닌 다른 모델이 리뷰합니다. 일이 끝났는지는 서버가 실제 PR을 확인해 정합니다. 무엇을 왜 했는지, 누가 검토했는지도 모두 그 이슈에 남습니다.</span></p>
 </section>
 </div>
@@ -925,7 +925,7 @@ if (typeof module !== 'undefined') module.exports = RLSim;
   if (STILL) root.classList.add('still');
   if (params.get('theme') === 'light' || params.get('theme') === 'dark') root.setAttribute('data-theme', params.get('theme'));
   var META = {
-    ko:{title:'Researchline · Ilsun Yun', desc:'Researchline은 연구 작업을 진행하고 기록할 때 쓰는 보드입니다. 할 일은 이슈로 적고, AI 세션이 대기열의 이슈를 처리하며, 변경마다 다른 모델이 리뷰하고, 완료는 서버가 실제 PR을 확인해 정합니다.'},
+    ko:{title:'AI 에이전트가 수행하는 연구 · Ilsun Yun', desc:'AI 에이전트가 수행하는 연구. 연구 작업은 Researchline이라는 보드에서 진행하고 기록합니다. 할 일은 이슈로 적고, AI 세션이 대기열의 이슈를 처리하며, 변경마다 다른 모델이 리뷰하고, 완료는 서버가 실제 PR을 확인해 정합니다.'},
     en:{title:document.title, desc:document.querySelector('meta[name="description"]').getAttribute('content')}
   };
   function both(ko, en){ return '<span lang="ko">' + ko + '</span><span lang="en">' + en + '</span>'; }
