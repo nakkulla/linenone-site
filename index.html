@@ -46,11 +46,16 @@ a:hover{text-decoration-thickness:2px}
 
 .intro{padding:clamp(56px,10vw,104px) 0 clamp(40px,6vw,56px)}
 .intro h1{font-size:clamp(40px,7vw,56px);line-height:1.08;letter-spacing:-.01em}
+.poster-banner{margin:20px 0 0;font-size:15px;line-height:1.45}
+.poster-banner a{display:inline-block;padding:7px 14px;border:1px solid var(--accent);border-color:color-mix(in srgb,var(--accent) 50%,transparent);border-radius:4px;background:color-mix(in srgb,var(--accent) 9%,transparent);font-weight:600;font-variant-numeric:tabular-nums;text-decoration:none}
+.poster-banner a:hover{background:color-mix(in srgb,var(--accent) 16%,transparent)}
 .role{margin:14px 0 0;color:var(--muted)}
 .lede{margin:28px 0 0}
 .links{display:flex;flex-wrap:wrap;gap:6px 24px;margin:24px 0 0;padding:0;list-style:none}
 
 section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
+#poster{margin:0 0 clamp(40px,6vw,56px);padding:clamp(28px,5vw,44px) clamp(18px,4vw,36px);border:1px solid var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);border-radius:4px;background:color-mix(in srgb,var(--accent) 6%,transparent)}
+#poster .label{margin-top:0;color:var(--accent)}
 #contact{padding-bottom:clamp(64px,10vw,104px)}
 .label{margin:0 0 12px;font-size:14px;color:var(--muted)}
 .block h2{font-size:clamp(24px,3.4vw,30px);line-height:1.25}
@@ -63,6 +68,7 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
 .facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:24px 0 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .facts dt{font-size:14px;color:var(--muted)}
 .facts dd{margin:2px 0 0;font:20px/1.3 var(--serif);font-variant-numeric:tabular-nums}
+.facts .board{font-size:clamp(28px,5vw,34px);line-height:1.1;color:var(--accent)}
 .block .note{font-size:15px;color:var(--muted)}
 
 .contact{display:grid;grid-template-columns:max-content 1fr;gap:6px 24px;margin:20px 0 0}
@@ -86,6 +92,7 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
 <div class="wrap">
 <section class="intro">
   <h1>Ilsun Yun</h1>
+  <p class="poster-banner"><a href="#poster"><span id="pb-upcoming"><span lang="en">ASHG 2026 · Poster 1006T · Thu Oct 22, 16:15–18:15 EDT · Exhibit &amp; Poster Hall</span><span lang="ko">ASHG 2026 · 포스터 1006T · 10월 22일(목) 16:15–18:15 EDT · Exhibit &amp; Poster Hall</span></span><span id="pb-past" hidden><span lang="en">Presented at ASHG 2026 · Poster 1006T</span><span lang="ko">ASHG 2026 발표 포스터 · 1006T</span></span></a></p>
   <p class="role"><span lang="en">Postdoctoral Researcher, Department of Biomedical Engineering, UNIST</span><span lang="ko">UNIST 바이오메디컬공학과 박사후연구원</span></p>
   <p class="lede"><span lang="en">I develop machine-learning and multi-omics analyses for clinical cancer cohorts in Prof. Semin Lee's lab at UNIST, with an emphasis on external validation. My doctoral work (Ph.D., UNIST, 2026) covered colorectal cancer subtyping that carries over from <span class="nw">RNA-seq</span> to <span class="nw">RT-qPCR</span>, gene fusions in Korean prostate cancer, somatic variant inference in pediatric choroid plexus tumors with few matched normal samples, and the bile microbiome in pancreaticobiliary cancer.</span><span lang="ko">UNIST 이세민 교수 연구실에서 임상 암 코호트를 대상으로 머신러닝·멀티오믹스 분석 방법을 만들고, 그 결과를 외부 코호트로 다시 확인하는 일을 중요하게 여깁니다. 박사 과정(UNIST, 2026)에서는 <span class="nw">RNA-seq</span>에서 만든 대장암 분류 모델을 <span class="nw">RT-qPCR</span>로 옮기는 연구, 한국인 전립선암의 유전자 융합, 정상 대조 시료가 부족한 소아 맥락총 종양의 체세포 변이 추정, 췌담도암 환자 담즙의 미생물군을 연구했습니다.</span></p>
   <ul class="links">
@@ -100,7 +107,7 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
   <h2>Biliary microbiome stratifies pancreaticobiliary cancer prognosis via unsupervised clustering and machine learning</h2>
   <p class="authors">Ilsun Yun, Hyemin Kim, Dong Kee Jang, Joo Kyung Park, Semin Lee</p>
   <dl class="facts">
-    <div><dt><span lang="en">Poster board</span><span lang="ko">포스터 번호</span></dt><dd>1006T</dd></div>
+    <div><dt><span lang="en">Poster board</span><span lang="ko">포스터 번호</span></dt><dd class="board">1006T</dd></div>
     <div><dt><span lang="en">Session</span><span lang="ko">세션</span></dt><dd>Cancer Poster Thursday Session</dd></div>
     <div><dt><span lang="en">Date</span><span lang="ko">날짜</span></dt><dd><span lang="en">Thu, Oct 22, 2026</span><span lang="ko">2026년 10월 22일 (목)</span></dd></div>
     <div><dt><span lang="en">Time</span><span lang="ko">시간</span></dt><dd>16:15–18:15 EDT</dd></div>
@@ -141,6 +148,10 @@ section.block{padding:clamp(40px,6vw,56px) 0;border-top:1px solid var(--line)}
     document.title = TITLE[l]; btn.setAttribute('aria-label', ARIA[l]);
   }
   setLang(root.getAttribute('data-lang') === 'ko' ? 'ko' : 'en');
+  if (Date.now() >= Date.parse('2026-10-22T22:15:00Z')) {
+    document.getElementById('pb-upcoming').hidden = true;
+    document.getElementById('pb-past').hidden = false;
+  }
   btn.addEventListener('click', function(){
     var l = root.getAttribute('data-lang') === 'ko' ? 'en' : 'ko';
     setLang(l);
